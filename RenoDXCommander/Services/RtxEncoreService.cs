@@ -254,7 +254,7 @@ public class RtxEncoreService
             _crashReporter.Log($"[RtxEncoreService.EnsureStaging] Download failed — {ex.Message}");
         }
 
-        progress?.Report(("RTX Encore ready", 100));
+        progress?.Report(("RTX Encore 就绪", 100));
     }
 
     // ── Install ───────────────────────────────────────────────────────────────

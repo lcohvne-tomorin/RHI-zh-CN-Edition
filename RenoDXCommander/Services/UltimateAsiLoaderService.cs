@@ -172,7 +172,7 @@ public class UltimateAsiLoaderService
             _crashReporter.Log($"[UltimateAsiLoaderService.EnsureStagingAsync] Failed — {ex.Message}");
         }
 
-        progress?.Report(("ASI Loader ready", 100));
+        progress?.Report(("ASI Loader 就绪", 100));
     }
 
     // ── Install / Uninstall ───────────────────────────────────────────────────
@@ -248,7 +248,7 @@ public class UltimateAsiLoaderService
             }
         }
 
-        progress?.Report(("Deploying ASI Loader...", 80));
+        progress?.Report(("正在部署 ASI Loader...", 80));
 
         try
         {
@@ -280,7 +280,7 @@ public class UltimateAsiLoaderService
         };
         _auxInstaller.SaveAuxRecord(record);
 
-        progress?.Report(("ASI Loader installed!", 100));
+        progress?.Report(("ASI Loader 已安装！", 100));
         return (true, hookedOriginal);
     }
 

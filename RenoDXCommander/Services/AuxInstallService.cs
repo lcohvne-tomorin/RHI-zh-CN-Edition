@@ -128,7 +128,7 @@ public partial class AuxInstallService : IAuxInstallService, IAuxFileService
     // Channel constants
     public const string ChannelStable = "Stable";
     public const string ChannelNightly = "Nightly";
-    public const string ChannelCustom = "Custom";
+    public const string ChannelCustom = "自定义";
 
     /// <summary>
     /// Returns the correct staged DLL path for the given channel and bitness.
@@ -467,7 +467,7 @@ public partial class AuxInstallService : IAuxInstallService, IAuxFileService
             using (var fileStream = File.Create(tempExe))
                 await netStream.CopyToAsync(fileStream);
 
-            progress?.Report(($"Extracting ReShade {version}...", 60));
+            progress?.Report(($"正在解压 ReShade {version}...", 60));
 
             // Extract using bundled 7z.exe (same as ReShadeUpdateService)
             var sevenZipPath = Path.Combine(AppContext.BaseDirectory, "7z.exe");
@@ -502,7 +502,7 @@ public partial class AuxInstallService : IAuxInstallService, IAuxFileService
                 return false;
             }
 
-            progress?.Report(($"ReShade {version} ready!", 100));
+            progress?.Report(($"ReShade {version} 就绪！", 100));
             CrashReporter.Log($"[AuxInstallService.DownloadLegacyReShadeAsync] v{version} staged successfully");
             return true;
         }
@@ -618,7 +618,7 @@ public partial class AuxInstallService : IAuxInstallService, IAuxFileService
             using var proc = Process.Start(psi);
             proc?.WaitForExit(10_000);
             if (proc != null && proc.ExitCode != 0)
-                throw new IOException($"Elevated copy exited with code {proc.ExitCode}");
+                throw new IOException($"提权复制退出，代码 {proc.ExitCode}");
         }
     }
 }

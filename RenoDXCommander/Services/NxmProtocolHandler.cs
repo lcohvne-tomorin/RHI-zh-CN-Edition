@@ -127,7 +127,7 @@ public static class NxmProtocolHandler
             using (var rootKey = Registry.CurrentUser.CreateSubKey(ProtocolKey))
             {
                 rootKey.SetValue("", "URL:NXM Protocol");
-                rootKey.SetValue("URL Protocol", "");
+                rootKey.SetValue("URL 协议", "");
             }
 
             // HKCU\Software\Classes\nxm\shell\open\command

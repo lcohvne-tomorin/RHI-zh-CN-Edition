@@ -85,7 +85,7 @@ public static class ShaderProfileService
 
         try
         {
-            var shadersOut = Path.Combine(tempDir, "Shaders");
+            var shadersOut = Path.Combine(tempDir, "着色器");
             var texturesOut = Path.Combine(tempDir, "Textures");
             Directory.CreateDirectory(shadersOut);
             Directory.CreateDirectory(texturesOut);

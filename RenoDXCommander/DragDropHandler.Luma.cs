@@ -155,7 +155,7 @@ public partial class DragDropHandler
                         };
                         dialog = new Microsoft.UI.Xaml.Controls.ContentDialog
                         {
-                            Title = "Select Folder",
+                            Title = "选择文件夹",
                             Content = new Microsoft.UI.Xaml.Controls.StackPanel
                             {
                                 Spacing = 8,
@@ -170,8 +170,8 @@ public partial class DragDropHandler
                                     combo,
                                 }
                             },
-                            PrimaryButtonText = "Install",
-                            CloseButtonText = "Cancel",
+                            PrimaryButtonText = "安装",
+                            CloseButtonText = "取消",
                             XamlRoot = _window.Content.XamlRoot,
                             RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
                         };
@@ -268,7 +268,7 @@ public partial class DragDropHandler
         catch (Exception ex)
         {
             _crashReporter.Log($"[DragDropHandler.ProcessDroppedLumaArchive] Failed for '{gameName}' — {ex.Message}");
-            CrashReporter.WriteCrashReport("DragDropHandler.ProcessDroppedLumaArchive", ex, note: $"Game: {gameName}");
+            CrashReporter.WriteCrashReport("DragDropHandler.ProcessDroppedLumaArchive", ex, note: $"游戏：{gameName}");
         }
     }
 
@@ -329,7 +329,7 @@ public partial class DragDropHandler
         catch (Exception ex)
         {
             _crashReporter.Log($"[DragDropHandler.ProcessDroppedLumaAddon] Failed for '{gameName}' — {ex.Message}");
-            CrashReporter.WriteCrashReport("DragDropHandler.ProcessDroppedLumaAddon", ex, note: $"Game: {gameName}");
+            CrashReporter.WriteCrashReport("DragDropHandler.ProcessDroppedLumaAddon", ex, note: $"游戏：{gameName}");
         }
     }
 }

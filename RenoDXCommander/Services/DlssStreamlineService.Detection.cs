@@ -122,7 +122,7 @@ public partial class DlssStreamlineService
         // clear it so the UI shows the actual version instead of "Custom"
         if (result.StreamlineFolder != null
             && !string.IsNullOrEmpty(result.StreamlineVersion)
-            && result.StreamlineVersion != "Unknown"
+            && result.StreamlineVersion != "未知"
             && IsCustomStreamlineActive(result.StreamlineFolder))
         {
             // Only clear if the custom folder DLLs are absent or don't match game folder

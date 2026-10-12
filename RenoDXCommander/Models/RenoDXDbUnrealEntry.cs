@@ -22,7 +22,7 @@ public class RenoDXDbUnrealEntry
     /// "upgrade" → Set_Path=1, apply specific upgrade format from Upgrades field
     /// null      → Set_Path=1, no Engine.ini HDR, no specific upgrade
     /// </summary>
-    [JsonPropertyName("Method")]
+    [JsonPropertyName("方式")]
     public string? Method { get; set; }
 
     /// <summary>

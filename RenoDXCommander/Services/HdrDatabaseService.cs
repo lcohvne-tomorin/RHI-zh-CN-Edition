@@ -42,7 +42,7 @@ public class HdrDatabaseService : IHdrDatabaseService
         if (CachedData != null)
             return CachedData;
 
-        progress?.Report("Fetching HDR Gaming Database...");
+        progress?.Report("正在获取 HDR Gaming 数据库...");
 
         var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -72,7 +72,7 @@ public class HdrDatabaseService : IHdrDatabaseService
         }
 
         CachedData = result;
-        progress?.Report($"HDR database: {result.Count} entries");
+        progress?.Report($"HDR 数据库：{result.Count} 个条目");
         return result;
     }
 

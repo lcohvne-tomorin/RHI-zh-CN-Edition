@@ -45,17 +45,17 @@ public partial class GameCardViewModel
             var effectiveStatus = Status;
             var effectiveInstalling = IsInstalling;
 
-            if (effectiveInstalling) return "Installing...";
+            if (effectiveInstalling) return "正在安装...";
             if (IsManaged)
             {
                 // Any component has an update available → show update icon
                 if (effectiveStatus == GameStatus.UpdateAvailable
                     || RsStatus == GameStatus.UpdateAvailable
                     || LumaStatus == GameStatus.UpdateAvailable)
-                    return "⬆  Manage";
-                return "↺  Manage";
+                    return "⬆  管理";
+                return "↺  管理";
             }
-            return "⬇  Install";
+            return "⬇  安装";
         }
     }
 
@@ -100,12 +100,12 @@ public partial class GameCardViewModel
 
     // ── Derived display ───────────────────────────────────────────────────────────
 
-    public string WikiStatusLabel => WikiStatus == "✅" ? "✅ Working"
-                                   : WikiStatus == "🚧" ? "🚧 In Progress"
-                                   : WikiStatus == "?"  ? "⚠️ May Work"
+    public string WikiStatusLabel => WikiStatus == "✅" ? "✅ 正常"
+                                   : WikiStatus == "🚧" ? "🚧 进行中"
+                                   : WikiStatus == "?"  ? "⚠️ 可能可用"
                                    : WikiStatus == "💬" ? "💬 Discord"
                                    : WikiStatus == "🌐" ? "🌐 Nexus"
-                                   : WikiStatus == "—" && IsGenericMod ? "⚠️ May Work"
+                                   : WikiStatus == "—" && IsGenericMod ? "⚠️ 可能可用"
                                    : "";
 
     /// <summary>
@@ -199,7 +199,7 @@ public partial class GameCardViewModel
     public bool HasUwFixUrl        => !string.IsNullOrEmpty(UwFixUrl);
     public bool HasUltraPlusUrl    => !string.IsNullOrEmpty(UltraPlusUrl);
     public bool HasNameUrl            => !string.IsNullOrEmpty(NameUrl);
-    public string HideButtonLabel     => IsHidden ? "👁 Show" : "🚫 Hide";
+    public string HideButtonLabel     => IsHidden ? "👁 显示" : "🚫 隐藏";
     public string StarForeground       => IsFavourite ? "#FFD700" : "#282840";
     public Visibility IsFavouriteVisibility      => IsFavourite ? Visibility.Visible : Visibility.Collapsed;
     public Visibility IsNotFavouriteVisibility   => IsFavourite ? Visibility.Collapsed : Visibility.Visible;
@@ -378,18 +378,18 @@ public partial class GameCardViewModel
             {
                 return new[]
                 {
-                    $"RenoDX: {rdxAuthor}",
-                    $"Luma: {lumaAuthor}",
+                    $"RenoDX：{rdxAuthor}",
+                    $"Luma：{lumaAuthor}",
                 };
             }
 
             // Luma installed but no RenoDX author, or Luma author with no RenoDX
             if (lumaInstalled && lumaAuthor != null)
-                return new[] { $"Luma: {lumaAuthor}" };
+                return new[] { $"Luma：{lumaAuthor}" };
 
             // Luma available only (not installed) — show Luma author when no RenoDX author
             if (lumaAvailable && rdxAuthor == null)
-                return new[] { $"Luma: {lumaAuthor}" };
+                return new[] { $"Luma：{lumaAuthor}" };
 
             // RenoDX only
             if (rdxAuthor != null)

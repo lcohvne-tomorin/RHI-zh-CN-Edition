@@ -28,8 +28,8 @@ public sealed partial class MainWindow
             {
                 var dlg = new ContentDialog
                 {
-                    Title = "RHI is up to date",
-                    Content = $"You're running v{Services.CrashReporter.AppVersion} — no updates available.",
+                    Title = "RHI 已是最新版本",
+                    Content = $"您正在运行 v{Services.CrashReporter.AppVersion} — 没有可用更新。",
                     CloseButtonText = "OK",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
@@ -238,7 +238,7 @@ public sealed partial class MainWindow
         {
             DlssDefaultsSummaryPanel.Children.Add(new TextBlock
             {
-                Text = "No defaults configured yet.",
+                Text = "尚未配置默认值。",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush),
             });
@@ -372,7 +372,7 @@ public sealed partial class MainWindow
         if (sender is not ComboBox combo || combo.SelectedIndex < 0) return;
 
         var selectedText = combo.SelectedItem as string;
-        if (selectedText == "Custom...")
+        if (selectedText == "自定义...")
         {
             FpsLimitCombo_Custom(combo);
             return;
@@ -417,10 +417,10 @@ public sealed partial class MainWindow
         var textBox = new TextBox { PlaceholderText = "20-1000", FontSize = 13 };
         var dialog = new ContentDialog
         {
-            Title = "Custom FPS Limit",
+            Title = "自定义帧率限制",
             Content = textBox,
-            PrimaryButtonText = "Set",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "设置",
+            CloseButtonText = "取消",
             XamlRoot = this.Content.XamlRoot,
             RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
         };
@@ -490,7 +490,7 @@ public sealed partial class MainWindow
         if (sender is not ComboBox combo || combo.SelectedIndex < 0) return;
 
         var selectedText = combo.SelectedItem as string;
-        if (selectedText == "Custom...")
+        if (selectedText == "自定义...")
         {
             DmfgTargetFpsCombo_Custom(combo);
             return;
@@ -510,10 +510,10 @@ public sealed partial class MainWindow
         var textBox = new TextBox { PlaceholderText = "20-1000", FontSize = 13 };
         var dialog = new ContentDialog
         {
-            Title = "Custom DMFG Target FPS",
+            Title = "自定义 DMFG 目标帧率",
             Content = textBox,
-            PrimaryButtonText = "Set",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "设置",
+            CloseButtonText = "取消",
             XamlRoot = this.Content.XamlRoot,
             RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
         };
@@ -634,11 +634,11 @@ public sealed partial class MainWindow
 
         var content = created.Count > 0
             ? $"Created {created.Count} profile(s):\n\n• " + string.Join("\n• ", created)
-            : "All games already have NVIDIA profiles.";
+            : "所有游戏都已有 NVIDIA 配置文件。";
 
         var dialog = new ContentDialog
         {
-            Title = "Create Missing Profiles",
+            Title = "创建缺失的配置文件",
             Content = new ScrollViewer
             {
                 Content = new TextBlock { Text = content, TextWrapping = TextWrapping.Wrap, FontSize = 12 },
@@ -669,8 +669,8 @@ public sealed partial class MainWindow
             {
                 await DialogService.ShowSafeAsync(new ContentDialog
                 {
-                    Title = "Export",
-                    Content = "No custom profile settings found to export.",
+                    Title = "导出",
+                    Content = "未找到可导出的自定义配置文件设置。",
                     CloseButtonText = "OK",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
@@ -687,7 +687,7 @@ public sealed partial class MainWindow
 
             await DialogService.ShowSafeAsync(new ContentDialog
             {
-                Title = "Export Complete",
+                Title = "导出完成",
                 Content = $"Exported {data.Count} profile(s) to:\n{path}",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
@@ -699,7 +699,7 @@ public sealed partial class MainWindow
             CrashReporter.Log($"[ExportNvidiaProfiles_Click] Error: {ex.GetType().Name}: {ex.Message}");
             await DialogService.ShowSafeAsync(new ContentDialog
             {
-                Title = "Export Failed",
+                Title = "导出失败",
                 Content = $"An error occurred during export:\n{ex.Message}",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
@@ -718,7 +718,7 @@ public sealed partial class MainWindow
         {
             await DialogService.ShowSafeAsync(new ContentDialog
             {
-                Title = "Import",
+                Title = "导入",
                 Content = $"No backup file found at:\n{path}\n\nBackup profiles first.",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
@@ -733,21 +733,21 @@ public sealed partial class MainWindow
 
         // Confirm before proceeding — importing overwrites driver profile settings irreversibly
         bool isAdmin = VulkanLayerService.IsRunningAsAdmin();
-        var warningText = "This will overwrite your current NVIDIA driver profile settings with the saved backup. This cannot be undone.";
+        var warningText = "这将用已保存的备份覆盖您当前的 NVIDIA 驱动配置文件设置。此操作无法撤销。";
         if (!isAdmin)
             warningText += "\n\nYou are not running as admin. Settings that require elevated privileges (e.g. ReBAR) will not be restored. Run RHI as admin to import all settings.";
 
         var confirmResult = await DialogService.ShowSafeAsync(new ContentDialog
         {
-            Title = "Restore Profiles",
+            Title = "恢复配置文件",
             Content = new TextBlock
             {
                 Text = warningText,
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 12,
             },
-            PrimaryButtonText = "Import",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "导入",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         });
@@ -756,7 +756,7 @@ public sealed partial class MainWindow
         // Show progress dialog
         var progressText = new TextBlock
         {
-            Text = "Importing profiles...",
+            Text = "正在导入配置文件...",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             TextWrapping = TextWrapping.Wrap,
@@ -767,7 +767,7 @@ public sealed partial class MainWindow
 
         var progressDialog = new ContentDialog
         {
-            Title = "Importing...",
+            Title = "正在导入...",
             Content = progressPanel,
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -786,8 +786,8 @@ public sealed partial class MainWindow
 
         await DialogService.ShowSafeAsync(new ContentDialog
         {
-            Title = "Import Complete",
-            Content = $"Imported {count} profile(s) from backup.",
+            Title = "导入完成",
+            Content = $"已从备份导入 {count} 个配置文件。",
             CloseButtonText = "OK",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -803,8 +803,8 @@ public sealed partial class MainWindow
             {
                 await DialogService.ShowSafeAsync(new ContentDialog
                 {
-                    Title = "Digital Vibrance",
-                    Content = "No NVIDIA displays detected. Digital Vibrance requires an NVIDIA GPU with compatible drivers.",
+                    Title = "数字振动",
+                    Content = "未检测到 NVIDIA 显示器。数字振动需要兼容驱动的 NVIDIA 显卡。",
                     CloseButtonText = "OK",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
@@ -827,7 +827,7 @@ public sealed partial class MainWindow
 
             var displayLabel = new TextBlock
             {
-                Text = "Monitor",
+                Text = "显示器",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             };
@@ -851,7 +851,7 @@ public sealed partial class MainWindow
 
             var sliderLabel = new TextBlock
             {
-                Text = "Digital Vibrance (0 = desaturated, 50 = neutral, 100 = maximum)",
+                Text = "数字振动（0 = 完全去饱和，50 = 中性，100 = 最大）",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
                 TextWrapping = TextWrapping.Wrap,
@@ -887,7 +887,7 @@ public sealed partial class MainWindow
             // Buttons row
             var saveBtn = new Button
             {
-                Content = "Save",
+                Content = "保存",
                 Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
                 Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
                 BorderBrush = UIFactory.Brush(ResourceKeys.AccentBlueBorderBrush),
@@ -898,7 +898,7 @@ public sealed partial class MainWindow
             };
             var resetBtn = new Button
             {
-                Content = "Reset to 50",
+                Content = "重置为 50",
                 CornerRadius = new CornerRadius(6),
                 Padding = new Thickness(16, 6, 16, 6),
                 FontSize = 12,
@@ -922,7 +922,7 @@ public sealed partial class MainWindow
                     var level = (int)slider.Value;
                     settings.DigitalVibranceSettings[displays[idx].Index.ToString()] = level;
                     ViewModel.SaveSettingsPublic();
-                    statusText.Text = $"Saved: Display {displays[idx].Name} = {level}%";
+                    statusText.Text = $"已保存：显示器 {displays[idx].Name} = {level}%";
                     CrashReporter.Log($"[DigitalVibrance_Click] Saved display {displays[idx].Index} ({displays[idx].Name}) = {level}");
                 }
             };
@@ -937,7 +937,7 @@ public sealed partial class MainWindow
                     DigitalVibranceService.SetLevel(displays[idx].Index, 50);
                     settings.DigitalVibranceSettings[displays[idx].Index.ToString()] = 50;
                     ViewModel.SaveSettingsPublic();
-                    statusText.Text = $"Reset: Display {displays[idx].Name} = 50% (neutral)";
+                    statusText.Text = $"已重置：显示器 {displays[idx].Name} = 50%（中性）";
                 }
             };
 
@@ -960,9 +960,9 @@ public sealed partial class MainWindow
 
             var dialog = new ContentDialog
             {
-                Title = "Digital Vibrance",
+                Title = "数字振动",
                 Content = panel,
-                CloseButtonText = "Close",
+                CloseButtonText = "关闭",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
             };
@@ -979,15 +979,15 @@ public sealed partial class MainWindow
     {
         var confirmDialog = new ContentDialog
         {
-            Title = "Reset all game profiles?",
+            Title = "重置所有游戏配置文件？",
             Content = new TextBlock
             {
                 Text = "This will remove ALL per-game NVIDIA driver profile overrides (DLSS/Streamline versions, presets, render scales, ReBAR, VSync, Smooth Motion, Low Latency, Power Mode — everything) AND reset global settings (Shader Cache, G-Sync, Refresh Rate, ReBAR) to defaults.\n\nAll profiles will return to NVIDIA factory defaults. This cannot be undone.",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 13,
             },
-            PrimaryButtonText = "Reset All",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "全部重置",
+            CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Close,
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -1006,7 +1006,7 @@ public sealed partial class MainWindow
             // Show progress dialog
             var progressPanel = new StackPanel { Spacing = 8 };
             var progressRing = new ProgressRing { IsActive = true, Width = 20, Height = 20 };
-            var progressText = new TextBlock { Text = "Preparing...", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) };
+            var progressText = new TextBlock { Text = "正在准备...", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) };
             var progressRow = new StackPanel { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Horizontal, Spacing = 12 };
             progressRow.Children.Add(progressRing);
             progressRow.Children.Add(progressText);
@@ -1014,7 +1014,7 @@ public sealed partial class MainWindow
 
             var progressDialog = new ContentDialog
             {
-                Title = "Resetting...",
+                Title = "正在重置...",
                 Content = progressPanel,
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -1041,7 +1041,7 @@ public sealed partial class MainWindow
 
                 // Reset global profile
                 DispatcherQueue?.TryEnqueue(() =>
-                    progressText.Text = "Resetting global settings...");
+                    progressText.Text = "正在重置全局设置...");
                 presetSvc.ResetGlobalProfile();
             });
 
@@ -1063,8 +1063,8 @@ public sealed partial class MainWindow
 
             await DialogService.ShowSafeAsync(new ContentDialog
             {
-                Title = "Profiles Reset",
-                Content = $"Reset {resetCount} game profile(s) and global settings to factory defaults.",
+                Title = "配置文件已重置",
+                Content = $"将 {resetCount} 个游戏配置文件和全局设置重置为出厂默认值。",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -1075,8 +1075,8 @@ public sealed partial class MainWindow
             CrashReporter.Log($"[ResetAllNvidiaProfiles_Click] Error: {ex.GetType().Name}: {ex.Message}");
             await DialogService.ShowSafeAsync(new ContentDialog
             {
-                Title = "Reset Failed",
-                Content = $"Error: {ex.Message}",
+                Title = "重置失败",
+                Content = $"错误：{ex.Message}",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -1088,10 +1088,10 @@ public sealed partial class MainWindow
     {
         var confirmDialog = new ContentDialog
         {
-            Title = "Clear NVIDIA Shader Cache",
+            Title = "清除 NVIDIA 着色器缓存",
             Content = "This will permanently delete the NVIDIA DXCache and GLCache folders. This cannot be undone.\n\nAll games will need to rebuild their shader caches on next launch, which may cause brief stuttering or longer load times the first time. This can fix shader corruption, persistent stuttering, or graphical issues after driver updates.",
-            PrimaryButtonText = "Clear",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "清除",
+            CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -1132,12 +1132,12 @@ public sealed partial class MainWindow
         }
 
         var message = filesFailed > 0
-            ? $"Shader cache folders cleared. {filesDeleted} files deleted, {filesFailed} files skipped (in use by running games). Shaders will recompile on next game launch."
-            : $"Shader cache folders cleared. {filesDeleted} files deleted. Shaders will recompile on next game launch.";
+            ? $"着色器缓存文件夹已清除。已删除 {filesDeleted} 个文件，跳过 {filesFailed} 个正在被运行中游戏占用的文件。着色器将在下次启动游戏时重新编译。"
+            : $"着色器缓存文件夹已清除。已删除 {filesDeleted} 个文件。着色器将在下次启动游戏时重新编译。";
 
         await DialogService.ShowSafeAsync(new ContentDialog
         {
-            Title = "Shader Cache Cleared",
+            Title = "着色器缓存已清除",
             Content = message,
             CloseButtonText = "OK",
             XamlRoot = Content.XamlRoot,
@@ -1218,7 +1218,7 @@ public sealed partial class MainWindow
     private void BackgroundUpdateChecksCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (sender is not ComboBox combo || combo.SelectedIndex < 0) return;
-        ViewModel.Settings.BackgroundUpdateChecks = combo.SelectedIndex == 1 ? "Minimal" : "On";
+        ViewModel.Settings.BackgroundUpdateChecks = combo.SelectedIndex == 1 ? "精简" : "开";
         ViewModel.SaveSettingsPublic();
     }
 
@@ -1253,7 +1253,7 @@ public sealed partial class MainWindow
 
         panel.Children.Add(new TextBlock
         {
-            Text = "Leave all unchecked to enable HDR on the primary display only.",
+            Text = "全部不勾选则仅在主显示器上启用 HDR。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             Margin = new Thickness(0, 4, 0, 0),
@@ -1261,10 +1261,10 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Select HDR Monitors",
+            Title = "选择 HDR 显示器",
             Content = panel,
-            PrimaryButtonText = "Save",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "保存",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -1389,16 +1389,16 @@ public sealed partial class MainWindow
 
         // Resolve current effective state and flip it
         bool currentlyActive = current != null
-            ? string.Equals(current, "On", StringComparison.OrdinalIgnoreCase)
+            ? string.Equals(current, "开", StringComparison.OrdinalIgnoreCase)
             : ViewModel.Settings.HdrAutoToggle;
 
-        string newValue = currentlyActive ? "Off" : "On";
+        string newValue = currentlyActive ? "关" : "开";
         overrides[card.GameName] = newValue;
 
         ViewModel.SaveSettingsPublic();
 
         // Update button visual
-        bool hdrActive = string.Equals(newValue, "On", StringComparison.OrdinalIgnoreCase);
+        bool hdrActive = string.Equals(newValue, "开", StringComparison.OrdinalIgnoreCase);
         DetailHdrToggleText.Text = "HDR";
         DetailHdrToggleBtn.Background = hdrActive
             ? UIFactory.Brush(ResourceKeys.AccentPurpleBgBrush)
@@ -1461,10 +1461,10 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title   = "Output Colour Settings",
+            Title   = "输出色彩设置",
             Content = ok
-                ? $"Applied to {display.Name}: {depthLabel}, {rangeLabel}."
-                : $"Failed to apply colour settings to {display.Name}. Check that RHI is running as administrator.",
+                ? $"已应用到 {display.Name}：{depthLabel}，{rangeLabel}。"
+                : $"无法将色彩设置应用到 {display.Name}。请确认 RHI 正以管理员身份运行。",
             CloseButtonText = "OK",
             XamlRoot        = Content.XamlRoot,
             RequestedTheme  = ElementTheme.Dark,
@@ -1495,7 +1495,7 @@ public sealed partial class MainWindow
 
         panel.Children.Add(new TextBlock
         {
-            Text = "Leave all unchecked to change resolution on the primary display only.",
+            Text = "全部不勾选则仅更改主显示器的分辨率。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             Margin = new Thickness(0, 4, 0, 0),
@@ -1503,10 +1503,10 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Select Resolution Monitors",
+            Title = "选择分辨率显示器",
             Content = panel,
-            PrimaryButtonText = "Save",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "保存",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -1541,14 +1541,14 @@ public sealed partial class MainWindow
         var current = overrides.TryGetValue(card.GameName, out var v) ? v : null;
 
         bool currentlyActive = current != null
-            ? string.Equals(current, "On", StringComparison.OrdinalIgnoreCase)
+            ? string.Equals(current, "开", StringComparison.OrdinalIgnoreCase)
             : ViewModel.Settings.ResolutionAutoToggle;
 
-        string newValue = currentlyActive ? "Off" : "On";
+        string newValue = currentlyActive ? "关" : "开";
         overrides[card.GameName] = newValue;
         ViewModel.SaveSettingsPublic();
 
-        bool resActive = string.Equals(newValue, "On", StringComparison.OrdinalIgnoreCase);
+        bool resActive = string.Equals(newValue, "开", StringComparison.OrdinalIgnoreCase);
         DetailResToggleText.Text = "RES";
         DetailResToggleBtn.Background = resActive
             ? UIFactory.Brush(ResourceKeys.AccentPurpleBgBrush)
@@ -1571,7 +1571,7 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "How DLDSR Control Works",
+            Text = "DLDSR 控制的工作原理",
             FontSize = 14,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -1581,7 +1581,7 @@ public sealed partial class MainWindow
         {
             Text = "DLDSR (Deep Learning Dynamic Super Resolution) renders games at higher resolutions and downscales with AI for sharper image quality. This feature lets you switch DLDSR presets without opening NVIDIA Control Panel.\n\n" +
                    "DLDSR uses a Lanczos algorithm — less jaggies, more stable, but can look slightly painterly. Standard DSR uses a Gaussian filter — more natural but with more aliasing. DLDSR is generally sharper than DSR at equivalent settings.\n\n" +
-                   "Recommended factors: DLDSR 2.25x offers the best balance of quality and performance. DSR 4.00x uses significantly more VRAM. DLDSR 1.78x is the most VRAM-friendly option.",
+                   "推荐倍率：DLDSR 2.25x 在画质和性能之间平衡最佳。DSR 4.00x 会占用明显更多显存。DLDSR 1.78x 最节省显存。",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -1589,7 +1589,7 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "Initial Setup (One Time)",
+            Text = "初始设置（一次性）",
             FontSize = 13,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.AccentTealBrush),
@@ -1602,7 +1602,7 @@ public sealed partial class MainWindow
                    "2. Find \"DSR - Factors\" and enable the DLDSR factors you want (e.g. 1.78x DL, 2.25x DL)\n" +
                    "3. Click Apply and wait for the ~15 second display blackout\n" +
                    "4. Come back here and click \"Capture Current\" to save this state\n" +
-                   "5. Repeat steps 2-4 for each DLDSR configuration you want to save (e.g. \"Off\", \"2.25x only\", \"1.78x + 2.25x\")",
+                   "5. 对每个要保存的 DLDSR 配置重复步骤 2-4（例如 \"关闭\"、\"仅 2.25x\"、\"1.78x + 2.25x\"）",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -1610,7 +1610,7 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "Daily Use",
+            Text = "日常使用",
             FontSize = 13,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.AccentTealBrush),
@@ -1619,7 +1619,7 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "Select a saved state from the dropdown and click Apply. RHI writes the registry values directly and triggers a display reset (~15 seconds of blackout while the driver reinitializes).",
+            Text = "从下拉菜单中选择一个已保存的状态并点击应用。RHI 会直接写入注册表值并触发显示器重置（驱动重新初始化期间约 15 秒黑屏）。",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -1627,7 +1627,7 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "DSR Smoothness",
+            Text = "DSR 平滑度",
             FontSize = 13,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.AccentTealBrush),
@@ -1645,7 +1645,7 @@ public sealed partial class MainWindow
                    "  • 55-65 — Similar clarity to DSR 4.00x at 0% (recommended range)\n" +
                    "  • 45 — As sharp as DSR 4.00x everywhere\n\n" +
                    "Note: DLDSR uses a Lanczos algorithm — it is naturally much sharper than standard DSR (Gaussian), so it requires higher smoothness values for a comparable look.\n\n" +
-                   "Changing smoothness causes the same ~15 second display blackout as applying a full state. Tip: set smoothness first, then click Apply — both will apply together in a single restart.",
+                   "更改平滑度会导致与应用完整状态相同的约 15 秒显示器黑屏。提示：先设置平滑度，再点击应用 — 两者会在一次重启中一并生效。",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -1661,9 +1661,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "DLDSR Control",
+            Title = "DLDSR 控制",
             Content = scrollViewer,
-            CloseButtonText = "Got it",
+            CloseButtonText = "知道了",
             XamlRoot = Content.XamlRoot,
         };
         await DialogService.ShowSafeAsync(dialog);
@@ -1675,7 +1675,7 @@ public sealed partial class MainWindow
             return;
 
         DldsrApplyBtn.IsEnabled = false;
-        DldsrApplyBtn.Content = "Applying...";
+        DldsrApplyBtn.Content = "正在应用...";
 
         try
         {
@@ -1706,8 +1706,8 @@ public sealed partial class MainWindow
                 _crashReporter.Log($"[DLDSR] Failed to apply state '{selectedLabel}'");
                 var dlg = new ContentDialog
                 {
-                    Title = "DLDSR Apply Failed",
-                    Content = "Failed to apply DLDSR state. Check logs for details.",
+                    Title = "DLDSR 应用失败",
+                    Content = "应用 DLDSR 状态失败。请查看日志了解详情。",
                     CloseButtonText = "OK",
                     XamlRoot = Content.XamlRoot,
                 };
@@ -1719,7 +1719,7 @@ public sealed partial class MainWindow
             _crashReporter.Log($"[DLDSR] Exception applying state — {ex.Message}");
             var dlg = new ContentDialog
             {
-                Title = "DLDSR Apply Failed",
+                Title = "DLDSR 应用失败",
                 Content = ex.Message,
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
@@ -1729,7 +1729,7 @@ public sealed partial class MainWindow
         finally
         {
             DldsrApplyBtn.IsEnabled = true;
-            DldsrApplyBtn.Content = "Apply";
+            DldsrApplyBtn.Content = "应用";
         }
     }
 
@@ -1738,13 +1738,13 @@ public sealed partial class MainWindow
         // Show input dialog to get a label for the capture
         var inputBox = new TextBox
         {
-            PlaceholderText = "e.g. DLDSR 2.25x + 1.78x",
+            PlaceholderText = "例如 DLDSR 2.25x + 1.78x",
             FontSize = 12,
             Width = 300,
         };
         var dialog = new ContentDialog
         {
-            Title = "Capture DLDSR State",
+            Title = "捕获 DLDSR 状态",
             Content = new StackPanel
             {
                 Spacing = 8,
@@ -1761,7 +1761,7 @@ public sealed partial class MainWindow
                 },
             },
             PrimaryButtonText = "Capture",
-            CloseButtonText = "Cancel",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
         };
 
@@ -1773,8 +1773,8 @@ public sealed partial class MainWindow
         {
             var errDlg = new ContentDialog
             {
-                Title = "Invalid Label",
-                Content = "Please enter a label for the capture.",
+                Title = "无效标签",
+                Content = "请输入捕获的标签。",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
             };
@@ -1795,7 +1795,7 @@ public sealed partial class MainWindow
             _crashReporter.Log($"[DLDSR] Failed to capture state — {ex.Message}");
             var errDlg = new ContentDialog
             {
-                Title = "DLDSR Capture Failed",
+                Title = "DLDSR 捕获失败",
                 Content = ex.Message,
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
@@ -1811,10 +1811,10 @@ public sealed partial class MainWindow
 
         var confirm = new ContentDialog
         {
-            Title = "Delete DLDSR Capture",
-            Content = $"Delete the capture '{selectedLabel}'?",
-            PrimaryButtonText = "Delete",
-            CloseButtonText = "Cancel",
+            Title = "删除 DLDSR 捕获",
+            Content = $"删除捕获 '{selectedLabel}'？",
+            PrimaryButtonText = "删除",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
         };
 
@@ -1845,7 +1845,7 @@ public sealed partial class MainWindow
         var smoothness = (int)DldsrSmoothnessSlider.Value;
 
         DldsrSmoothnessApplyBtn.IsEnabled = false;
-        DldsrSmoothnessApplyBtn.Content = "Setting...";
+        DldsrSmoothnessApplyBtn.Content = "设置中...";
 
         try
         {
@@ -1864,8 +1864,8 @@ public sealed partial class MainWindow
                 _crashReporter.Log($"[DLDSR] Failed to set smoothness to {smoothness}%");
                 var dlg = new ContentDialog
                 {
-                    Title = "Smoothness Apply Failed",
-                    Content = "Failed to set DSR smoothness. Check logs for details.",
+                    Title = "平滑度应用失败",
+                    Content = "设置 DSR 平滑度失败。请查看日志了解详情。",
                     CloseButtonText = "OK",
                     XamlRoot = Content.XamlRoot,
                 };
@@ -1877,7 +1877,7 @@ public sealed partial class MainWindow
             _crashReporter.Log($"[DLDSR] Exception setting smoothness — {ex.Message}");
             var dlg = new ContentDialog
             {
-                Title = "Smoothness Apply Failed",
+                Title = "平滑度应用失败",
                 Content = ex.Message,
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
@@ -1887,7 +1887,7 @@ public sealed partial class MainWindow
         finally
         {
             DldsrSmoothnessApplyBtn.IsEnabled = true;
-            DldsrSmoothnessApplyBtn.Content = "Set";
+            DldsrSmoothnessApplyBtn.Content = "设置";
         }
     }
 
@@ -1989,14 +1989,14 @@ public sealed partial class MainWindow
         var enablePanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10 };
         enablePanel.Children.Add(new TextBlock
         {
-            Text = "Auto-apply peak nits on deploy",
+            Text = "部署时自动应用峰值亮度",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
         });
         var enableCombo = new ComboBox { FontSize = 12, VerticalAlignment = VerticalAlignment.Center };
-        enableCombo.Items.Add("Off");
-        enableCombo.Items.Add("On");
+        enableCombo.Items.Add("关");
+        enableCombo.Items.Add("开");
         enableCombo.SelectedIndex = settings.PeakNitsEnabled ? 1 : 0;
         enablePanel.Children.Add(enableCombo);
         content.Children.Add(enablePanel);
@@ -2004,22 +2004,22 @@ public sealed partial class MainWindow
         // Preset checkboxes
         content.Children.Add(new TextBlock
         {
-            Text = "Apply to presets:",
+            Text = "应用到预设：",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             Margin = new Thickness(0, 4, 0, 0),
         });
 
-        var cb1 = new CheckBox { Content = "Preset 1", IsChecked = settings.PeakNitsPresets.Contains(1), FontSize = 12 };
-        var cb2 = new CheckBox { Content = "Preset 2", IsChecked = settings.PeakNitsPresets.Contains(2), FontSize = 12 };
-        var cb3 = new CheckBox { Content = "Preset 3", IsChecked = settings.PeakNitsPresets.Contains(3), FontSize = 12 };
+        var cb1 = new CheckBox { Content = "预设 1", IsChecked = settings.PeakNitsPresets.Contains(1), FontSize = 12 };
+        var cb2 = new CheckBox { Content = "预设 2", IsChecked = settings.PeakNitsPresets.Contains(2), FontSize = 12 };
+        var cb3 = new CheckBox { Content = "预设 3", IsChecked = settings.PeakNitsPresets.Contains(3), FontSize = 12 };
         content.Children.Add(cb1);
         content.Children.Add(cb2);
         content.Children.Add(cb3);
 
         content.Children.Add(new TextBlock
         {
-            Text = "Unchecked presets keep their existing per-preset values.",
+            Text = "未勾选的预设将保留其各自的现有值。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             TextWrapping = TextWrapping.Wrap,
@@ -2027,10 +2027,10 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Peak Nits Settings",
+            Title = "峰值亮度设置",
             Content = content,
-            PrimaryButtonText = "Save",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "保存",
+            CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = (sender as FrameworkElement)?.XamlRoot ?? Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -2099,7 +2099,7 @@ public sealed partial class MainWindow
             {
                 wikiListPanel.Children.Add(new TextBlock
                 {
-                    Text = $"... and {newWikiMods.Count - 30} more",
+                    Text = $"...还有 {newWikiMods.Count - 30} 个",
                     FontSize = 12,
                     FontStyle = Windows.UI.Text.FontStyle.Italic,
                     Foreground = (SolidColorBrush)Application.Current.Resources["TextTertiaryBrush"],
@@ -2140,7 +2140,7 @@ public sealed partial class MainWindow
             {
                 ultraPlusListPanel.Children.Add(new TextBlock
                 {
-                    Text = $"... and {newUltraPlusMods.Count - 30} more",
+                    Text = $"...还有 {newUltraPlusMods.Count - 30} 个",
                     FontSize = 12,
                     FontStyle = Windows.UI.Text.FontStyle.Italic,
                     Foreground = (SolidColorBrush)Application.Current.Resources["TextTertiaryBrush"],
@@ -2193,7 +2193,7 @@ public sealed partial class MainWindow
             {
                 lumaListPanel.Children.Add(new TextBlock
                 {
-                    Text = $"... and {newLumaMods.Count - 30} more",
+                    Text = $"...还有 {newLumaMods.Count - 30} 个",
                     FontSize = 12,
                     FontStyle = Windows.UI.Text.FontStyle.Italic,
                     Foreground = (SolidColorBrush)Application.Current.Resources["TextTertiaryBrush"],
@@ -2220,10 +2220,10 @@ public sealed partial class MainWindow
         var totalCount = newWikiMods.Count + newUltraPlusMods.Count + newLumaMods.Count;
         var dialog = new ContentDialog
         {
-            Title = "New Mods Available",
+            Title = "有新的 Mod",
             Content = contentPanel,
-            PrimaryButtonText = "Dismiss",
-            CloseButtonText = "Close",
+            PrimaryButtonText = "忽略",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -2255,7 +2255,7 @@ public sealed partial class MainWindow
         // ── Search box ────────────────────────────────────────────────────────
         var searchBox = new TextBox
         {
-            PlaceholderText = "Search games…",
+            PlaceholderText = "搜索游戏…",
             FontSize        = 13,
             Margin          = new Thickness(0, 0, 0, 10),
         };
@@ -2321,9 +2321,9 @@ public sealed partial class MainWindow
 
             var rdxTick = new TextBlock
             {
-                Text                = entry.RenoDXStatus == "Done" ? "✓" : entry.RenoDXStatus == "WIP" ? "🔨" : "✗",
+                Text                = entry.RenoDXStatus == "完成" ? "✓" : entry.RenoDXStatus == "WIP" ? "🔨" : "✗",
                 FontSize            = 13,
-                Foreground          = entry.RenoDXStatus == "Done" ? UIFactory.GetBrush("#5ECB7D")
+                Foreground          = entry.RenoDXStatus == "完成" ? UIFactory.GetBrush("#5ECB7D")
                                     : entry.RenoDXStatus == "WIP"  ? UIFactory.GetBrush("#D4A856")
                                     : UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -2334,9 +2334,9 @@ public sealed partial class MainWindow
 
             var lumaTick = new TextBlock
             {
-                Text                = entry.LumaStatus == "Done" ? "✓" : entry.LumaStatus == "WIP" ? "🔨" : "✗",
+                Text                = entry.LumaStatus == "完成" ? "✓" : entry.LumaStatus == "WIP" ? "🔨" : "✗",
                 FontSize            = 13,
-                Foreground          = entry.LumaStatus == "Done" ? UIFactory.GetBrush("#B898E8")
+                Foreground          = entry.LumaStatus == "完成" ? UIFactory.GetBrush("#B898E8")
                                     : entry.LumaStatus == "WIP"  ? UIFactory.GetBrush("#D4A856")
                                     : UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -2407,7 +2407,7 @@ public sealed partial class MainWindow
         // ── Assemble dialog content ───────────────────────────────────────────
         var countLabel = new TextBlock
         {
-            Text       = $"{allEntries.Count} games with HDR mods",
+            Text       = $"{allEntries.Count} 个游戏有 HDR Mod",
             FontSize   = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush),
             Margin     = new Thickness(0, 0, 0, 10),
@@ -2427,9 +2427,9 @@ public sealed partial class MainWindow
 
         var dlg = new ContentDialog
         {
-            Title           = "Available HDR Mods",
+            Title           = "可用 HDR Mod",
             Content         = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot        = Content.XamlRoot,
             RequestedTheme  = ElementTheme.Dark,
             DefaultButton   = ContentDialogButton.Close,

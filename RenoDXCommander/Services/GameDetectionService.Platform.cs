@@ -160,9 +160,9 @@ public partial class GameDetectionService
                     {
                         using var gameKey = parentKey.OpenSubKey(subName);
                         if (gameKey == null) continue;
-                        var installDir = gameKey.GetValue("Install Dir") as string
+                        var installDir = gameKey.GetValue("安装目录") as string
                                       ?? gameKey.GetValue("InstallDir") as string
-                                      ?? gameKey.GetValue("Install Directory") as string;
+                                      ?? gameKey.GetValue("安装目录") as string;
                         if (string.IsNullOrEmpty(installDir) || !Directory.Exists(installDir)) continue;
                         if (!seen.Add(installDir)) continue;
 

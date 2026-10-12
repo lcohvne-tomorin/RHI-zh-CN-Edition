@@ -232,7 +232,7 @@ public partial class DetailPanelBuilder
         };
         var nrTitle = new TextBlock
         {
-            Text       = "Neural Rendering",
+            Text       = "神经网络渲染",
             FontSize   = 13,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -271,7 +271,7 @@ public partial class DetailPanelBuilder
                 _                       => effectiveMethod,
             };
             if (nrAnyInstalled)
-                nrSummaryEntries.Add(("NR Method", methodLabel));
+                nrSummaryEntries.Add(("NR 方式", methodLabel));
             if (nrDllPresent)
                 nrSummaryEntries.Add(("NR DLL", nrDllVersion));
             nrSummary = DetailPanelBuilder.MakeSectionSummaryInlines(nrSummaryEntries);
@@ -313,7 +313,7 @@ public partial class DetailPanelBuilder
 
         // Method combo (col 0)
         var methodStack = new StackPanel { Spacing = 2 };
-        methodStack.Children.Add(new TextBlock { Text = "Method", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush) });
+        methodStack.Children.Add(new TextBlock { Text = "方式", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush) });
 
         var methodCombo = new ComboBox
         {
@@ -335,14 +335,14 @@ public partial class DetailPanelBuilder
             "DLSS5 Tool: for DX12 native-DLSS games.\n" +
             "DLSS5 Tool + DX11 Bridge: for DX11/Vulkan native-DLSS games.\n" +
             "ShortFuse DLSS Tool: alternative full-stack install for native-DLSS games.\n" +
-            "DLSS5 Feeder: for games with no native DLSS (DX11, DX12, Vulkan, 32-bit).");
+            "DLSS5 Feeder：适用于没有原生 DLSS 的游戏（DX11、DX12、Vulkan、32 位）。");
         methodStack.Children.Add(methodCombo);
         Grid.SetColumn(methodStack, 0);
         row1.Children.Add(methodStack);
 
         // Pack version combo (col 1) — Feeder version or Bridge version, always "Latest" (managed by AddonPackService)
         var packVersionLabel = new TextBlock { FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush) };
-        packVersionLabel.Text = effectiveMethod == NrMethodFeeder ? "Feeder Version" : "Bridge Version";
+        packVersionLabel.Text = effectiveMethod == NrMethodFeeder ? "Feeder 版本" : "Bridge 版本";
         var packVersionStack = new StackPanel { Spacing = 2, Visibility = isFeederOrBridge ? Visibility.Visible : Visibility.Collapsed };
         packVersionStack.Children.Add(packVersionLabel);
         var packVersionCombo = new ComboBox
@@ -374,7 +374,7 @@ public partial class DetailPanelBuilder
             packVersionCombo.Items.Clear();
             var packAddonType = methodKey == NrMethodFeeder ? Renodx5AddonService.FeederSubDir : Renodx5AddonService.BridgeSubDir;
             var latestPackVer = rdx5Svc.GetLatestAvailableVersion(packAddonType);
-            packVersionCombo.Items.Add(string.IsNullOrEmpty(latestPackVer) ? "Latest" : $"Latest ({latestPackVer})");
+            packVersionCombo.Items.Add(string.IsNullOrEmpty(latestPackVer) ? "最新" : $"Latest ({latestPackVer})");
             var versions = rdx5Svc.GetAvailableVersions(packAddonType);
             foreach (var v in versions)
                 packVersionCombo.Items.Add(v);
@@ -404,7 +404,7 @@ public partial class DetailPanelBuilder
             {
                 if (packComboInitializing || addonSwapInProgress) return;
                 var sel = packVersionCombo.SelectedItem as string;
-                bool useLatest = string.IsNullOrEmpty(sel) || sel.StartsWith("Latest");
+                bool useLatest = string.IsNullOrEmpty(sel) || sel.StartsWith("最新");
 
                 // Persist the selection
                 _window.ViewModel.SetNrPackVersion(gameName, useLatest ? null : sel, store);
@@ -431,7 +431,7 @@ public partial class DetailPanelBuilder
                 _window.DispatcherQueue?.TryEnqueue(() =>
                 {
                     installBtn.IsEnabled = false;
-                    installBtn.Content   = "Swapping addon...";
+                    installBtn.Content   = "正在切换插件...";
                 });
 
                 try
@@ -512,14 +512,14 @@ public partial class DetailPanelBuilder
 
         ToolTipService.SetToolTip(packVersionStack,
             effectiveMethod == NrMethodFeeder
-                ? "Version of dlss5-feed.addon64 to install."
-                : "Version of dlss5-bridge.addon64 to install.");
+                ? "要安装的 dlss5-feed.addon64 版本。"
+                : "要安装的 dlss5-bridge.addon64 版本。");
         packVersionStack.Children.Add(packVersionCombo);        Grid.SetColumn(packVersionStack, 1);
         row1.Children.Add(packVersionStack);
 
         // DLSS5 Tool / SF version combo (col 2)
         var addonVersionLabel = new TextBlock { FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush) };
-        addonVersionLabel.Text = effectiveMethod == NrMethodShortFuse ? "SF Version"
+        addonVersionLabel.Text = effectiveMethod == NrMethodShortFuse ? "SF 版本"
                                 : effectiveMethod == NrMethodFeeder    ? "DLSS5 Tool Version"
                                 : effectiveMethod == NrMethodDlss5ToolBridge ? "DLSS5 Tool Version"
                                 : "DLSS5 Tool Version";
@@ -542,7 +542,7 @@ public partial class DetailPanelBuilder
             bool addonComboInit = true;
             addonVersionCombo.Items.Clear();
             var latestAddonVer = rdx5Svc.GetLatestAvailableVersion(addonType);
-            addonVersionCombo.Items.Add(string.IsNullOrEmpty(latestAddonVer) ? "Latest" : $"Latest ({latestAddonVer})");
+            addonVersionCombo.Items.Add(string.IsNullOrEmpty(latestAddonVer) ? "最新" : $"Latest ({latestAddonVer})");
             foreach (var v in rdx5Svc.GetAvailableVersions(addonType))
                 addonVersionCombo.Items.Add(v);
 
@@ -568,7 +568,7 @@ public partial class DetailPanelBuilder
             {
                 if (addonComboInit || addonSwapInProgress) return;
                 var sel = addonVersionCombo.SelectedItem as string;
-                bool useLatest = string.IsNullOrEmpty(sel) || sel.StartsWith("Latest");
+                bool useLatest = string.IsNullOrEmpty(sel) || sel.StartsWith("最新");
 
                 // Persist the selection first (same as before)
                 _window.ViewModel.SetNrAddonVersion(gameName, useLatest ? null : sel, store);
@@ -590,7 +590,7 @@ public partial class DetailPanelBuilder
                 _window.DispatcherQueue?.TryEnqueue(() =>
                 {
                     installBtn.IsEnabled = false;
-                    installBtn.Content   = "Swapping addon...";
+                    installBtn.Content   = "正在切换插件...";
                 });
 
                 try
@@ -677,15 +677,15 @@ public partial class DetailPanelBuilder
 
         ToolTipService.SetToolTip(addonVersionCombo,
             effectiveMethod == NrMethodFeeder
-                ? "Version of renodx-dlss5.addon64 deployed as the neural consumer. The Feeder addon itself always uses the latest version."
-                : "Addon version to install. 'Latest' always installs the newest available and auto-updates.");
+                ? "作为神经消费端部署的 renodx-dlss5.addon64 版本。Feeder 插件本身始终使用最新版本。"
+                : "要安装的插件版本。「最新」始终安装最新的可用版本并自动更新。");
         addonVersionStack.Children.Add(addonVersionCombo);
         Grid.SetColumn(addonVersionStack, 2);
         row1.Children.Add(addonVersionStack);
 
         // NR version combo (col 3)
         var nrVersionStack = new StackPanel { Spacing = 2 };
-        nrVersionStack.Children.Add(new TextBlock { Text = "NR DLL Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush) });
+        nrVersionStack.Children.Add(new TextBlock { Text = "NR DLL 版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush) });
 
         var nrVersionCombo = new ComboBox
         {
@@ -694,7 +694,7 @@ public partial class DetailPanelBuilder
             CornerRadius = new CornerRadius(6),
             MaxDropDownHeight = 300,
         };
-        ToolTipService.SetToolTip(nrVersionCombo, "NR DLL version to deploy. 'Latest' always uses the newest available. Change while installed to swap the NR DLL in-place.");
+        ToolTipService.SetToolTip(nrVersionCombo, "要部署的 NR DLL 版本。「最新」始终使用最新的可用版本。已安装时更改会就地替换 NR DLL。");
         nrVersionStack.Children.Add(nrVersionCombo);
         Grid.SetColumn(nrVersionStack, 3);
         row1.Children.Add(nrVersionStack);
@@ -707,7 +707,7 @@ public partial class DetailPanelBuilder
             nrVersionCombo.Items.Clear();
             var versions = dlssSvc.DlssnrVersions.ToList();
             var latestVer = versions.FirstOrDefault();
-            nrVersionCombo.Items.Add(string.IsNullOrEmpty(latestVer) ? "Latest" : $"Latest ({latestVer})");
+            nrVersionCombo.Items.Add(string.IsNullOrEmpty(latestVer) ? "最新" : $"Latest ({latestVer})");
             foreach (var v in versions)
                 nrVersionCombo.Items.Add(v);
 
@@ -735,7 +735,7 @@ public partial class DetailPanelBuilder
         {
             if (nrComboInit || addonSwapInProgress) return;
             var sel = nrVersionCombo.SelectedItem as string;
-            bool useLatest = string.IsNullOrEmpty(sel) || sel.StartsWith("Latest");
+            bool useLatest = string.IsNullOrEmpty(sel) || sel.StartsWith("最新");
 
             // Persist selection
             _window.ViewModel.SetNrDllVersion(gameName, useLatest ? null : sel, store);
@@ -749,7 +749,7 @@ public partial class DetailPanelBuilder
             _window.DispatcherQueue?.TryEnqueue(() =>
             {
                 installBtn.IsEnabled = false;
-                installBtn.Content   = "Swapping NR DLL...";
+                installBtn.Content   = "正在切换 NR DLL...";
             });
 
             try
@@ -874,7 +874,7 @@ public partial class DetailPanelBuilder
                        && File.Exists(Path.Combine(installPath, ualName));
 
                 // Feeder shader files
-                var shadersDir = Path.Combine(installPath, ShaderPackService.GameReShadeShaders, "Shaders");
+                var shadersDir = Path.Combine(installPath, ShaderPackService.GameReShadeShaders, "着色器");
                 feedFxPresent = Directory.Exists(shadersDir) &&
                     Directory.GetFiles(shadersDir, "DLSS5_Feed.fx", SearchOption.AllDirectories).Length > 0;
                 lumeniteFxPresent = Directory.Exists(shadersDir) &&
@@ -990,7 +990,7 @@ public partial class DetailPanelBuilder
                         Tag(dgVoodooOk ? "✓ dgVoodoo2" : "✗ dgVoodoo2", dgVoodooOk);
                     break;
                 default:
-                    Tag("Not installed", false);
+                    Tag("未安装", false);
                     break;
             }
         }
@@ -1030,26 +1030,26 @@ public partial class DetailPanelBuilder
             {
                 case NrMethodDlss5Tool:
                     descText.Text = hasDlss
-                        ? "For DX12 games with native DLSS. Deploys the DLSS5 Tool ReShade addon and nvngx_dlssnr.dll. Lighter alternative to ShortFuse DLSS Tool when you don't need the full Streamline stack."
-                        : "For DX12 games with native DLSS. This game has no detected DLSS — consider ShortFuse DLSS Tool instead.";
-                    descLink.Content = "DLSS5 Tool info →";
+                        ? "适用于具有原生 DLSS 的 DX12 游戏。部署 DLSS5 Tool ReShade 插件和 nvngx_dlssnr.dll。当您不需要完整的 Streamline 组件时，它是 ShortFuse DLSS Tool 的轻量替代方案。"
+                        : "适用于具有原生 DLSS 的 DX12 游戏。此游戏未检测到 DLSS — 建议改用 ShortFuse DLSS Tool。";
+                    descLink.Content = "DLSS5 工具信息 →";
                     descLink.NavigateUri = new Uri("https://discord.com/channels/1408098019194310818/1543802634991968366");
                     break;
                 case NrMethodDlss5ToolBridge:
-                    descText.Text = "For DX11 and Vulkan games with native DLSS. The bridge mirrors the game's DLSS onto a private DX12 session so the NR addon can hook it.";
-                    descLink.Content = "DX11 Bridge info →";
+                    descText.Text = "适用于具有原生 DLSS 的 DX11 和 Vulkan 游戏。桥接会将游戏的 DLSS 映射到私有 DX12 会话，以便 NR 插件挂钩。";
+                    descLink.Content = "DX11 Bridge 信息 →";
                     descLink.NavigateUri = new Uri("https://github.com/NIGos/dlss5-bridge");
                     break;
                 case NrMethodShortFuse:
-                    descText.Text = "Recommended for most games with native DLSS. Deploys the full DLSS SR/RR/FG/NR stack and Streamline alongside the ReShade addon. Supports DX12, DX11, DX9, and Vulkan.";
-                    descLink.Content = "ShortFuse DLSS Tool info →";
+                    descText.Text = "推荐用于大多数具有原生 DLSS 的游戏。部署完整的 DLSS SR/RR/FG/NR 组件和 Streamline，以及 ReShade 插件。支持 DX12、DX11、DX9 和 Vulkan。";
+                    descLink.Content = "ShortFuse DLSS 工具信息 →";
                     descLink.NavigateUri = new Uri("https://discord.com/channels/1408098019194310818/1543975158937821315");
                     break;
                 case NrMethodFeeder:
                     descText.Text = is32Bit
-                        ? "For 32-bit games. Feeds a synthetic DLSS contract from ReShade depth and motion vectors. Deploys the Feeder addon, DLSS5 Tool (neural consumer), NR DLL, DLSS SR DLL, and the required shaders (DLSS5_Feed.fx + LumeniteFX)."
-                        : "For games with no native DLSS (DX11, DX12, Vulkan, OpenGL). Feeds a synthetic DLSS contract from ReShade depth and motion vectors. Deploys the Feeder addon, DLSS5 Tool (neural consumer), NR DLL, DLSS SR DLL, and required shaders.";
-                    descLink.Content = "Feeder setup guide →";
+                        ? "适用于 32 位游戏。从 ReShade 深度和运动矢量提供合成的 DLSS 接口。部署 Feeder 插件、DLSS5 Tool（神经消费端）、NR DLL、DLSS SR DLL 以及所需的着色器（DLSS5_Feed.fx + LumeniteFX）。"
+                        : "适用于没有原生 DLSS 的游戏（DX11、DX12、Vulkan、OpenGL）。从 ReShade 深度和运动矢量提供合成的 DLSS 接口。部署 Feeder 插件、DLSS5 Tool（神经消费端）、NR DLL、DLSS SR DLL 以及所需的着色器。";
+                    descLink.Content = "Feeder 设置指南 →";
                     descLink.NavigateUri = new Uri("https://github.com/jlrouzies-fr/DLSS5-Feeder");
                     break;
             }
@@ -1103,7 +1103,7 @@ public partial class DetailPanelBuilder
             Content = new TextBlock { Text = "⚙", FontSize = 14, HorizontalAlignment = HorizontalAlignment.Center },
             Visibility = effectiveMethod == NrMethodShortFuse ? Visibility.Visible : Visibility.Collapsed,
         };
-        ToolTipService.SetToolTip(sfCogBtn, "ShortFuse DLSS Tool settings — auto-configure ReShade for FrameGen");
+        ToolTipService.SetToolTip(sfCogBtn, "ShortFuse DLSS Tool 设置 — 为帧生成自动配置 ReShade");
         sfCogBtn.Click += async (s, e) =>
         {
             bool currentEnabled = _window.ViewModel.GetSfAutoConfigEnabled(gameName, store);
@@ -1112,7 +1112,7 @@ public partial class DetailPanelBuilder
             var toggleRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };
             var togLabel = new TextBlock
             {
-                Text = "Auto-configure ReShade for FrameGen",
+                Text = "为帧生成自动配置 ReShade",
                 FontSize = 12,
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -1120,8 +1120,8 @@ public partial class DetailPanelBuilder
             var tog = new ToggleSwitch
             {
                 IsOn = currentEnabled,
-                OnContent = "On",
-                OffContent = "Off",
+                OnContent = "开",
+                OffContent = "关",
                 VerticalAlignment = VerticalAlignment.Center,
                 MinWidth = 0,
             };
@@ -1135,7 +1135,7 @@ public partial class DetailPanelBuilder
                        "• Install ASI Loader (winmm → version → dinput8)\n" +
                        "• Write HookStreamline=1 and HookDirectX=1 to reshade.ini\n\n" +
                        "These steps are needed for FrameGen to work correctly after ReShade.\n\n" +
-                       "Note: no longer required on ShortFuse DLSS Tool v0.54 and above.",
+                       "注意：ShortFuse DLSS Tool v0.54 及以上版本已不再需要。",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush),
                 TextWrapping = TextWrapping.Wrap,
@@ -1150,10 +1150,10 @@ public partial class DetailPanelBuilder
 
             var dlg = new ContentDialog
             {
-                Title = "ShortFuse DLSS Tool Settings",
+                Title = "ShortFuse DLSS 工具设置",
                 Content = content,
-                PrimaryButtonText = "Save",
-                CloseButtonText = "Cancel",
+                PrimaryButtonText = "保存",
+                CloseButtonText = "取消",
                 XamlRoot = _window.Content.XamlRoot,
             };
             var result = await DialogService.ShowSafeAsync(dlg);
@@ -1181,21 +1181,21 @@ public partial class DetailPanelBuilder
             // Install button appearance
             if (isFeeder)
             {
-                installBtn.Content = "Install Feeder Addon";
+                installBtn.Content = "安装 Feeder 插件";
                 installBtn.Background  = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush);
                 installBtn.Foreground  = UIFactory.Brush(ResourceKeys.AccentBlueBrush);
                 installBtn.BorderBrush = UIFactory.Brush(ResourceKeys.AccentBlueBorderBrush);
             }
             else if (anyInstalled)
             {
-                installBtn.Content = "Reinstall";
+                installBtn.Content = "重新安装";
                 installBtn.Background  = UIFactory.Brush(ResourceKeys.SurfaceOverlayBrush);
                 installBtn.Foreground  = UIFactory.Brush(ResourceKeys.TextSecondaryBrush);
                 installBtn.BorderBrush = UIFactory.Brush(ResourceKeys.BorderDefaultBrush);
             }
             else
             {
-                installBtn.Content = "Install Neural Rendering";
+                installBtn.Content = "安装神经网络渲染";
                 installBtn.Background  = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush);
                 installBtn.Foreground  = UIFactory.Brush(ResourceKeys.AccentBlueBrush);
                 installBtn.BorderBrush = UIFactory.Brush(ResourceKeys.AccentBlueBorderBrush);
@@ -1210,25 +1210,25 @@ public partial class DetailPanelBuilder
             // Pack version column (Feeder/Bridge only)
             bool showPackVersion = selKey == NrMethodFeeder || selKey == NrMethodDlss5ToolBridge;
             packVersionStack.Visibility = showPackVersion ? Visibility.Visible : Visibility.Collapsed;
-            packVersionLabel.Text = selKey == NrMethodFeeder ? "Feeder Version" : "Bridge Version";
+            packVersionLabel.Text = selKey == NrMethodFeeder ? "Feeder 版本" : "Bridge 版本";
             if (showPackVersion)
             {
                 PopulatePackVersionCombo(selKey);
                 ToolTipService.SetToolTip(packVersionStack,
                     selKey == NrMethodFeeder
-                        ? "Version of dlss5-feed.addon64 to install."
-                        : "Version of dlss5-bridge.addon64 to install.");
+                        ? "要安装的 dlss5-feed.addon64 版本。"
+                        : "要安装的 dlss5-bridge.addon64 版本。");
             }
 
             // DLSS5 Tool / SF version label
-            addonVersionLabel.Text = selKey == NrMethodShortFuse ? "SF Version" : "DLSS5 Tool Version";
+            addonVersionLabel.Text = selKey == NrMethodShortFuse ? "SF 版本" : "DLSS5 Tool Version";
 
             // Addon version combo — enabled always (swap-in-place supported while installed)
             addonVersionStack.Opacity   = 1.0;
             addonVersionCombo.IsEnabled = true;
             ToolTipService.SetToolTip(addonVersionStack, selKey == NrMethodFeeder
-                ? "Version of renodx-dlss5.addon64 deployed as the neural consumer. Changing while installed swaps the file in-place."
-                : "Addon version to install. Changing while installed swaps the file in-place without a full reinstall.");
+                ? "作为神经消费端部署的 renodx-dlss5.addon64 版本。已安装时更改会就地替换文件。"
+                : "要安装的插件版本。已安装时更改会就地替换文件，无需完全重新安装。");
 
             // Pack version combo — enabled always when visible (swap-in-place supported while installed)
             packVersionStack.Opacity   = showPackVersion ? 1.0 : 0.4;
@@ -1279,7 +1279,7 @@ public partial class DetailPanelBuilder
             methodCombo.IsEnabled  = false;
             installBtn.IsEnabled   = false;
             removeBtn.IsEnabled    = false;
-            installBtn.Content     = "Removing...";
+            installBtn.Content     = "正在移除...";
 
             try
             {
@@ -1380,7 +1380,7 @@ public partial class DetailPanelBuilder
         {
             installBtn.IsEnabled = false;
             removeBtn.IsEnabled  = false;
-            installBtn.Content   = "Installing...";
+            installBtn.Content   = "正在安装...";
 
             var selKey = (methodCombo.SelectedItem as ComboBoxItem)?.Tag as string ?? effectiveMethod;
 
@@ -1406,7 +1406,7 @@ public partial class DetailPanelBuilder
                 // Ensure ReShade is installed first — all NR methods require it
                 if (!card.IsRsInstalled)
                 {
-                    _window.DispatcherQueue?.TryEnqueue(() => installBtn.Content = "Installing ReShade...");
+                    _window.DispatcherQueue?.TryEnqueue(() => installBtn.Content = "正在安装 ReShade...");
 
                     // For DX9 Feeder: dgVoodoo2 will own d3d9.dll, so ReShade must be dxgi.dll.
                     // Call InstallReShadeInternalAsync directly with the forced filename instead of
@@ -1427,7 +1427,7 @@ public partial class DetailPanelBuilder
                     && card.RsRecord?.InstalledAs?.Equals("d3d9.dll", StringComparison.OrdinalIgnoreCase) == true)
                 {
                     // ReShade already installed as d3d9.dll (wrong for dgVoodoo) — reinstall as dxgi.dll
-                    _window.DispatcherQueue?.TryEnqueue(() => installBtn.Content = "Fixing ReShade filename...");
+                    _window.DispatcherQueue?.TryEnqueue(() => installBtn.Content = "正在修正 ReShade 文件名...");
                     await _window.ViewModel.InstallReShadeInternalAsync(card, "dxgi.dll").ConfigureAwait(false);
                     await Task.Delay(300).ConfigureAwait(false);
                 }
@@ -1498,7 +1498,7 @@ public partial class DetailPanelBuilder
             catch (Exception ex)
             {
                 CrashReporter.Log($"[NeuralRendering.Install] Failed for '{gameName}' — {ex.Message}");
-                _window.DispatcherQueue?.TryEnqueue(() => installBtn.Content = "Install failed");
+                _window.DispatcherQueue?.TryEnqueue(() => installBtn.Content = "安装失败");
             }
             finally
             {
@@ -1516,7 +1516,7 @@ public partial class DetailPanelBuilder
                     RefreshStatus();
                     // Persist NR DLL version selection
                     var nrSel = nrVersionCombo.SelectedItem as string;
-                    _window.ViewModel.SetNrDllVersion(gameName, (string.IsNullOrEmpty(nrSel) || nrSel.StartsWith("Latest")) ? null : nrSel, store);
+                    _window.ViewModel.SetNrDllVersion(gameName, (string.IsNullOrEmpty(nrSel) || nrSel.StartsWith("最新")) ? null : nrSel, store);
                     // Rebuild the full overrides panel so shader mode combo + NR section both refresh
                     var targetCard = _window.ViewModel.AllCards.FirstOrDefault(c =>
                         c.GameName.Equals(gameName, StringComparison.OrdinalIgnoreCase) &&
@@ -1681,33 +1681,33 @@ public partial class DetailPanelBuilder
             Margin = new Thickness(0, 4, 0, 0) };
         var costScalerLabel = new TextBlock
         {
-            Text = "NR Cost Scaler",
+            Text = "NR 开销缩放",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
         };
         ToolTipService.SetToolTip(costScalerLabel,
-            "When On, installing a Neural Rendering method will also deploy the DLSS NR Cost Scaler proxy. " +
-            "Runs the neural model at reduced resolution (default 75%) for significant GPU savings while keeping native detail.");
+            "开启时，安装神经网络渲染方式还会部署 DLSS NR Cost Scaler 代理。 " +
+            "以降低的分辨率（默认 75%）运行神经模型，在保留原生细节的同时大幅节省 GPU 开销。");
         var costScalerToggle = new ToggleSwitch
         {
             IsOn = costScalerPref,
-            OnContent = "On", OffContent = "Off",
+            OnContent = "开", OffContent = "关",
             VerticalAlignment = VerticalAlignment.Center,
             MinWidth = 0,
             IsEnabled = costScalerToggleEnabled,
             Opacity = costScalerToggleEnabled ? 1.0 : 0.45,
         };
         if (!costScalerSvc.IsStagingReady)
-            ToolTipService.SetToolTip(costScalerToggle, "Cost Scaler not yet staged — will be available after first launch");
+            ToolTipService.SetToolTip(costScalerToggle, "Cost Scaler 尚未暂存 — 首次启动后可用");
         else if (nrMethodInstalled)
-            ToolTipService.SetToolTip(costScalerToggle, "Remove the installed NR method first, then toggle Cost Scaler On before reinstalling");
+            ToolTipService.SetToolTip(costScalerToggle, "请先移除已安装的 NR 方式，然后在重新安装前开启 Cost Scaler");
 
         // Installed indicator
         bool costScalerInstalled = DlssNrCostScalerService.IsInstalled(installPath);
         var costScalerStatus = new TextBlock
         {
-            Text = costScalerInstalled ? "Installed" : "",
+            Text = costScalerInstalled ? "已安装" : "",
             FontSize = 11,
             Foreground = UIFactory.GetBrush("#5ECB7D"),
             VerticalAlignment = VerticalAlignment.Center,
@@ -1731,7 +1731,7 @@ public partial class DetailPanelBuilder
             costScalerRow.Children.Add(new Border { Width = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), VerticalAlignment = VerticalAlignment.Stretch, Margin = new Thickness(4, 0, 4, 0) });
             costScalerRow.Children.Add(new TextBlock
             {
-                Text = "ZZZ Load Order",
+                Text = "ZZZ 加载顺序",
                 FontSize = 12,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -1739,13 +1739,13 @@ public partial class DetailPanelBuilder
             var zzzToggle = new ToggleSwitch
             {
                 IsOn = sfZzzPref,
-                OnContent = "On", OffContent = "Off",
+                OnContent = "开", OffContent = "关",
                 VerticalAlignment = VerticalAlignment.Center,
                 MinWidth = 0,
             };
             ToolTipService.SetToolTip(zzzToggle,
-                "When On, the ShortFuse addon is deployed as zzz_renodx-dlss.addon64 so it loads last in the ReShade addon order. " +
-                "Required for some games where other addons must initialise before the DLSS Tool.");
+                "开启时，ShortFuse 插件会以 zzz_renodx-dlss.addon64 形式部署，使其在 ReShade 插件顺序中最后加载。 " +
+                "某些游戏需要此选项，以便其他插件在 DLSS Tool 之前初始化。");
             zzzToggle.Toggled += (s, ev) =>
             {
                 bool newVal = zzzToggle.IsOn;
@@ -1774,7 +1774,7 @@ public partial class DetailPanelBuilder
 
             nrBody.Children.Add(new TextBlock
             {
-                Text = "Cost Scaler is built into the ShortFuse addon — this toggle is no longer required but remains available if you prefer the standalone version.",
+                Text = "Cost Scaler 已内置于 ShortFuse 插件中 — 不再需要此开关，但如果您偏好独立版本，它仍然可用。",
                 FontSize = 10,
                 Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush),
                 TextWrapping = TextWrapping.Wrap,
@@ -1819,16 +1819,16 @@ public partial class DetailPanelBuilder
         // Resolve requested addon version
         var requestedVersion = await DispatchAsync<string?>(_window.DispatcherQueue!,
             () => addonVersionCombo.SelectedItem as string).ConfigureAwait(false);
-        bool useLatest = string.IsNullOrEmpty(requestedVersion) || requestedVersion.StartsWith("Latest");
+        bool useLatest = string.IsNullOrEmpty(requestedVersion) || requestedVersion.StartsWith("最新");
 
         string addonSourcePath;
         if (useLatest)
         {
             // Use the flat staging file (latest) — same as before
-            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Staging DLSS5 Tool...");
+            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在暂存 DLSS5 工具...");
             await rdx5Svc.EnsureStagingAsync().ConfigureAwait(false);
             if (!rdx5Svc.IsStagingReady)
-                throw new InvalidOperationException("DLSS5 Tool staging not ready");
+                throw new InvalidOperationException("DLSS5 工具暂存未就绪");
             addonSourcePath = rdx5Svc.StagedFilePath;
             // Persist "Latest" (clears any pinned version)
             _window.ViewModel.SetNrAddonVersion(gameName, null, store);
@@ -1836,14 +1836,14 @@ public partial class DetailPanelBuilder
         else
         {
             // Ensure the specific version is staged
-            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = $"Staging DLSS5 Tool v{requestedVersion}...");
+            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = $"正在暂存 DLSS5 工具 v{requestedVersion}...");
             var staged = await rdx5Svc.EnsureVersionStagedAsync("dlss5tool", requestedVersion!).ConfigureAwait(false);
             if (!staged)
             {
                 CrashReporter.Log($"[NeuralRendering] Could not stage DLSS5 Tool v{requestedVersion} — falling back to latest");
                 await rdx5Svc.EnsureStagingAsync().ConfigureAwait(false);
                 if (!rdx5Svc.IsStagingReady)
-                    throw new InvalidOperationException("DLSS5 Tool staging not ready");
+                    throw new InvalidOperationException("DLSS5 工具暂存未就绪");
                 addonSourcePath = rdx5Svc.StagedFilePath;
                 _window.ViewModel.SetNrAddonVersion(gameName, null, store);
             }
@@ -1866,7 +1866,7 @@ public partial class DetailPanelBuilder
         }).ConfigureAwait(false);
 
         // Upgrade all DLSS DLLs to latest (SR/RR/FG + NR)
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Upgrading DLSS DLLs...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在升级 DLSS DLL...");
         await UpgradeDlssDllsAsync(card, dlssSvc, nrVersionCombo).ConfigureAwait(false);
 
         // Append the addon file to the Dlss5Tool component record (DLLs recorded in UpgradeDlssDllsAsync)
@@ -1898,7 +1898,7 @@ public partial class DetailPanelBuilder
                 () => nrVersionCombo.SelectedItem as string).ConfigureAwait(false);
         }
         string? cachedNr;
-        if (string.IsNullOrEmpty(nrSelectedVersion) || nrSelectedVersion == "Latest")
+        if (string.IsNullOrEmpty(nrSelectedVersion) || nrSelectedVersion == "最新")
             cachedNr = await dlssSvc.EnsureNewestDlssnrCachedAsync().ConfigureAwait(false);
         else
         {
@@ -2066,9 +2066,9 @@ public partial class DetailPanelBuilder
             requestedBridgeVersion = await DispatchAsync<string?>(_window.DispatcherQueue!,
                 () => packVersionCombo.SelectedItem as string).ConfigureAwait(false);
         }
-        bool useLatestBridge = string.IsNullOrEmpty(requestedBridgeVersion) || requestedBridgeVersion.StartsWith("Latest");
+        bool useLatestBridge = string.IsNullOrEmpty(requestedBridgeVersion) || requestedBridgeVersion.StartsWith("最新");
 
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Downloading DX11 Bridge...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在下载 DX11 Bridge...");
 
         // Resolve Bridge staged path — versioned or latest via AddonPackService
         string? bridgeSourcePath = null;
@@ -2102,7 +2102,7 @@ public partial class DetailPanelBuilder
         }
 
         // Deploy — Bridge goes in the game root (next to ReShade / exe), not reshade-addons
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying DX11 Bridge...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署 DX11 Bridge...");
         await Task.Run(() =>
         {
             if (bridgeSourcePath == null || !File.Exists(bridgeSourcePath))
@@ -2131,28 +2131,28 @@ public partial class DetailPanelBuilder
         // Resolve requested addon version
         var requestedVersion = await DispatchAsync<string?>(_window.DispatcherQueue!,
             () => addonVersionCombo.SelectedItem as string).ConfigureAwait(false);
-        bool useLatest = string.IsNullOrEmpty(requestedVersion) || requestedVersion.StartsWith("Latest");
+        bool useLatest = string.IsNullOrEmpty(requestedVersion) || requestedVersion.StartsWith("最新");
 
         string sfSourcePath;
         if (useLatest)
         {
-            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Staging ShortFuse...");
+            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在暂存 ShortFuse...");
             await rdx5Svc.EnsureSfStagingAsync().ConfigureAwait(false);
             if (!rdx5Svc.IsSfStagingReady)
-                throw new InvalidOperationException("ShortFuse staging not ready");
+                throw new InvalidOperationException("ShortFuse 暂存未就绪");
             sfSourcePath = rdx5Svc.SfStagedFilePath;
             _window.ViewModel.SetNrAddonVersion(gameName, null, store);
         }
         else
         {
-            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = $"Staging ShortFuse v{requestedVersion}...");
+            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = $"正在暂存 ShortFuse v{requestedVersion}...");
             var staged = await rdx5Svc.EnsureVersionStagedAsync("dlsstool", requestedVersion!).ConfigureAwait(false);
             if (!staged)
             {
                 CrashReporter.Log($"[NeuralRendering] Could not stage ShortFuse v{requestedVersion} — falling back to latest");
                 await rdx5Svc.EnsureSfStagingAsync().ConfigureAwait(false);
                 if (!rdx5Svc.IsSfStagingReady)
-                    throw new InvalidOperationException("ShortFuse staging not ready");
+                    throw new InvalidOperationException("ShortFuse 暂存未就绪");
                 sfSourcePath = rdx5Svc.SfStagedFilePath;
                 _window.ViewModel.SetNrAddonVersion(gameName, null, store);
             }
@@ -2163,7 +2163,7 @@ public partial class DetailPanelBuilder
             }
         }
 
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Installing DLSS stack...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在安装 DLSS 组件...");
 
         // Deploy the SF addon from the resolved source path
         try
@@ -2195,10 +2195,10 @@ public partial class DetailPanelBuilder
         await rdx5Svc.InstallSfDllsOnlyAsync(installPath, detection.HasAny ? detection : null).ConfigureAwait(false);
 
         // Deploy NR DLL at requested version (or latest)
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying NR DLL...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署 NR DLL...");
         var nrSelectedVersion = await DispatchAsync<string?>(_window.DispatcherQueue!,
             () => nrVersionCombo.SelectedItem as string).ConfigureAwait(false);
-        bool nrUseLatest = string.IsNullOrEmpty(nrSelectedVersion) || nrSelectedVersion.StartsWith("Latest");
+        bool nrUseLatest = string.IsNullOrEmpty(nrSelectedVersion) || nrSelectedVersion.StartsWith("最新");
         var nrDestPath = Path.Combine(installPath, "nvngx_dlssnr.dll");
         try
         {
@@ -2248,7 +2248,7 @@ public partial class DetailPanelBuilder
         // Apply auto-config (rename ReShade, install UAL, write reshade.ini [INSTALL] keys)
         if (_window.ViewModel.GetSfAutoConfigEnabled(card.GameName, card.Source ?? ""))
         {
-            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Configuring ReShade...");
+            _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在配置 ReShade...");
             await _window.ViewModel.ApplySfAutoConfigAsync(card).ConfigureAwait(false);
         }
     }
@@ -2372,7 +2372,7 @@ public partial class DetailPanelBuilder
             requestedFeederVersion = await DispatchAsync<string?>(_window.DispatcherQueue!,
                 () => packVersionCombo.SelectedItem as string).ConfigureAwait(false);
         }
-        bool useLatestFeeder = string.IsNullOrEmpty(requestedFeederVersion) || requestedFeederVersion.StartsWith("Latest");
+        bool useLatestFeeder = string.IsNullOrEmpty(requestedFeederVersion) || requestedFeederVersion.StartsWith("最新");
 
         // Resolve requested DLSS5 Tool version (neural consumer) — Latest or pinned
         string? requestedVersion = null;
@@ -2381,9 +2381,9 @@ public partial class DetailPanelBuilder
             requestedVersion = await DispatchAsync<string?>(_window.DispatcherQueue!,
                 () => addonVersionCombo.SelectedItem as string).ConfigureAwait(false);
         }
-        bool useLatestConsumer = string.IsNullOrEmpty(requestedVersion) || requestedVersion.StartsWith("Latest");
+        bool useLatestConsumer = string.IsNullOrEmpty(requestedVersion) || requestedVersion.StartsWith("最新");
 
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Downloading Feeder...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在下载 Feeder...");
 
         // Resolve Feeder staged path — versioned or latest via AddonPackService
         string? feederSourcePath = null;
@@ -2420,7 +2420,7 @@ public partial class DetailPanelBuilder
             _window.ViewModel.SetNrPackVersion(gameName, null, store); // clear version pin — using latest
         }
 
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying Feeder...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署 Feeder...");
         await Task.Run(() =>
         {
             if (feederSourcePath == null || !File.Exists(feederSourcePath))
@@ -2439,7 +2439,7 @@ public partial class DetailPanelBuilder
             var nrSelVer = nrVersionCombo != null
                 ? await DispatchAsync<string?>(_window.DispatcherQueue!, () => nrVersionCombo.SelectedItem as string).ConfigureAwait(false)
                 : null;
-            bool nrUseLatestFeeder = string.IsNullOrEmpty(nrSelVer) || nrSelVer.StartsWith("Latest");
+            bool nrUseLatestFeeder = string.IsNullOrEmpty(nrSelVer) || nrSelVer.StartsWith("最新");
             var nrDestPathFeeder = Path.Combine(installPath, "nvngx_dlssnr.dll");
             var nrBackup = nrDestPathFeeder + ".original";
             string? cachedNrFeeder;
@@ -2470,7 +2470,7 @@ public partial class DetailPanelBuilder
         // Deploy DLSS5 Tool as neural consumer (Feeder needs renodx-dlss5.addon64 alongside it)
         // For 32-bit games the neural consumer runs in host64\ — it must NOT be in the game folder
         // (32-bit ReShade cannot load .addon64 files).
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying DLSS5 Tool...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署 DLSS5 工具...");
 
         // Resolve the source path for the neural consumer — versioned or latest
         string? consumerSourcePath = null;
@@ -2510,7 +2510,7 @@ public partial class DetailPanelBuilder
         }
 
         // Deploy newest nvngx_dlss.dll — required by Feeder beside the game exe (install root, not detected plugin path)
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying DLSS SR...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署 DLSS SR...");
         var cachedDlss = await _dlssStreamlineService.EnsureNewestDlssCachedAsync().ConfigureAwait(false);
         if (cachedDlss != null && new FileInfo(cachedDlss).Length > 0)
         {
@@ -2532,7 +2532,7 @@ public partial class DetailPanelBuilder
         // DLSS5_Feed.fx is seeded from the Feeder addon zip into the DLSS5Feeder staging folder.
         // LumeniteFX is downloaded via the pack system.
         // We do NOT call EnsurePacksAsync for DLSS5Feeder — its URL is a dead fallback that 404s.
-        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying shaders...");
+        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署着色器...");
         try
         {
             // Ensure LumeniteFX is staged (DLSS5Feeder is self-contained — no download needed)
@@ -2584,7 +2584,7 @@ public partial class DetailPanelBuilder
                     // No zip available locally — force re-download the Feeder addon so the zip
                     // is fetched fresh and DLSS5_Feed.fx is extracted from it.
                     CrashReporter.Log("[NeuralRendering] DLSS5_Feed.fx missing and no zip found — re-downloading Feeder addon to seed it");
-                    _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Downloading Feed.fx...");
+                    _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在下载 Feed.fx...");
                     var feederEntry = addonSvc.AvailablePacks.FirstOrDefault(p =>
                         p.PackageName.Equals(FeederPackageName, StringComparison.OrdinalIgnoreCase));
                     if (feederEntry != null)
@@ -2780,7 +2780,7 @@ public partial class DetailPanelBuilder
             var manifest = _window.ViewModel.Manifest;
             if (manifest?.DgVoodooVersions?.Count > 0)
             {
-                _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Deploying dgVoodoo2...");
+                _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在部署 dgVoodoo2...");
                 try
                 {
                     var dgSvc = App.Services.GetRequiredService<DgVoodooService>();
@@ -2792,7 +2792,7 @@ public partial class DetailPanelBuilder
                     else
                     {
                         CrashReporter.Log($"[NeuralRendering] dgVoodoo2 deploy returned no files for '{card.GameName}' — Windows Defender may be blocking the zip. Add %LocalAppData%\\RHI\\dgvoodoo\\ to Defender exclusions.");
-                        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "⚠ dgVoodoo2 blocked by Defender");
+                        _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "⚠ dgVoodoo2 被 Defender 阻止");
                     }
                 }
                 catch (Exception dgEx)
@@ -2808,7 +2808,7 @@ public partial class DetailPanelBuilder
         // Note: NOT gated on isDx9 — host64 is needed for all 32-bit Feeder installs
         if (card.Is32Bit)
         {
-                _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "Setting up host64\\...");
+                _window.DispatcherQueue?.TryEnqueue(() => statusBtn.Content = "正在设置 host64\\...");
                 await Task.Run(async () =>
                 {
                     try
@@ -2849,7 +2849,7 @@ public partial class DetailPanelBuilder
                         var nrSelVerHost = nrVersionCombo != null
                             ? await DispatchAsync<string?>(_window.DispatcherQueue!, () => nrVersionCombo.SelectedItem as string).ConfigureAwait(false)
                             : null;
-                        bool nrUseLatestHost = string.IsNullOrEmpty(nrSelVerHost) || nrSelVerHost.StartsWith("Latest");
+                        bool nrUseLatestHost = string.IsNullOrEmpty(nrSelVerHost) || nrSelVerHost.StartsWith("最新");
                         string? cachedNrHost;
                         if (nrUseLatestHost)
                             cachedNrHost = await dlssSvc.EnsureNewestDlssnrCachedAsync().ConfigureAwait(false);
@@ -2986,7 +2986,7 @@ public partial class DetailPanelBuilder
         try
         {
             var gameKey     = Models.GameKey.FromCard(gameName, store).ToKey();
-            var shadersDir  = Path.Combine(installPath, ShaderPackService.GameReShadeShaders, "Shaders");
+            var shadersDir  = Path.Combine(installPath, ShaderPackService.GameReShadeShaders, "着色器");
             var texturesDir = Path.Combine(installPath, ShaderPackService.GameReShadeShaders, "Textures");
 
             // Delete specific pack files
@@ -3020,7 +3020,7 @@ public partial class DetailPanelBuilder
                 _gameNameService.PerGameShaderSelection.Remove(gameKey);
                 _window.DispatcherQueue?.TryEnqueue(() =>
                 {
-                    _window.ViewModel.SetPerGameShaderMode(gameName, "Global", store);
+                    _window.ViewModel.SetPerGameShaderMode(gameName, "全局", store);
                     card.ShaderModeOverride = null;
                 });
             }

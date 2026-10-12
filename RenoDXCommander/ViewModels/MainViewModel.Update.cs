@@ -263,11 +263,11 @@ public partial class MainViewModel
                                 ? $"IDLE ({delta.TotalMilliseconds:F0}ms/1s — waiting on lock or native call)"
                                 : $"PEGGED ({delta.TotalMilliseconds:F0}ms/1s — layout or compute loop)";
                         }
-                        else cpuInfo = "UI thread not found in process";
+                        else cpuInfo = "在进程中未找到 UI 线程";
                     }
                     else cpuInfo = "UI thread ID not captured";
                 }
-                catch (Exception ex) { cpuInfo = $"CPU sample failed: {ex.Message}"; }
+                catch (Exception ex) { cpuInfo = $"CPU 采样失败：{ex.Message}"; }
 
                 // ── 3. WM_NULL pump probe ─────────────────────────────────────────
                 bool pumpAlive = false;
@@ -288,14 +288,14 @@ public partial class MainViewModel
                             : $"timed out (pump not responding) | IsHungAppWindow={isHung}";
                     }
                 }
-                catch (Exception ex) { pumpInfo = $"probe failed: {ex.Message}"; }
+                catch (Exception ex) { pumpInfo = $"探测失败：{ex.Message}"; }
 
                 // ── Write the frozen line synchronously ───────────────────────────
                 CrashReporter.LogSync($"[Heartbeat] *** UI FROZEN *** last action: {_lastUiAction} | UI thread CPU: {cpuInfo} | Pump: {pumpInfo}");
                 if (recentActions.Count > 0)
                 {
                     var summary = string.Join(" → ", recentActions);
-                    if (summary.Length > 4096) summary = summary.Substring(0, 4096) + "… (truncated)";
+                    if (summary.Length > 4096) summary = summary.Substring(0, 4096) + "…（已截断）";
                     CrashReporter.LogSync($"[Heartbeat] Recent UI actions: {summary}");
                 }
 
@@ -304,7 +304,7 @@ public partial class MainViewModel
                 if (enqueueEvents.Count > 0)
                 {
                     var enqueueStr = string.Join(" | ", enqueueEvents);
-                    if (enqueueStr.Length > 8192) enqueueStr = enqueueStr.Substring(0, 8192) + "… (truncated)";
+                    if (enqueueStr.Length > 8192) enqueueStr = enqueueStr.Substring(0, 8192) + "…（已截断）";
                     CrashReporter.LogSync($"[Heartbeat.Enqueue] Last {enqueueEvents.Count} dispatcher events: {enqueueStr}");
                 }
 
@@ -346,7 +346,7 @@ public partial class MainViewModel
                                 var state = uiThread.ThreadState;
                                 string waitInfo = state == System.Diagnostics.ThreadState.Wait
                                     ? $"WaitReason={uiThread.WaitReason} ({(int)uiThread.WaitReason})"
-                                    : "N/A (not in Wait state)";
+                                    : "不适用（不处于等待状态）";
                                 CrashReporter.LogSync($"[Heartbeat.Wait] UI thread state={state} | {waitInfo}");
                             }
                             else CrashReporter.LogSync($"[Heartbeat.Wait] UI thread not found (OSId={uiNativeId})");
@@ -893,7 +893,7 @@ public partial class MainViewModel
                 sb.AppendLine($"  {i,2}: {frameName}");
             }
             if (frameCount == 0)
-                sb.AppendLine("  (no frames captured — thread may be in kernel wait or context was invalid)");
+                sb.AppendLine("  （未捕获到帧 — 线程可能处于内核等待，或上下文无效）");
             CrashReporter.LogSync(sb.ToString());
 
             // ── RSP stack scan — heuristic return-address search ─────────────────
@@ -1035,7 +1035,7 @@ public partial class MainViewModel
                                 }
                             }
                             if (hits == 0)
-                                scanSb.AppendLine("  (no return addresses found)");
+                                scanSb.AppendLine("  （未找到返回地址）");
                             CrashReporter.LogSync(scanSb.ToString());
                         }
                     }
@@ -1350,7 +1350,7 @@ public partial class MainViewModel
 
             var body = sections.Count > 0
                 ? string.Join("\n\n---\n\n", sections)
-                : "No patch notes available.";
+                : "没有可用的更新日志。";
 
             // Prepend preamble (e.g. the GitHub API warning banner) if present
             var preambleText = string.Join("\n", preamble).Trim();
@@ -1360,7 +1360,7 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            return $"Error reading patch notes: {ex.Message}";
+            return $"读取更新日志出错：{ex.Message}";
         }
     }
 
@@ -2217,11 +2217,11 @@ public partial class MainViewModel
         // Nexus GraphQL calls are gated by the "Background Update Checks" setting.
         // "On" (default): full checks including Nexus. "Minimal": Nexus only on explicit user action.
         // forceCheck = true when user clicks Refresh/Update All, so Nexus always runs on explicit action.
-        bool nexusEnabled = userInitiated || _settingsViewModel.BackgroundUpdateChecks == "On";
+        bool nexusEnabled = userInitiated || _settingsViewModel.BackgroundUpdateChecks == "开";
 
         // "Minimal" background checks: skip all component update checks unless user explicitly triggered.
         // Manifests, PCGW, DLSS manifest, and shader packs still run (they're in RunBackgroundScanAndMergeAsync).
-        if (!userInitiated && _settingsViewModel.BackgroundUpdateChecks == "Minimal")
+        if (!userInitiated && _settingsViewModel.BackgroundUpdateChecks == "精简")
         {
             _crashReporter.Log("[MainViewModel.CheckForUpdatesAsync] BackgroundUpdateChecks=Minimal — skipping all component update checks (user-initiated only)");
             return;

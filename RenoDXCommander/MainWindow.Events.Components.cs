@@ -62,7 +62,7 @@ public sealed partial class MainWindow
         // Deploy ReShade.ini
         var deployIniBtn = new Button
         {
-            Content = "Deploy ReShade.ini",
+            Content = "部署 ReShade.ini",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -94,7 +94,7 @@ public sealed partial class MainWindow
                     && AuxInstallService.GlobalManifest.RenodxIniOverrides.TryGetValue(card.GameName, out var cogIniOvr))
                     AuxInstallService.ApplyRenodxIniOverrides(card.InstallPath, cogIniOvr, forceOverwrite: true);
 
-                card.RsActionMessage = "✅ ReShade.ini deployed.";
+                card.RsActionMessage = "✅ ReShade.ini 已部署。";
             }
             catch (Exception ex) { card.RsActionMessage = $"❌ {ex.Message}"; }
         };
@@ -103,7 +103,7 @@ public sealed partial class MainWindow
         // Deploy ReShadePreset.ini
         var deployPresetBtn = new Button
         {
-            Content = "Deploy ReShadePreset.ini",
+            Content = "部署 ReShadePreset.ini",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -117,18 +117,18 @@ public sealed partial class MainWindow
             try
             {
                 AuxInstallService.CopyRsPresetIniIfPresent(card.InstallPath);
-                card.RsActionMessage = "✅ ReShadePreset.ini deployed.";
+                card.RsActionMessage = "✅ ReShadePreset.ini 已部署。";
             }
             catch (Exception ex) { card.RsActionMessage = $"❌ {ex.Message}"; }
         };
         if (!rsPresetExists)
-            ToolTipService.SetToolTip(deployPresetBtn, "No ReShadePreset.ini found in RHI config folder");
+            ToolTipService.SetToolTip(deployPresetBtn, "RHI 配置文件夹中未找到 ReShadePreset.ini");
         content.Children.Add(deployPresetBtn);
 
         // Open ReShade.ini
         var openIniBtn = new Button
         {
-            Content = "Open ReShade.ini",
+            Content = "打开 ReShade.ini",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.SurfaceOverlayBrush),
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -148,7 +148,7 @@ public sealed partial class MainWindow
         // Open ReShade.log
         var openLogBtn = new Button
         {
-            Content = "Open ReShade.log",
+            Content = "打开 ReShade.log",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.SurfaceOverlayBrush),
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -168,7 +168,7 @@ public sealed partial class MainWindow
         // Copy ReShade.log to clipboard (as file, so Discord shows "ReShade.log")
         var copyLogBtn = new Button
         {
-            Content = "Copy ReShade.log to clipboard",
+            Content = "复制 ReShade.log 到剪贴板",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.SurfaceOverlayBrush),
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -195,7 +195,7 @@ public sealed partial class MainWindow
                     dataPackage.SetStorageItems(new[] { storageFile });
                     Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
                     Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
-                    card.RsActionMessage = "✅ ReShade.log copied to clipboard.";
+                    card.RsActionMessage = "✅ ReShade.log 已复制到剪贴板。";
                     card.FadeMessage(m => card.RsActionMessage = m, card.RsActionMessage);
                 }
                 catch (Exception ex) { card.RsActionMessage = $"❌ {ex.Message}"; }
@@ -214,12 +214,12 @@ public sealed partial class MainWindow
         {
             Text = HotkeyManager.FormatHotkeyDisplay(hotkeyString),
             IsReadOnly = true,
-            PlaceholderText = "Click then press a key...",
+            PlaceholderText = "点击后按下一个键...",
             FontSize = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         ToolTipService.SetToolTip(hotkeyBox, "Click here then press your desired key. Written to all reshade*.ini files for this game.");
-        hotkeyBox.GotFocus  += (s, ev) => hotkeyBox.Text = "Press a key...";
+        hotkeyBox.GotFocus  += (s, ev) => hotkeyBox.Text = "请按键...";
         hotkeyBox.KeyDown   += (s, ev) =>
         {
             var vk = (int)ev.Key;
@@ -231,9 +231,9 @@ public sealed partial class MainWindow
             hotkeyBox.Text = HotkeyManager.FormatHotkeyDisplay(hotkeyString);
             ev.Handled = true;
         };
-        hotkeyBox.LostFocus += (s, ev) => { if (hotkeyBox.Text == "Press a key...") hotkeyBox.Text = HotkeyManager.FormatHotkeyDisplay(hotkeyString); };
+        hotkeyBox.LostFocus += (s, ev) => { if (hotkeyBox.Text == "请按键...") hotkeyBox.Text = HotkeyManager.FormatHotkeyDisplay(hotkeyString); };
 
-        var applyKeyBtn = new Button { Content = "Apply", FontSize = 12, Padding = new Thickness(16, 7, 16, 7), HorizontalAlignment = HorizontalAlignment.Right };
+        var applyKeyBtn = new Button { Content = "应用", FontSize = 12, Padding = new Thickness(16, 7, 16, 7), HorizontalAlignment = HorizontalAlignment.Right };
         applyKeyBtn.Click += async (s, ev) =>
         {
             if (string.IsNullOrEmpty(card.InstallPath)) return;
@@ -256,7 +256,7 @@ public sealed partial class MainWindow
                     catch (Exception ex) { return (0, ex.Message); }
                 });
                 if (error != null) { card.RsActionMessage = $"❌ {error}"; return; }
-                applyKeyBtn.Content = "Applied!";
+                applyKeyBtn.Content = "已应用！";
                 _crashReporter.Log($"[RsCogButton_Click] Applied overlay key '{hotkeyString}' to {count} ini file(s) for '{card.GameName}'");
             }
             catch (Exception ex) { card.RsActionMessage = $"❌ {ex.Message}"; }
@@ -266,12 +266,12 @@ public sealed partial class MainWindow
         {
             Text = HotkeyManager.FormatHotkeyDisplay(screenshotHotkeyString),
             IsReadOnly = true,
-            PlaceholderText = "Click then press a key...",
+            PlaceholderText = "点击后按下一个键...",
             FontSize = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         ToolTipService.SetToolTip(screenshotHotkeyBox, "Press a key to assign it, or Backspace to clear it. Written to all reshade*.ini files for this game.");
-        screenshotHotkeyBox.GotFocus  += (s, ev) => screenshotHotkeyBox.Text = "Press a key...";
+        screenshotHotkeyBox.GotFocus  += (s, ev) => screenshotHotkeyBox.Text = "请按键...";
         screenshotHotkeyBox.KeyDown   += (s, ev) =>
         {
             var vk2 = (int)ev.Key;
@@ -283,9 +283,9 @@ public sealed partial class MainWindow
             screenshotHotkeyBox.Text = HotkeyManager.FormatHotkeyDisplay(screenshotHotkeyString);
             ev.Handled = true;
         };
-        screenshotHotkeyBox.LostFocus += (s, ev) => { if (screenshotHotkeyBox.Text == "Press a key...") screenshotHotkeyBox.Text = HotkeyManager.FormatHotkeyDisplay(screenshotHotkeyString); };
+        screenshotHotkeyBox.LostFocus += (s, ev) => { if (screenshotHotkeyBox.Text == "请按键...") screenshotHotkeyBox.Text = HotkeyManager.FormatHotkeyDisplay(screenshotHotkeyString); };
 
-        var applyScreenshotKeyBtn = new Button { Content = "Apply", FontSize = 12, Padding = new Thickness(16, 7, 16, 7), HorizontalAlignment = HorizontalAlignment.Right };
+        var applyScreenshotKeyBtn = new Button { Content = "应用", FontSize = 12, Padding = new Thickness(16, 7, 16, 7), HorizontalAlignment = HorizontalAlignment.Right };
         applyScreenshotKeyBtn.Click += async (s, ev) =>
         {
             if (string.IsNullOrEmpty(card.InstallPath)) return;
@@ -308,7 +308,7 @@ public sealed partial class MainWindow
                     catch (Exception ex) { return (0, ex.Message); }
                 });
                 if (error != null) { card.RsActionMessage = $"❌ {error}"; return; }
-                applyScreenshotKeyBtn.Content = "Applied!";
+                applyScreenshotKeyBtn.Content = "已应用！";
                 _crashReporter.Log($"[RsCogButton_Click] Applied screenshot key '{screenshotHotkeyString}' to {count} ini file(s) for '{card.GameName}'");
             }
             catch (Exception ex) { card.RsActionMessage = $"❌ {ex.Message}"; }
@@ -320,7 +320,7 @@ public sealed partial class MainWindow
         hotkeysGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
         var overlayCol = new StackPanel { Spacing = 4 };
-        overlayCol.Children.Add(new TextBlock { Text = "Overlay Key", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) });
+        overlayCol.Children.Add(new TextBlock { Text = "覆盖层按键", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) });
         var overlayRow = new Grid { ColumnSpacing = 8 };
         overlayRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         overlayRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -329,7 +329,7 @@ public sealed partial class MainWindow
         overlayCol.Children.Add(overlayRow);
 
         var screenshotCol = new StackPanel { Spacing = 4 };
-        screenshotCol.Children.Add(new TextBlock { Text = "Screenshot Key", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) });
+        screenshotCol.Children.Add(new TextBlock { Text = "截图按键", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) });
         var screenshotRow = new Grid { ColumnSpacing = 8 };
         screenshotRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         screenshotRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -350,7 +350,7 @@ public sealed partial class MainWindow
 
         var keepUpdatedLabel = new TextBlock
         {
-            Text = "Keep ReShade.ini Updated",
+            Text = "保持 ReShade.ini 更新",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -363,9 +363,9 @@ public sealed partial class MainWindow
             FontSize = 12,
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        ToolTipService.SetToolTip(keepUpdatedCombo, "When No, RHI will not automatically update this game's reshade.ini on ReShade install, update, or Apply to All Games.");
-        keepUpdatedCombo.Items.Add("Yes");
-        keepUpdatedCombo.Items.Add("No");
+        ToolTipService.SetToolTip(keepUpdatedCombo, "若为「否」，RHI 不会在 ReShade 安装、更新或「应用到所有游戏」时自动更新此游戏的 reshade.ini。");
+        keepUpdatedCombo.Items.Add("是");
+        keepUpdatedCombo.Items.Add("否");
 
         bool keepUpdatedInitializing = true;
         var capturedKeepGameName = card.GameName;
@@ -381,9 +381,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "ReShade Settings",
+            Title = "ReShade 设置",
             Content = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -439,7 +439,7 @@ public sealed partial class MainWindow
         {
             content.Children.Add(new TextBlock
             {
-                Text = "UE-Extended Settings",
+                Text = "UE-Extended 设置",
                 FontSize = 13,
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             });
@@ -461,9 +461,9 @@ public sealed partial class MainWindow
             topGrid.Children.Add(ueLabel);
 
             var ueCombo = new ComboBox { FontSize = 11, MinWidth = 100, HorizontalAlignment = HorizontalAlignment.Stretch };
-            ueCombo.Items.Add("Off");
-            ueCombo.Items.Add("On");
-            ToolTipService.SetToolTip(ueCombo, "Switch between using UE-Extended or the game specific mod/generic Unreal RenoDX mod.");
+            ueCombo.Items.Add("关");
+            ueCombo.Items.Add("开");
+            ToolTipService.SetToolTip(ueCombo, "在 UE-Extended 与游戏专用 mod/通用 Unreal RenoDX mod 之间切换。");
             ueCombo.SelectedIndex = card.UseUeExtended ? 1 : 0;
             ueCombo.SelectionChanged += (s, ev) =>
             {
@@ -485,7 +485,7 @@ public sealed partial class MainWindow
             // Label in column 0
             var nitsLabel = new TextBlock
             {
-                Text = "Set Maximum Nits",
+                Text = "设置最大亮度",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -509,7 +509,7 @@ public sealed partial class MainWindow
             {
                 if (!int.TryParse(nitsValue, out var val) || val <= 0)
                 {
-                    card.ActionMessage = "❌ Enter a valid number.";
+                    card.ActionMessage = "❌ 请输入有效的数字。";
                     return;
                 }
                 try
@@ -531,7 +531,7 @@ public sealed partial class MainWindow
                     }
                     AuxInstallService.WriteIni(iniPath, freshIni);
                     nitsBox.Text = val.ToString();
-                    card.ActionMessage = $"✅ Set toneMapPeakNits={val} in {updated} preset(s).";
+                    card.ActionMessage = $"✅ 已在 {updated} 个预设中设置 toneMapPeakNits={val}。";
                     card.FadeMessage(m => card.ActionMessage = m, card.ActionMessage);
                 }
                 catch (Exception ex) { card.ActionMessage = $"❌ {ex.Message}"; }
@@ -551,21 +551,21 @@ public sealed partial class MainWindow
 
             var autoBtn = new Button
             {
-                Content = "Auto",
+                Content = "自动",
                 Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
                 Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
                 BorderBrush = UIFactory.Brush(ResourceKeys.AccentBlueBorderBrush),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(8), Padding = new Thickness(10, 5, 10, 5), FontSize = 11,
             };
-            ToolTipService.SetToolTip(autoBtn, "Reads your monitor's peak brightness automatically.");
+            ToolTipService.SetToolTip(autoBtn, "自动读取显示器的峰值亮度。");
             autoBtn.Click += async (s, ev) =>
             {
                 try
                 {
                     var devices = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(
                         Windows.Devices.Display.DisplayMonitor.GetDeviceSelector());
-                    if (devices.Count == 0) { card.ActionMessage = "❌ No display found."; return; }
+                    if (devices.Count == 0) { card.ActionMessage = "❌ 未找到显示器。"; return; }
 
                     float maxNitsFound = 0;
                     foreach (var device in devices)
@@ -579,7 +579,7 @@ public sealed partial class MainWindow
                         catch { }
                     }
                     var peakNits = (int)maxNitsFound;
-                    if (peakNits <= 0) { card.ActionMessage = "❌ Could not read peak brightness."; return; }
+                    if (peakNits <= 0) { card.ActionMessage = "❌ 无法读取峰值亮度。"; return; }
 
                     ApplyNitsValue(peakNits.ToString());
                 }
@@ -627,7 +627,7 @@ public sealed partial class MainWindow
 
             var upLabel = new TextBlock
             {
-                Text = "Upgrade Path",
+                Text = "升级路径",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -637,8 +637,8 @@ public sealed partial class MainWindow
             topGrid.Children.Add(upLabel);
 
             var upCombo = new ComboBox { FontSize = 11, HorizontalAlignment = HorizontalAlignment.Stretch };
-            upCombo.Items.Add("HDR / Off");
-            upCombo.Items.Add("SDR / On");
+            upCombo.Items.Add("HDR / 关");
+            upCombo.Items.Add("SDR / 开");
             int.TryParse(renodxSection["Set_Path"], out var setPathVal);
             upCombo.SelectedIndex = setPathVal >= 0 && setPathVal < 2 ? setPathVal : 0;
             upCombo.SelectionChanged += (s, ev) =>
@@ -679,18 +679,18 @@ public sealed partial class MainWindow
             topGrid.Children.Add(hdrLabel);
 
             var hdrCombo = new ComboBox { FontSize = 11, HorizontalAlignment = HorizontalAlignment.Stretch };
-            hdrCombo.Items.Add("Off");
-            hdrCombo.Items.Add("On");
+            hdrCombo.Items.Add("关");
+            hdrCombo.Items.Add("开");
             if (hasCustomEngineIniFile)
             {
                 hdrCombo.IsEnabled = false;
                 hdrCombo.Opacity = 0.4;
-                ToolTipService.SetToolTip(hdrCombo, "Managed by custom Engine.ini file — not available for this game.");
+                ToolTipService.SetToolTip(hdrCombo, "由自定义 Engine.ini 文件管理 — 此游戏不可用。");
                 hdrCombo.SelectedIndex = 0;
             }
             else
             {
-                ToolTipService.SetToolTip(hdrCombo, "Deploys Engine.ini with HDR flags for games that don't have an ingame HDR option. Disable for SDR.");
+                ToolTipService.SetToolTip(hdrCombo, "为没有游戏内 HDR 选项的游戏部署带 HDR 标记的 Engine.ini。SDR 请禁用。");
                 bool hdrActive = card.InstalledRecord?.EngineIniHdr ?? true;
                 hdrCombo.SelectedIndex = hdrActive ? 1 : 0;
                 hdrCombo.SelectionChanged += (s, ev) =>
@@ -699,13 +699,13 @@ public sealed partial class MainWindow
                     {
                         AuxInstallService.ApplyEngineIniHdrSettings(card.InstallPath, card.EngineIniProjectOverride, card.GameName, card.Source);
                         if (card.InstalledRecord != null) card.InstalledRecord.EngineIniHdr = true;
-                        card.ActionMessage = "✅ Engine.ini HDR settings deployed.";
+                        card.ActionMessage = "✅ Engine.ini HDR 设置已部署。";
                     }
                     else
                     {
                         AuxInstallService.RemoveEngineIniHdrSettings(card.InstallPath, card.EngineIniProjectOverride, card.GameName, card.Source);
                         if (card.InstalledRecord != null) card.InstalledRecord.EngineIniHdr = false;
-                        card.ActionMessage = "✅ Engine.ini HDR settings removed.";
+                        card.ActionMessage = "✅ Engine.ini HDR 设置已移除。";
                     }
                     if (card.InstalledRecord != null)
                         App.Services.GetRequiredService<IModInstallService>().SaveRecordPublic(card.InstalledRecord);
@@ -726,7 +726,7 @@ public sealed partial class MainWindow
 
             var lutLabel = new TextBlock
             {
-                Text = "LUT Update Every Frame",
+                Text = "每帧更新 LUT",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -736,18 +736,18 @@ public sealed partial class MainWindow
             topGrid.Children.Add(lutLabel);
 
             var lutCombo = new ComboBox { FontSize = 11, HorizontalAlignment = HorizontalAlignment.Stretch };
-            lutCombo.Items.Add("Off");
-            lutCombo.Items.Add("On");
+            lutCombo.Items.Add("关");
+            lutCombo.Items.Add("开");
             if (hasCustomEngineIniFile)
             {
                 lutCombo.IsEnabled = false;
                 lutCombo.Opacity = 0.4;
-                ToolTipService.SetToolTip(lutCombo, "Managed by custom Engine.ini file — not available for this game.");
+                ToolTipService.SetToolTip(lutCombo, "由自定义 Engine.ini 文件管理 — 此游戏不可用。");
                 lutCombo.SelectedIndex = 0;
             }
             else
             {
-                ToolTipService.SetToolTip(lutCombo, "Writes r.LUT.UpdateEveryFrame=1 to Engine.ini. Ensures the game recalculates LUTs each frame for accurate HDR color.");
+                ToolTipService.SetToolTip(lutCombo, "将 r.LUT.UpdateEveryFrame=1 写入 Engine.ini。确保游戏每帧重新计算 LUT，以获得准确的 HDR 色彩。");
                 bool lutActive = card.InstalledRecord?.EngineIniLut ?? true;
                 lutCombo.SelectedIndex = lutActive ? 1 : 0;
                 lutCombo.SelectionChanged += (s, ev) =>
@@ -756,13 +756,13 @@ public sealed partial class MainWindow
                     {
                         AuxInstallService.ApplyEngineIniLutSetting(card.InstallPath, card.EngineIniProjectOverride, card.GameName, card.Source);
                         if (card.InstalledRecord != null) card.InstalledRecord.EngineIniLut = true;
-                        card.ActionMessage = "✅ LUT Update Every Frame enabled in Engine.ini.";
+                        card.ActionMessage = "✅ 已在 Engine.ini 中启用每帧更新 LUT。";
                     }
                     else
                     {
                         AuxInstallService.RemoveEngineIniLutSetting(card.InstallPath, card.EngineIniProjectOverride, card.GameName, card.Source);
                         if (card.InstalledRecord != null) card.InstalledRecord.EngineIniLut = false;
-                        card.ActionMessage = "✅ LUT Update Every Frame removed from Engine.ini.";
+                        card.ActionMessage = "✅ 已从 Engine.ini 中移除每帧更新 LUT。";
                     }
                     if (card.InstalledRecord != null)
                         App.Services.GetRequiredService<IModInstallService>().SaveRecordPublic(card.InstalledRecord);
@@ -815,7 +815,7 @@ public sealed partial class MainWindow
                 content.Children.Add(new Border { Height = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), Margin = new Thickness(0, 10, 0, 2) });
                 content.Children.Add(new TextBlock
                 {
-                    Text = "Compatibility Settings",
+                    Text = "兼容性设置",
                     FontSize = 13,
                     Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
                     Margin = new Thickness(0, 4, 0, 0),
@@ -856,15 +856,15 @@ public sealed partial class MainWindow
                     bool isBinaryToggle = isSetPath || isDumpLut || isUnityBool;
 
                     // Label text
-                    string labelText = isSetPath ? "Upgrade Path"
-                        : isDumpLut          ? "Dump LUT Shaders"
-                        : isSwapchainProxy   ? "Swapchain Proxy"
-                        : isSwapchainEncoding? "Swapchain Encoding"
-                        : isUseScrGb         ? "Swapchain Format"
-                        : isCopyDest         ? "Copy Destinations"
-                        : isSettingsMode     ? "Proxy Revert State"
-                        : isSwapChainCompat  ? "Swapchain Compat"
-                        : isProxyRevert      ? "Proxy Revert State"
+                    string labelText = isSetPath ? "升级路径"
+                        : isDumpLut          ? "转储 LUT 着色器"
+                        : isSwapchainProxy   ? "交换链代理"
+                        : isSwapchainEncoding? "交换链编码"
+                        : isUseScrGb         ? "交换链格式"
+                        : isCopyDest         ? "复制目标位置"
+                        : isSettingsMode     ? "代理还原状态"
+                        : isSwapChainCompat  ? "交换链兼容"
+                        : isProxyRevert      ? "代理还原状态"
                         : kv.Key.StartsWith("Upgrade_", StringComparison.OrdinalIgnoreCase) ? kv.Key.Substring(8)
                         : kv.Key.Replace('_', ' ');
 
@@ -880,17 +880,17 @@ public sealed partial class MainWindow
 
                     var combo = new ComboBox { FontSize = 11, MinWidth = 100, HorizontalAlignment = HorizontalAlignment.Stretch };
 
-                    if (isSetPath) { combo.Items.Add("HDR / Off"); combo.Items.Add("SDR / On"); }
-                    else if (isDumpLut) { combo.Items.Add("Off"); combo.Items.Add("On"); }
-                    else if (isSwapchainProxy) { combo.Items.Add("Off"); combo.Items.Add("On"); combo.Items.Add("On (Compat)"); }
+                    if (isSetPath) { combo.Items.Add("HDR / 关"); combo.Items.Add("SDR / 开"); }
+                    else if (isDumpLut) { combo.Items.Add("关"); combo.Items.Add("开"); }
+                    else if (isSwapchainProxy) { combo.Items.Add("关"); combo.Items.Add("开"); combo.Items.Add("On (Compat)"); }
                     else if (isSwapchainEncoding) { combo.Items.Add("Linear"); combo.Items.Add("Gamma"); }
-                    else if (isBlitCopyHack) { combo.Items.Add("Off"); combo.Items.Add("Auto"); combo.Items.Add("On"); combo.Items.Add("Scaling Only"); }
-                    else if (isCopyDest) { combo.Items.Add("Off"); combo.Items.Add("On"); combo.Items.Add("Auto Upgrade"); }
+                    else if (isBlitCopyHack) { combo.Items.Add("关"); combo.Items.Add("自动"); combo.Items.Add("开"); combo.Items.Add("仅缩放"); }
+                    else if (isCopyDest) { combo.Items.Add("关"); combo.Items.Add("开"); combo.Items.Add("自动升级"); }
                     else if (isUseScrGb) { combo.Items.Add("HDR10"); combo.Items.Add("scRGB"); }
-                    else if (isSettingsMode || isSwapChainCompat || isProxyRevert) { combo.Items.Add("Off"); combo.Items.Add("On"); }
+                    else if (isSettingsMode || isSwapChainCompat || isProxyRevert) { combo.Items.Add("关"); combo.Items.Add("开"); }
                     else if (isOffsetRange) { for (int v = 0; v <= 5; v++) combo.Items.Add(v.ToString()); }
-                    else if (isUnityBool) { combo.Items.Add("Off"); combo.Items.Add("On"); }
-                    else { combo.Items.Add("Off"); combo.Items.Add("Output size"); combo.Items.Add("Output ratio"); combo.Items.Add("Any size"); }
+                    else if (isUnityBool) { combo.Items.Add("关"); combo.Items.Add("开"); }
+                    else { combo.Items.Add("关"); combo.Items.Add("Output size"); combo.Items.Add("Output ratio"); combo.Items.Add("Any size"); }
 
                     int.TryParse(kv.Value, out var currentVal);
                     combo.SelectedIndex = (isBinaryToggle || isSwapchainProxy || isSwapchainEncoding || isOffsetRange || isBlitCopyHack || isCopyDest || isUseScrGb || isSettingsMode || isSwapChainCompat || isProxyRevert)
@@ -952,7 +952,7 @@ public sealed partial class MainWindow
 
                         var options = setting.Options?.Count > 0
                             ? setting.Options
-                            : new List<RenodxExtraOption> { new() { Value = "0", Name = "Off" }, new() { Value = "1", Name = "On" } };
+                            : new List<RenodxExtraOption> { new() { Value = "0", Name = "关" }, new() { Value = "1", Name = "开" } };
 
                         foreach (var opt in options)
                             extraCombo.Items.Add(opt.Name);
@@ -991,7 +991,7 @@ public sealed partial class MainWindow
         {
             content.Children.Add(new TextBlock
             {
-                Text = "Run the game once with RenoDX installed to generate settings.",
+                Text = "安装 RenoDX 后先运行一次游戏以生成设置。",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 FontStyle = Windows.UI.Text.FontStyle.Italic,
@@ -1002,7 +1002,7 @@ public sealed partial class MainWindow
         {
             content.Children.Add(new TextBlock
             {
-                Text = "No reshade.ini found in game folder.",
+                Text = "游戏文件夹中未找到 reshade.ini。",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 FontStyle = Windows.UI.Text.FontStyle.Italic,
@@ -1015,7 +1015,7 @@ public sealed partial class MainWindow
         content.Children.Add(new Border { Height = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), Margin = new Thickness(0, 10, 0, 2) });
         content.Children.Add(new TextBlock
         {
-            Text = "RenoDX Presets",
+            Text = "RenoDX 预设",
             FontSize = 13,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             Margin = new Thickness(0, 8, 0, 0),
@@ -1024,7 +1024,7 @@ public sealed partial class MainWindow
 
         var exportBtn = new Button
         {
-            Content = "Export Presets",
+            Content = "导出预设",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -1086,12 +1086,12 @@ public sealed partial class MainWindow
             }
             catch (Exception ex) { card.ActionMessage = $"❌ {ex.Message}"; }
         };
-        ToolTipService.SetToolTip(exportBtn, "Save all RenoDX presets to a file and copy to clipboard for sharing.");
+        ToolTipService.SetToolTip(exportBtn, "将所有 RenoDX 预设保存到文件并复制到剪贴板以便分享。");
         presetRow.Children.Add(exportBtn);
 
         var importBtn = new Button
         {
-            Content = "Import Presets",
+            Content = "导入预设",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -1145,9 +1145,9 @@ public sealed partial class MainWindow
             catch (Exception ex) { card.ActionMessage = $"❌ {ex.Message}"; }
         };
         if (!presetExists)
-            ToolTipService.SetToolTip(importBtn, "No RHI-RenoDX-Preset.txt file found. Export first.");
+            ToolTipService.SetToolTip(importBtn, "未找到 RHI-RenoDX-Preset.txt 文件。请先导出。");
         else
-            ToolTipService.SetToolTip(importBtn, "Restore presets from the exported backup file into reshade.ini.");
+            ToolTipService.SetToolTip(importBtn, "从导出的备份文件将预设恢复到 reshade.ini。");
         presetRow.Children.Add(importBtn);
         content.Children.Add(presetRow);
         } // end hasRenoDxMod
@@ -1166,7 +1166,7 @@ public sealed partial class MainWindow
         });
         content.Children.Add(new TextBlock
         {
-            Text = "Requires NVIDIA App with Overlay and Game Filters enabled.",
+            Text = "需要启用 NVIDIA App 的覆盖层和游戏滤镜。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
@@ -1174,8 +1174,8 @@ public sealed partial class MainWindow
         });
 
         var rtxHdrCombo = new ComboBox { FontSize = 11, MinWidth = 100 };
-        rtxHdrCombo.Items.Add("Off");
-        rtxHdrCombo.Items.Add("On");
+        rtxHdrCombo.Items.Add("关");
+        rtxHdrCombo.Items.Add("开");
 
         var gameNameService = App.Services.GetRequiredService<IGameNameService>();
         // Read live driver state off the UI thread — GetRtxHdrEnable calls _sessionLock.Wait(5000)
@@ -1294,7 +1294,7 @@ public sealed partial class MainWindow
         var rtxHdrRow = new StackPanel { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Horizontal, Spacing = 12 };
         rtxHdrRow.Children.Add(new TextBlock
         {
-            Text = "Enable RTX HDR",
+            Text = "启用 RTX HDR",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -1306,7 +1306,7 @@ public sealed partial class MainWindow
         content.Children.Add(new Border { Height = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), Margin = new Thickness(0, 10, 0, 2) });
         content.Children.Add(new TextBlock
         {
-            Text = "Auto HDR",
+            Text = "自动 HDR",
             FontSize = 13,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -1321,8 +1321,8 @@ public sealed partial class MainWindow
         });
 
         autoHdrCombo = new ComboBox { FontSize = 11, MinWidth = 100 };
-        autoHdrCombo.Items.Add("Off");
-        autoHdrCombo.Items.Add("On");
+        autoHdrCombo.Items.Add("关");
+        autoHdrCombo.Items.Add("开");
 
         var autoHdrService = App.Services.GetRequiredService<IAutoHdrService>();
         bool isAutoHdrEnabled = gameNameService.AutoHdrGames.Contains(card.GameName);
@@ -1406,7 +1406,7 @@ public sealed partial class MainWindow
         var autoHdrRow = new StackPanel { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Horizontal, Spacing = 12 };
         autoHdrRow.Children.Add(new TextBlock
         {
-            Text = "Enable Auto HDR",
+            Text = "启用自动 HDR",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -1416,9 +1416,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "RenoDX Settings",
+            Title = "RenoDX 设置",
             Content = new ScrollViewer { Content = content, MaxHeight = 620, Padding = new Thickness(0, 0, 16, 0) },
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -1455,14 +1455,14 @@ public sealed partial class MainWindow
 
         // ── Peak Brightness ───────────────────────────────────────────────────
         var nitsRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        var nitsLabel = new TextBlock { Text = $"Peak Brightness: {peakBrightnessDisplay} nits", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), MinWidth = 175 };
-        var nitsWarning = new TextBlock { Text = "⚠ High values may look unnatural", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush), VerticalAlignment = VerticalAlignment.Center, Opacity = peakBrightnessDisplay > 600 ? 1.0 : 0.0 };
+        var nitsLabel = new TextBlock { Text = $"峰值亮度：{peakBrightnessDisplay} 尼特", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), MinWidth = 175 };
+        var nitsWarning = new TextBlock { Text = "⚠ 数值过高可能显得不自然", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush), VerticalAlignment = VerticalAlignment.Center, Opacity = peakBrightnessDisplay > 600 ? 1.0 : 0.0 };
         nitsRow.Children.Add(nitsLabel);
         nitsRow.Children.Add(nitsWarning);
         var nitsSlider = new Slider { Minimum = 400, Maximum = 2000, StepFrequency = 10, Value = peakBrightnessDisplay, HorizontalAlignment = HorizontalAlignment.Stretch };
         nitsSlider.ValueChanged += (s, ev) =>
         {
-            nitsLabel.Text = $"Peak Brightness: {(int)nitsSlider.Value} nits";
+            nitsLabel.Text = $"峰值亮度：{(int)nitsSlider.Value} 尼特";
             nitsWarning.Opacity = (int)nitsSlider.Value > 600 ? 1.0 : 0.0;
         };
         content.Children.Add(nitsRow);
@@ -1472,9 +1472,9 @@ public sealed partial class MainWindow
         // ── Contrast ──────────────────────────────────────────────────────────
         string ContrastLabel(int val) => val switch
         {
-            0 => "Contrast: 0 — Gamma 2.0 (Default)",
-            25 => "Contrast: +25 — Gamma 2.2",
-            50 => "Contrast: +50 — Gamma 2.4",
+            0 => "对比度：0 — Gamma 2.0（默认）",
+            25 => "对比度：+25 — Gamma 2.2",
+            50 => "对比度：+50 — Gamma 2.4",
             _ => $"Contrast: {(val >= 0 ? "+" : "")}{val}",
         };
         var contrastLabel = new TextBlock { Text = ContrastLabel(contrastDisplay), FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
@@ -1558,13 +1558,13 @@ public sealed partial class MainWindow
         string MiddleGreyLabel(int val, int contrastVal)
         {
             var perceivedPw = CalcPerceivedPaperwhite(val, contrastVal);
-            return $"Middle Grey: {val} ({perceivedPw} nits)";
+            return $"中灰：{val}（{perceivedPw} 尼特）";
         }
         
         int mgInitialPw = CalcPerceivedPaperwhite(mgInitial, (int)contrastSlider.Value);
         var mgRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
         var mgLabel = new TextBlock { Text = MiddleGreyLabel(mgInitial, (int)contrastSlider.Value), FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), MinWidth = 175 };
-        var mgWarning = new TextBlock { Text = "⚠ High values may look washed out", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush), VerticalAlignment = VerticalAlignment.Center, Opacity = mgInitialPw > 203 ? 1.0 : 0.0 };
+        var mgWarning = new TextBlock { Text = "⚠ 数值过高可能显得发白", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush), VerticalAlignment = VerticalAlignment.Center, Opacity = mgInitialPw > 203 ? 1.0 : 0.0 };
         mgRow.Children.Add(mgLabel);
         mgRow.Children.Add(mgWarning);
         var mgSlider = new Slider { Minimum = 10, Maximum = 100, StepFrequency = 1, Value = mgInitial, HorizontalAlignment = HorizontalAlignment.Stretch };
@@ -1586,11 +1586,11 @@ public sealed partial class MainWindow
         var mgButtonsPanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6, Margin = new Thickness(0, 2, 0, 4) };
         var autoMgBtn = new Button
         {
-            Content = "Auto",
+            Content = "自动",
             FontSize = 11,
             Padding = new Thickness(10, 4, 10, 4),
         };
-        ToolTipService.SetToolTip(autoMgBtn, "Calculate Middle Grey from Peak Brightness and Gamma using the ITU formula");
+        ToolTipService.SetToolTip(autoMgBtn, "使用 ITU 公式，由峰值亮度和 Gamma 计算中灰");
         autoMgBtn.Click += (s, ev) =>
         {
             var autoVal = CalcAutoMiddleGrey((int)nitsSlider.Value, (int)contrastSlider.Value);
@@ -1614,7 +1614,7 @@ public sealed partial class MainWindow
                 MinWidth = 36,
             };
             var capturedPw = presetPw;
-            ToolTipService.SetToolTip(presetBtn, $"Set Middle Grey to achieve ~{presetPw} nits paperwhite");
+            ToolTipService.SetToolTip(presetBtn, $"设置中灰以达到约 {presetPw} 尼特的纸白亮度");
             presetBtn.Click += (s, ev) =>
             {
                 // Reverse formula: midGrey = paperwhite × (0.5 ^ gamma)
@@ -1634,7 +1634,7 @@ public sealed partial class MainWindow
         // ── Saturation ────────────────────────────────────────────────────────
         string SaturationLabel(int val) => val switch
         {
-            -25 => "Saturation: -25 — Neutral Saturation",
+            -25 => "饱和度：-25 — 中性饱和度",
             _ => $"Saturation: {(val >= 0 ? "+" : "")}{val}",
         };
         var satLabel = new TextBlock { Text = SaturationLabel(saturationDisplay), FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
@@ -1647,11 +1647,11 @@ public sealed partial class MainWindow
         // ── Debanding ─────────────────────────────────────────────────────────
         var debandingOptions = new (string name, uint value)[]
         {
-            ("No Debanding", 0x06),
-            ("Low Debanding", 0x0A),
-            ("High Debanding", 0x02),
-            ("High Debanding (Indicator)", 0x03),
-            ("High Debanding (Indicator + Debug)", 0x23),
+            ("不启用去色带", 0x06),
+            ("低去色带", 0x0A),
+            ("高去色带", 0x02),
+            ("高去色带（指示器）", 0x03),
+            ("高去色带（指示器 + 调试）", 0x23),
         };
         bool isAdmin = VulkanLayerService.IsRunningAsAdmin();
         var debandingCombo = new ComboBox { FontSize = 12, HorizontalAlignment = HorizontalAlignment.Stretch, IsEnabled = isAdmin, Opacity = isAdmin ? 1.0 : 0.4 };
@@ -1662,13 +1662,13 @@ public sealed partial class MainWindow
             if (currentDebanding == (int)debandingOptions[i].value) selectedDbIndex = i;
         }
         debandingCombo.SelectedIndex = selectedDbIndex;
-        var dbLabel = new TextBlock { Text = "Debanding", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
+        var dbLabel = new TextBlock { Text = "去色带", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
         content.Children.Add(dbLabel);
         content.Children.Add(debandingCombo);
         if (!isAdmin)
             content.Children.Add(new TextBlock
             {
-                Text = "Requires admin mode to change",
+                Text = "修改需要管理员模式",
                 FontSize = 10,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 Margin = new Thickness(0, -4, 0, 0),
@@ -1685,21 +1685,21 @@ public sealed partial class MainWindow
         var defaultsPanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, Margin = new Thickness(0, 4, 0, 0) };
         var saveDefaultBtn = new Button
         {
-            Content = "Save as Default",
+            Content = "保存为默认",
             FontSize = 11,
             Padding = new Thickness(12, 6, 12, 6),
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
-        ToolTipService.SetToolTip(saveDefaultBtn, "Save current slider values as your default RTX HDR preset");
+        ToolTipService.SetToolTip(saveDefaultBtn, "将当前滑块值保存为默认 RTX HDR 预设");
         var setDefaultBtn = new Button
         {
-            Content = "Set Default",
+            Content = "设为默认",
             FontSize = 11,
             Padding = new Thickness(12, 6, 12, 6),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             IsEnabled = hasDefaults,
         };
-        ToolTipService.SetToolTip(setDefaultBtn, hasDefaults ? "Apply your saved default preset to the sliders" : "No default saved yet — use 'Save as Default' first");
+        ToolTipService.SetToolTip(setDefaultBtn, hasDefaults ? "将已保存的默认预设应用到滑块" : "尚未保存默认值 — 请先使用「保存为默认」");
 
         saveDefaultBtn.Click += (s, ev) =>
         {
@@ -1711,14 +1711,14 @@ public sealed partial class MainWindow
                     ["Contrast"]       = (int)contrastSlider.Value,
                     ["Saturation"]     = (int)satSlider.Value,
                     ["MiddleGrey"]     = (int)mgSlider.Value,
-                    ["Debanding"]      = (int)debandingOptions[debandingCombo.SelectedIndex].value,
+                    ["去色带"]      = (int)debandingOptions[debandingCombo.SelectedIndex].value,
                 };
                 Directory.CreateDirectory(Path.GetDirectoryName(defaultsPath)!);
                 File.WriteAllText(defaultsPath, JsonSerializer.Serialize(defaults,
                     new JsonSerializerOptions { WriteIndented = true }));
                 setDefaultBtn.IsEnabled = true;
-                ToolTipService.SetToolTip(setDefaultBtn, "Apply your saved default preset to the sliders");
-                saveDefaultBtn.Content = "Saved!";
+                ToolTipService.SetToolTip(setDefaultBtn, "将已保存的默认预设应用到滑块");
+                saveDefaultBtn.Content = "已保存！";
             }
             catch (Exception ex) { CrashReporter.Log($"[RtxHdrConfigButton_Click] Failed to save defaults — {ex.Message}"); }
         };
@@ -1739,7 +1739,7 @@ public sealed partial class MainWindow
                     var mgVal = Math.Clamp(mg.GetInt32(), 10, 100);
                     mgSlider.Value = mgVal;
                 }
-                if (defaults.TryGetValue("Debanding", out var db))
+                if (defaults.TryGetValue("去色带", out var db))
                 {
                     var dbVal = db.GetInt32();
                     for (int i = 0; i < debandingOptions.Length; i++)
@@ -1758,10 +1758,10 @@ public sealed partial class MainWindow
         // ── Dialog ────────────────────────────────────────────────────────────
         var dialog = new ContentDialog
         {
-            Title = "RTX HDR Settings",
+            Title = "RTX HDR 设置",
             Content = new ScrollViewer { Content = content, MaxHeight = 600, Padding = new Thickness(0, 0, 16, 0) },
-            PrimaryButtonText = "Apply",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "应用",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -1785,7 +1785,7 @@ public sealed partial class MainWindow
             dlssPresetService.SetRtxHdrDebanding(card.GameName, card.InstallPath, debanding);
             CrashReporter.Log($"[RtxHdrConfigButton_Click] Applied RTX HDR settings for '{card.GameName}': PeakNits={peakNits}, Contrast={contrastStored}, Sat={satStored}, MidGrey={middleGrey}, Deband=0x{debanding:X2}");
         });
-        card.ActionMessage = "✅ RTX HDR settings applied.";
+        card.ActionMessage = "✅ RTX HDR 设置已应用。";
         card.FadeMessage(m => card.ActionMessage = m, card.ActionMessage);
     }
 
@@ -1821,10 +1821,10 @@ public sealed partial class MainWindow
         // ── Brightness / Intensity ────────────────────────────────────────────
         string StrengthLabel(int val)
         {
-            if (val == 0)   return "Brightness: 0 — off (no boost)";
-            if (val == 50)  return "Brightness: 50 — default";
-            if (val == 100) return "Brightness: 100 — maximum (~1000 nits peak)";
-            return $"Brightness: {val}";
+            if (val == 0)   return "亮度：0 — 关闭（不增强）";
+            if (val == 50)  return "亮度：50 — 默认";
+            if (val == 100) return "亮度：100 — 最大（峰值约 1000 尼特）";
+            return $"亮度：{val}";
         }
 
         var strengthRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
@@ -1837,7 +1837,7 @@ public sealed partial class MainWindow
         };
         var strengthWarning = new TextBlock
         {
-            Text = "⚠ High values may look unnatural",
+            Text = "⚠ 数值过高可能显得不自然",
             FontSize = 10,
             Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -1864,7 +1864,7 @@ public sealed partial class MainWindow
 
         // ── Preset buttons ────────────────────────────────────────────────────
         var presetsPanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6, Margin = new Thickness(0, 2, 0, 4) };
-        foreach (var (label, value) in new[] { ("Low (25)", 25), ("Default (50)", 50), ("High (75)", 75), ("Max (100)", 100) })
+        foreach (var (label, value) in new[] { ("低 (25)", 25), ("默认 (50)", 50), ("高 (75)", 75), ("最大 (100)", 100) })
         {
             var btn = new Button
             {
@@ -1888,7 +1888,7 @@ public sealed partial class MainWindow
         // ── Info note ─────────────────────────────────────────────────────────
         content.Children.Add(new TextBlock
         {
-            Text = "Changes take effect on the next game launch.",
+            Text = "更改将在下次启动游戏时生效。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
@@ -1898,7 +1898,7 @@ public sealed partial class MainWindow
         {
             content.Children.Add(new TextBlock
             {
-                Text = "⚠ Could not resolve game exe path — registry will not be written.",
+                Text = "⚠ 无法解析游戏 exe 路径 — 注册表将不会写入。",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush),
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
@@ -1909,7 +1909,7 @@ public sealed partial class MainWindow
         {
             content.Children.Add(new TextBlock
             {
-                Text = $"Exe: {exePath}",
+                Text = $"可执行文件：{exePath}",
                 FontSize = 10,
                 Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush),
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
@@ -1919,10 +1919,10 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Auto HDR Settings",
+            Title = "自动 HDR 设置",
             Content = new ScrollViewer { Content = content, MaxHeight = 600, Padding = new Thickness(0, 0, 16, 0) },
-            PrimaryButtonText = "Apply",
-            CloseButtonText   = "Cancel",
+            PrimaryButtonText = "应用",
+            CloseButtonText   = "取消",
             XamlRoot          = Content.XamlRoot,
             RequestedTheme    = ElementTheme.Dark,
         };
@@ -1944,7 +1944,7 @@ public sealed partial class MainWindow
             });
         }
 
-        card.ActionMessage = "✅ Auto HDR settings applied.";
+        card.ActionMessage = "✅ 自动 HDR 设置已应用。";
         card.FadeMessage(m => card.ActionMessage = m, card.ActionMessage);
     }
 
@@ -1954,7 +1954,7 @@ public sealed partial class MainWindow
         var content = new StackPanel { Spacing = 8 };
         var deployBtn = new Button
         {
-            Content = "Deploy relimiter.ini",
+            Content = "部署 relimiter.ini",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -1968,7 +1968,7 @@ public sealed partial class MainWindow
             try
             {
                 AuxInstallService.CopyUlIni(card.InstallPath);
-                card.UlActionMessage = "✅ relimiter.ini copied to game folder.";
+                card.UlActionMessage = "✅ relimiter.ini 已复制到游戏文件夹。";
             }
             catch (Exception ex) { card.UlActionMessage = $"❌ {ex.Message}"; }
         };
@@ -1990,7 +1990,7 @@ public sealed partial class MainWindow
         // Open relimiter log
         var openLogBtn = new Button
         {
-            Content = "Open ReLimiter log",
+            Content = "打开 ReLimiter 日志",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.SurfaceOverlayBrush),
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -2009,7 +2009,7 @@ public sealed partial class MainWindow
         // Copy relimiter log to clipboard (as file with correct name)
         var copyLogBtn = new Button
         {
-            Content = "Copy ReLimiter log to clipboard",
+            Content = "复制 ReLimiter 日志到剪贴板",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.SurfaceOverlayBrush),
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -2034,7 +2034,7 @@ public sealed partial class MainWindow
                     dataPackage.SetStorageItems(new[] { storageFile });
                     Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
                     Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
-                    card.UlActionMessage = $"✅ {Path.GetFileName(logFile)} copied to clipboard.";
+                    card.UlActionMessage = $"✅ {Path.GetFileName(logFile)} 已复制到剪贴板。";
                     card.FadeMessage(m => card.UlActionMessage = m, card.UlActionMessage);
                 }
                 catch (Exception ex) { card.UlActionMessage = $"❌ {ex.Message}"; }
@@ -2049,7 +2049,7 @@ public sealed partial class MainWindow
         content.Children.Add(new Border { Height = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), Margin = new Thickness(0, 10, 0, 2) });
         content.Children.Add(new TextBlock
         {
-            Text = "Frame Limiter",
+            Text = "帧率限制器",
             FontSize = 13,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             Margin = new Thickness(0, 4, 0, 0),
@@ -2061,7 +2061,7 @@ public sealed partial class MainWindow
         targetFpsPanel.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         var targetFpsLabel = new TextBlock
         {
-            Text = "Target FPS",
+            Text = "目标帧率",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -2069,7 +2069,7 @@ public sealed partial class MainWindow
         Grid.SetColumn(targetFpsLabel, 0);
         targetFpsPanel.Children.Add(targetFpsLabel);
         var targetFpsCombo = new ComboBox { FontSize = 12, MinWidth = 140, HorizontalAlignment = HorizontalAlignment.Right };
-        ToolTipService.SetToolTip(targetFpsCombo, "FPS cap for this game. Select a VRR preset or Custom for a manual value.");
+        ToolTipService.SetToolTip(targetFpsCombo, "此游戏的帧率上限。选择 VRR 预设，或选择「自定义」手动输入值。");
         Grid.SetColumn(targetFpsCombo, 1);
         targetFpsPanel.Children.Add(targetFpsCombo);
 
@@ -2117,13 +2117,13 @@ public sealed partial class MainWindow
         // Inline custom FPS input (shown when "Custom..." is selected)
         var customFpsPanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, Visibility = Visibility.Collapsed };
         var customFpsBox = new TextBox { PlaceholderText = "20-1000", FontSize = 12, MinWidth = 100 };
-        var customFpsBtn = new Button { Content = "Set", FontSize = 12 };
+        var customFpsBtn = new Button { Content = "设置", FontSize = 12 };
         customFpsPanel.Children.Add(customFpsBox);
         customFpsPanel.Children.Add(customFpsBtn);
 
         // Populate combo
         bool suppressFpsChange = true;
-        targetFpsCombo.Items.Add("Off");
+        targetFpsCombo.Items.Add("关");
         foreach (var preset in vrrPresets)
             targetFpsCombo.Items.Add(preset.Label);
 
@@ -2131,7 +2131,7 @@ public sealed partial class MainWindow
         if (currentTargetFps > 0 && !vrrFpsSet.Contains(currentTargetFps))
             targetFpsCombo.Items.Add($"{currentTargetFps} (Custom)");
 
-        targetFpsCombo.Items.Add("Custom...");
+        targetFpsCombo.Items.Add("自定义...");
 
         // Select based on current value
         if (currentTargetFps == 0)
@@ -2155,12 +2155,12 @@ public sealed partial class MainWindow
             suppressFpsChange = true;
             currentTargetFps = newFps;
             targetFpsCombo.Items.Clear();
-            targetFpsCombo.Items.Add("Off");
+            targetFpsCombo.Items.Add("关");
             foreach (var preset in vrrPresets)
                 targetFpsCombo.Items.Add(preset.Label);
             if (newFps > 0 && !vrrFpsSet.Contains(newFps))
-                targetFpsCombo.Items.Add($"{newFps} (Custom)");
-            targetFpsCombo.Items.Add("Custom...");
+                targetFpsCombo.Items.Add($"{newFps}（自定义）");
+            targetFpsCombo.Items.Add("自定义...");
 
             if (newFps == 0)
                 targetFpsCombo.SelectedIndex = 0;
@@ -2184,7 +2184,7 @@ public sealed partial class MainWindow
             var selectedText = targetFpsCombo.SelectedItem as string ?? "";
 
             // "Custom..." shows inline TextBox for manual entry
-            if (selectedText == "Custom...")
+            if (selectedText == "自定义...")
             {
                 customFpsPanel.Visibility = Visibility.Visible;
                 customFpsBox.Text = "";
@@ -2212,8 +2212,8 @@ public sealed partial class MainWindow
                     AuxInstallService.ApplyUlTargetFps(iniFile, newFps);
                     currentTargetFps = newFps;
                     card.UlActionMessage = newFps == 0
-                        ? "✅ Target FPS disabled for this game."
-                        : $"✅ Target FPS set to {newFps} for this game.";
+                        ? "✅ 已为此游戏禁用目标帧率。"
+                        : $"✅ 已为此游戏设置目标帧率 {newFps}。";
                     card.FadeMessage(m => card.UlActionMessage = m, card.UlActionMessage);
                 }
                 catch (Exception ex) { card.UlActionMessage = $"❌ {ex.Message}"; }
@@ -2232,7 +2232,7 @@ public sealed partial class MainWindow
                     try
                     {
                         AuxInstallService.ApplyUlTargetFps(iniFile, customFps);
-                        card.UlActionMessage = $"✅ Target FPS set to {customFps} for this game.";
+                        card.UlActionMessage = $"✅ 已为此游戏设置目标帧率 {customFps}。";
                         card.FadeMessage(m => card.UlActionMessage = m, card.UlActionMessage);
                         RefreshFpsCombo(customFps);
                     }
@@ -2255,7 +2255,7 @@ public sealed partial class MainWindow
                         try
                         {
                             AuxInstallService.ApplyUlTargetFps(iniFile, customFps);
-                            card.UlActionMessage = $"✅ Target FPS set to {customFps} for this game.";
+                            card.UlActionMessage = $"✅ 已为此游戏设置目标帧率 {customFps}。";
                             card.FadeMessage(m => card.UlActionMessage = m, card.UlActionMessage);
                             RefreshFpsCombo(customFps);
                         }
@@ -2273,7 +2273,7 @@ public sealed partial class MainWindow
             targetFpsPanel.IsHitTestVisible = false;
             content.Children.Add(new TextBlock
             {
-                Text = "Deploy relimiter.ini to enable these settings",
+                Text = "部署 relimiter.ini 以启用这些设置",
                 FontSize = 10,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 Margin = new Thickness(0, -2, 0, 0),
@@ -2284,7 +2284,7 @@ public sealed partial class MainWindow
         content.Children.Add(new Border { Height = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), Margin = new Thickness(0, 10, 0, 2) });
         content.Children.Add(new TextBlock
         {
-            Text = "Compatibility Settings",
+            Text = "兼容性设置",
             FontSize = 13,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             Margin = new Thickness(0, 4, 0, 0),
@@ -2296,7 +2296,7 @@ public sealed partial class MainWindow
         dlssHooksPanel.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         var dlssHooksLabel = new TextBlock
         {
-            Text = "DLSS Hooks",
+            Text = "DLSS 钩子",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -2304,9 +2304,9 @@ public sealed partial class MainWindow
         Grid.SetColumn(dlssHooksLabel, 0);
         dlssHooksPanel.Children.Add(dlssHooksLabel);
         var dlssHooksCombo = new ComboBox { FontSize = 12, MinWidth = 80, HorizontalAlignment = HorizontalAlignment.Right };
-        dlssHooksCombo.Items.Add("Off");
-        dlssHooksCombo.Items.Add("On");
-        ToolTipService.SetToolTip(dlssHooksCombo, "Shows DLSS version/preset info on the ReLimiter OSD. Disable if causing crashes.");
+        dlssHooksCombo.Items.Add("关");
+        dlssHooksCombo.Items.Add("开");
+        ToolTipService.SetToolTip(dlssHooksCombo, "在 ReLimiter OSD 上显示 DLSS 版本/预设信息。如导致崩溃可禁用。");
         Grid.SetColumn(dlssHooksCombo, 1);
         dlssHooksPanel.Children.Add(dlssHooksCombo);
 
@@ -2340,8 +2340,8 @@ public sealed partial class MainWindow
                 {
                     AuxInstallService.ApplyUlDlssHooks(ulIniFile, dlssHooksCombo.SelectedIndex == 1);
                     card.UlActionMessage = dlssHooksCombo.SelectedIndex == 1
-                        ? "✅ DLSS Hooks enabled for this game."
-                        : "✅ DLSS Hooks disabled for this game.";
+                        ? "✅ 已为此游戏启用 DLSS 钩子。"
+                        : "✅ 已为此游戏禁用 DLSS 钩子。";
                     card.FadeMessage(m => card.UlActionMessage = m, card.UlActionMessage);
                 }
                 catch (Exception ex) { card.UlActionMessage = $"❌ {ex.Message}"; }
@@ -2356,9 +2356,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "ReLimiter Settings",
+            Title = "ReLimiter 设置",
             Content = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -2371,7 +2371,7 @@ public sealed partial class MainWindow
         var content = new StackPanel { Spacing = 12 };
         var deployBtn = new Button
         {
-            Content = "Deploy DisplayCommander.ini",
+            Content = "部署 DisplayCommander.ini",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -2385,7 +2385,7 @@ public sealed partial class MainWindow
             try
             {
                 AuxInstallService.CopyDcIni(card.InstallPath);
-                card.DcActionMessage = "✅ DisplayCommander.ini copied to game folder.";
+                card.DcActionMessage = "✅ DisplayCommander.ini 已复制到游戏文件夹。";
                 card.FadeMessage(m => card.DcActionMessage = m, card.DcActionMessage);
             }
             catch (Exception ex) { card.DcActionMessage = $"❌ {ex.Message}"; }
@@ -2394,9 +2394,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Display Commander Settings",
+            Title = "Display Commander 设置",
             Content = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -2417,7 +2417,7 @@ public sealed partial class MainWindow
 
         var deleteStorageBtn = new Button
         {
-            Content = "Delete _storage_ folder",
+            Content = "删除 _storage_ 文件夹",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentRedBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentRedBrush),
@@ -2433,18 +2433,18 @@ public sealed partial class MainWindow
         {
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
-            Text = storageExists ? $"Found: {storageDir}" : "_storage_ folder not found in game directory.",
+            Text = storageExists ? $"找到：{storageDir}" : "游戏目录中未找到 _storage_ 文件夹。",
             TextWrapping = TextWrapping.Wrap,
         };
 
         deleteStorageBtn.Click += async (s, ev) =>
         {
             deleteStorageBtn.IsEnabled = false;
-            deleteStorageBtn.Content = "Deleting...";
+            deleteStorageBtn.Content = "正在删除...";
             try
             {
                 await Task.Run(() => System.IO.Directory.Delete(storageDir, recursive: true));
-                statusText.Text = "✅ _storage_ folder deleted.";
+                statusText.Text = "✅ _storage_ 文件夹已删除。";
                 statusText.Foreground = UIFactory.GetBrush("#5ECB7D");
                 CrashReporter.Log($"[RefCogButton_Click] Deleted _storage_ folder: '{storageDir}'");
             }
@@ -2453,7 +2453,7 @@ public sealed partial class MainWindow
                 statusText.Text = $"❌ {ex.Message}";
                 statusText.Foreground = UIFactory.GetBrush("#E85050");
                 deleteStorageBtn.IsEnabled = true;
-                deleteStorageBtn.Content = "Delete _storage_ folder";
+                deleteStorageBtn.Content = "删除 _storage_ 文件夹";
                 CrashReporter.Log($"[RefCogButton_Click] Failed to delete _storage_ folder: {ex.Message}");
             }
         };
@@ -2463,9 +2463,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "RE Framework Settings",
+            Title = "RE Framework 设置",
             Content = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -2528,12 +2528,12 @@ public sealed partial class MainWindow
             (416f, "416 (480Hz VRR)"),
             (431f, "431 (500Hz VRR)"),
         };
-        var fpsLabels = new[] { "Off" }.Concat(vrrPresetsOs.Select(p => p.Label)).ToArray();
+        var fpsLabels = new[] { "关" }.Concat(vrrPresetsOs.Select(p => p.Label)).ToArray();
         var fpsLimitCombo = new ComboBox { ItemsSource = fpsLabels, FontSize = 12, HorizontalAlignment = HorizontalAlignment.Stretch };
-        ToolTipService.SetToolTip(fpsLimitCombo, "Framerate limit using Reflex whenever possible. 'Off' disables the limit.");
+        ToolTipService.SetToolTip(fpsLimitCombo, "尽可能使用 Reflex 的帧率限制。「关闭」会禁用该限制。");
 
         // Read current value from OptiScaler.ini
-        string currentFpsStr = "Off";
+        string currentFpsStr = "关";
         if (!string.IsNullOrEmpty(card.InstallPath))
         {
             var iniPath = Path.Combine(card.InstallPath, OptiScalerService.IniFileName);
@@ -2548,25 +2548,25 @@ public sealed partial class MainWindow
                     if (float.TryParse(val, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fpsVal) && fpsVal > 0)
                     {
                         var match = vrrPresetsOs.FirstOrDefault(p => Math.Abs(p.Fps - fpsVal) < 1f);
-                        currentFpsStr = match.Label ?? "Off";
+                        currentFpsStr = match.Label ?? "关";
                     }
                 }
             }
         }
         fpsLimitCombo.SelectedItem = currentFpsStr;
 
-        AddRow(unifiedGrid, 0, "OptiScaler Version",
+        AddRow(unifiedGrid, 0, "OptiScaler 版本",
             new ComboBox { ItemsSource = new[] { "Stable", "Nightly", "DLSS NR", "F5 DLSSNR" }, SelectedItem = ViewModel.GetOsVariant(card.GameName, card.Source ?? "") == "DlssNr" ? "DLSS NR" : ViewModel.GetOsVariant(card.GameName, card.Source ?? "") == "F5" ? "F5 DLSSNR" : ViewModel.GetOsVariant(card.GameName, card.Source ?? ""), FontSize = 12, HorizontalAlignment = HorizontalAlignment.Stretch },
-            "Framerate Limit", fpsLimitCombo);
+            "帧率限制", fpsLimitCombo);
         // Grab the variant combo we just added
         var variantCombo = (ComboBox)unifiedGrid.Children.Cast<UIElement>().Where(c => c is ComboBox).First();
-        ToolTipService.SetToolTip(variantCombo, "Stable: official release. Nightly: daily build. DLSS NR: Neural Rendering fork with multi-pass NR support. F5 DLSSNR: F5 multipass NR fork with bundled forwarder.");
+        ToolTipService.SetToolTip(variantCombo, "稳定版：官方发行版。每夜版：每日构建。DLSS NR：支持多遍 NR 的神经网络渲染分支。F5 DLSSNR：内置转发器的 F5 多遍 NR 分支。");
 
         fpsLimitCombo.SelectionChanged += (s, ev) =>
         {
             var sel = fpsLimitCombo.SelectedItem as string;
             if (sel == null || !card.IsOsInstalled || string.IsNullOrEmpty(card.InstallPath)) return;
-            if (sel == "Off")
+            if (sel == "关")
                 OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "Framerate", "FramerateLimit", "0");
             else
             {
@@ -2580,21 +2580,21 @@ public sealed partial class MainWindow
         // Left combo: which API to configure. Right combo: upscaler for that API.
         static string[] GetUpscalerOptions(string api) => api switch
         {
-            "DX12"   => new[] { "Auto (Default)", "DLSS", "XeSS", "FSR 2.1", "FSR 2.2", "FSR 3.x / FFX" },
-            "Vulkan" => new[] { "Auto (Default)", "DLSS", "FSR 2.1", "FSR 2.2", "FSR 3.x / FFX", "XeSS", "FSR2.1 on DX12", "FSR3 on DX12" },
-            _        => new[] { "Auto (Default)", "DLSS", "FSR 2.2", "FSR 3.1", "XeSS (Arc only)", "XeSS on DX12", "FSR2.1 on DX12", "FSR2.2 on DX12", "FSR3 on DX12" }, // DX11
+            "DX12"   => new[] { "自动（默认）", "DLSS", "XeSS", "FSR 2.1", "FSR 2.2", "FSR 3.x / FFX" },
+            "Vulkan" => new[] { "自动（默认）", "DLSS", "FSR 2.1", "FSR 2.2", "FSR 3.x / FFX", "XeSS", "FSR2.1 on DX12", "FSR3 on DX12" },
+            _        => new[] { "自动（默认）", "DLSS", "FSR 2.2", "FSR 3.1", "XeSS（仅 Arc）", "XeSS on DX12", "FSR2.1 on DX12", "FSR2.2 on DX12", "FSR3 on DX12" }, // DX11
         };
         static string UpscalerOptionToIni(string api, string display) => api switch
         {
             "DX12"   => display switch { "DLSS" => "dlss", "XeSS" => "xess", "FSR 2.1" => "fsr21", "FSR 2.2" => "fsr22", "FSR 3.x / FFX" => "ffx", _ => "auto" },
             "Vulkan" => display switch { "DLSS" => "dlss", "FSR 2.1" => "fsr21", "FSR 2.2" => "fsr22", "FSR 3.x / FFX" => "ffx", "XeSS" => "xess", "FSR2.1 on DX12" => "fsr21_12", "FSR3 on DX12" => "ffx_12", _ => "auto" },
-            _        => display switch { "DLSS" => "dlss", "FSR 2.2" => "fsr22", "FSR 3.1" => "fsr31", "XeSS (Arc only)" => "xess", "XeSS on DX12" => "xess_12", "FSR2.1 on DX12" => "fsr21_12", "FSR2.2 on DX12" => "fsr22_12", "FSR3 on DX12" => "ffx_12", _ => "auto" },
+            _        => display switch { "DLSS" => "dlss", "FSR 2.2" => "fsr22", "FSR 3.1" => "fsr31", "XeSS（仅 Arc）" => "xess", "XeSS on DX12" => "xess_12", "FSR2.1 on DX12" => "fsr21_12", "FSR2.2 on DX12" => "fsr22_12", "FSR3 on DX12" => "ffx_12", _ => "auto" },
         };
         static string IniToUpscalerOption(string api, string ini) => api switch
         {
-            "DX12"   => ini switch { "dlss" => "DLSS", "xess" => "XeSS", "fsr21" => "FSR 2.1", "fsr22" => "FSR 2.2", "ffx" => "FSR 3.x / FFX", _ => "Auto (Default)" },
-            "Vulkan" => ini switch { "dlss" => "DLSS", "fsr21" => "FSR 2.1", "fsr22" => "FSR 2.2", "ffx" => "FSR 3.x / FFX", "xess" => "XeSS", "fsr21_12" => "FSR2.1 on DX12", "ffx_12" => "FSR3 on DX12", _ => "Auto (Default)" },
-            _        => ini switch { "dlss" => "DLSS", "fsr22" => "FSR 2.2", "fsr31" => "FSR 3.1", "xess" => "XeSS (Arc only)", "xess_12" => "XeSS on DX12", "fsr21_12" => "FSR2.1 on DX12", "fsr22_12" => "FSR2.2 on DX12", "ffx_12" => "FSR3 on DX12", _ => "Auto (Default)" },
+            "DX12"   => ini switch { "dlss" => "DLSS", "xess" => "XeSS", "fsr21" => "FSR 2.1", "fsr22" => "FSR 2.2", "ffx" => "FSR 3.x / FFX", _ => "自动（默认）" },
+            "Vulkan" => ini switch { "dlss" => "DLSS", "fsr21" => "FSR 2.1", "fsr22" => "FSR 2.2", "ffx" => "FSR 3.x / FFX", "xess" => "XeSS", "fsr21_12" => "FSR2.1 on DX12", "ffx_12" => "FSR3 on DX12", _ => "自动（默认）" },
+            _        => ini switch { "dlss" => "DLSS", "fsr22" => "FSR 2.2", "fsr31" => "FSR 3.1", "xess" => "XeSS（仅 Arc）", "xess_12" => "XeSS on DX12", "fsr21_12" => "FSR2.1 on DX12", "fsr22_12" => "FSR2.2 on DX12", "ffx_12" => "FSR3 on DX12", _ => "自动（默认）" },
         };
         static string ApiToIniKey(string api) => api switch { "DX12" => "Dx12Upscaler", "Vulkan" => "VulkanUpscaler", _ => "Dx11Upscaler" };
 
@@ -2621,8 +2621,8 @@ public sealed partial class MainWindow
 
         var apiCombo = new ComboBox { ItemsSource = new[] { "DX11", "DX12", "Vulkan" }, SelectedItem = apiDefault, FontSize = 12, HorizontalAlignment = HorizontalAlignment.Stretch };
         var apiUpscalerCombo = new ComboBox { FontSize = 12, HorizontalAlignment = HorizontalAlignment.Stretch };
-        ToolTipService.SetToolTip(apiCombo, "Select which graphics API's upscaler to configure.");
-        ToolTipService.SetToolTip(apiUpscalerCombo, "Upscaler for the selected API. 'Auto' lets OptiScaler choose based on your GPU.");
+        ToolTipService.SetToolTip(apiCombo, "选择要配置哪个图形 API 的超分方案。");
+        ToolTipService.SetToolTip(apiUpscalerCombo, "所选 API 的超分方案。「自动」让 OptiScaler 根据您的显卡进行选择。");
 
         // Populate upscaler combo for initial API and select current INI value
         void RefreshUpscalerCombo(string api)
@@ -2642,14 +2642,14 @@ public sealed partial class MainWindow
             var currentBuild = ViewModel.GetOsNightlyBuild(card.GameName, card.Source ?? "");
             var availableBuilds = _optiScalerService.AvailableNightlyBuilds;
 
-            var buildItems = new List<string> { "Latest (auto-update)" };
+            var buildItems = new List<string> { "最新（自动更新）" };
             foreach (var b in availableBuilds)
             {
                 if (b.Length == 8 && b.All(char.IsDigit))
                     buildItems.Add($"{b[..4]}-{b[4..6]}-{b[6..8]}");
             }
             if (availableBuilds.Count == 0)
-                buildItems.Add("(fetching builds...)");
+                buildItems.Add("（正在获取构建...）");
 
             bool isInstalled = card.IsOsInstalled;
             var buildCombo = new ComboBox
@@ -2660,25 +2660,25 @@ public sealed partial class MainWindow
                 Opacity = isInstalled ? 0.45 : 1.0,
             };
             var tooltip = isInstalled
-                ? "Uninstall OptiScaler first to change the build version."
-                : "Pin to a specific nightly build. Pinned games are excluded from auto-update. 'Latest' always tracks the newest build.";
+                ? "请先卸载 OptiScaler 才能更改构建版本。"
+                : "固定到特定的每夜版构建。已固定的游戏不参与自动更新。「最新」始终跟随最新的构建。";
             ToolTipService.SetToolTip(buildCombo, tooltip);
             buildCombo.ItemsSource = buildItems;
 
-            string selectedBuildItem = "Latest (auto-update)";
+            string selectedBuildItem = "最新（自动更新）";
             if (!string.IsNullOrEmpty(currentBuild) && currentBuild.Length == 8 && currentBuild.All(char.IsDigit))
                 selectedBuildItem = $"{currentBuild[..4]}-{currentBuild[4..6]}-{currentBuild[6..8]}";
-            buildCombo.SelectedItem = buildItems.Contains(selectedBuildItem) ? selectedBuildItem : "Latest (auto-update)";
+            buildCombo.SelectedItem = buildItems.Contains(selectedBuildItem) ? selectedBuildItem : "最新（自动更新）";
 
             bool buildComboInitializing = true;
-            AddRow(unifiedGrid, 1, "Nightly Build", buildCombo, null, null);
+            AddRow(unifiedGrid, 1, "每夜版构建", buildCombo, null, null);
             buildComboInitializing = false;
 
             buildCombo.SelectionChanged += async (s, ev) =>
             {
                 if (buildComboInitializing) return;
-                var sel = buildCombo.SelectedItem as string ?? "Latest (auto-update)";
-                if (sel == "Latest (auto-update)" || sel == "(fetching builds...)")
+                var sel = buildCombo.SelectedItem as string ?? "最新（自动更新）";
+                if (sel == "最新（自动更新）" || sel == "（正在获取构建...）")
                 {
                     ViewModel.SetOsNightlyBuild(card.GameName, null, card.Source ?? "");
                     return;
@@ -2698,7 +2698,7 @@ public sealed partial class MainWindow
         }
 
         bool apiComboInitializing = true;
-        AddRow(unifiedGrid, 2, "Upscaler API", apiCombo, "Upscaler", apiUpscalerCombo);
+        AddRow(unifiedGrid, 2, "超分 API", apiCombo, "Upscaler", apiUpscalerCombo);
         apiComboInitializing = false;
 
         apiCombo.SelectionChanged += (s, ev) =>
@@ -2712,7 +2712,7 @@ public sealed partial class MainWindow
             if (apiUpscalerCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
             var api = apiCombo.SelectedItem as string ?? "DX11";
             var iniVal = UpscalerOptionToIni(api, sel);
-            OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "Upscalers", ApiToIniKey(api), iniVal);
+            OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "超分", ApiToIniKey(api), iniVal);
         };
 
         content.Children.Add(unifiedGrid);
@@ -2780,9 +2780,9 @@ public sealed partial class MainWindow
             FgInputToIni  = (string d) => d switch { "OptiFG (Upscaler)" => "upscaler", "DLSSG via Streamline" => "dlssg", "DLSSG via Nvngx" => "nvngxfg", "FSR 3.1 FG" => "fsrfg", "FSR 3.0 FG" => "fsrfg30", "XeFG" => "xefg", _ => "auto" };
             FgOutputToIni = (string d) => d switch { "FSR FG" => "fsrfg", "DLSSG" => "dlssg", "XeFG" => "xefg", _ => "auto" };
             FgNvngxToIni  = (string d) => d switch { "Nukem's" => "Nukems", "Enabler" => "Arturs", "FSR 3/4 FG" => "FFX", "Combo" => "Combo", _ => "None" };
-            string IniToFgInput(string v) => v switch { "upscaler" => "OptiFG (Upscaler)", "dlssg" => "DLSSG via Streamline", "nvngxfg" => "DLSSG via Nvngx", "fsrfg" => "FSR 3.1 FG", "fsrfg30" => "FSR 3.0 FG", "xefg" => "XeFG", _ => "Auto (Default)" };
-            string IniToFgOutput(string v) => v switch { "fsrfg" => "FSR FG", "dlssg" => "DLSSG", "xefg" => "XeFG", _ => "Auto (Default)" };
-            string IniToFgNvngx(string v) => v switch { "Nukems" => "Nukem's", "Arturs" => "Enabler", "FFX" => "FSR 3/4 FG", "Combo" => "Combo", _ => "None (Real DLSSG)" };            // Separator row between version/build and nightly settings (spans all 4 columns)
+            string IniToFgInput(string v) => v switch { "upscaler" => "OptiFG (Upscaler)", "dlssg" => "DLSSG via Streamline", "nvngxfg" => "DLSSG via Nvngx", "fsrfg" => "FSR 3.1 FG", "fsrfg30" => "FSR 3.0 FG", "xefg" => "XeFG", _ => "自动（默认）" };
+            string IniToFgOutput(string v) => v switch { "fsrfg" => "FSR FG", "dlssg" => "DLSSG", "xefg" => "XeFG", _ => "自动（默认）" };
+            string IniToFgNvngx(string v) => v switch { "Nukems" => "Nukem's", "Arturs" => "Enabler", "FFX" => "FSR 3/4 FG", "Combo" => "Combo", _ => "无（真实 DLSSG）" };            // Separator row between version/build and nightly settings (spans all 4 columns)
             unifiedGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             var versionSep = MakeSeparator();
             Grid.SetRow(versionSep, 3); Grid.SetColumn(versionSep, 0); Grid.SetColumnSpan(versionSep, 4);
@@ -2790,20 +2790,20 @@ public sealed partial class MainWindow
 
             // Section heading: Frame Generation Settings
             unifiedGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            var fgHeading = new TextBlock { Text = "Frame Generation Settings", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) };
+            var fgHeading = new TextBlock { Text = "帧生成设置", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) };
             Grid.SetRow(fgHeading, 4); Grid.SetColumn(fgHeading, 0); Grid.SetColumnSpan(fgHeading, 4);
             unifiedGrid.Children.Add(fgHeading);
 
             // Row 4: FG Enabled — master on/off, first option in the FG section
-            var currentFgEnabled = ReadOsIniValue("FrameGen", "Enabled");
+            var currentFgEnabled = ReadOsIniValue("FrameGen", "已启用");
             fgEnabledCombo = new ComboBox
             {
                 ItemsSource = new[] { "Auto (false)", "True" },
                 SelectedItem = currentFgEnabled.Equals("true", StringComparison.OrdinalIgnoreCase) ? "True" : "Auto (false)",
             };
             ToolTipService.SetToolTip(fgEnabledCombo,
-                "Enables Frame Generation. Default (auto) is false — set to True to enable.");
-            AddRow(unifiedGrid, 5, "FG Enabled", fgEnabledCombo, null, null);
+                "启用帧生成。默认（自动）为 false — 设为 True 以启用。");
+            AddRow(unifiedGrid, 5, "帧生成已启用", fgEnabledCombo, null, null);
 
             // All nightly rows go into the same unifiedGrid so columns align with the version row above
             // Row 2: Streamline/DLSS Enabler (combined) | Streamline Version
@@ -2819,13 +2819,13 @@ public sealed partial class MainWindow
                 slVersionDefault = slVersions.Count > 0 ? slVersions[0] : "2.12.0";
 
             bool combinedOn = ViewModel.GetOsDeployStreamline(card.GameName, card.Source ?? "");
-            combinedCombo = new ComboBox { ItemsSource = new[] { "No", "Yes" }, SelectedItem = combinedOn ? "Yes" : "No" };
-            ToolTipService.SetToolTip(combinedCombo, "Deploys Streamline and DLSS Enabler to the game's OptiScaler folder. Required for DLSS Frame Generation with OptiScaler.");
+            combinedCombo = new ComboBox { ItemsSource = new[] { "否", "是" }, SelectedItem = combinedOn ? "是" : "否" };
+            ToolTipService.SetToolTip(combinedCombo, "将 Streamline 和 DLSS Enabler 部署到游戏的 OptiScaler 文件夹。使用 OptiScaler 的 DLSS 帧生成需要此操作。");
             var slVersionCombo = new ComboBox { ItemsSource = slVersions.Count > 0 ? (IEnumerable<string>)slVersions : new[] { slVersionDefault }, SelectedItem = slVersionDefault, IsEnabled = combinedOn };
-            AddRow(unifiedGrid, 6, "Streamline/DLSS Enabler", combinedCombo, "Streamline Version", slVersionCombo);
+            AddRow(unifiedGrid, 6, "Streamline/DLSS Enabler", combinedCombo, "Streamline 版本", slVersionCombo);
 
             // Row 4: FG Input (left) | HUD Fix (right)
-            fgInputCombo = new ComboBox { ItemsSource = new[] { "Auto (Default)", "OptiFG (Upscaler)", "DLSSG via Streamline", "DLSSG via Nvngx", "FSR 3.1 FG", "FSR 3.0 FG", "XeFG" }, SelectedItem = IniToFgInput(ViewModel.GetOsFgInput(card.GameName, card.Source ?? "")) };
+            fgInputCombo = new ComboBox { ItemsSource = new[] { "自动（默认）", "OptiFG (Upscaler)", "DLSSG via Streamline", "DLSSG via Nvngx", "FSR 3.1 FG", "FSR 3.0 FG", "XeFG" }, SelectedItem = IniToFgInput(ViewModel.GetOsFgInput(card.GameName, card.Source ?? "")) };
 
             // Read HUD Fix from OptiScaler.ini
             string hudFixCurrent = "auto";
@@ -2844,23 +2844,23 @@ public sealed partial class MainWindow
                     }
                 }
             }
-            var hudFixSelected = hudFixCurrent.Equals("true", StringComparison.OrdinalIgnoreCase) ? "On"
-                               : hudFixCurrent.Equals("false", StringComparison.OrdinalIgnoreCase) ? "Off"
+            var hudFixSelected = hudFixCurrent.Equals("true", StringComparison.OrdinalIgnoreCase) ? "开"
+                               : hudFixCurrent.Equals("false", StringComparison.OrdinalIgnoreCase) ? "关"
                                : "Default";
-            hudFixCombo = new ComboBox { ItemsSource = new[] { "Default", "On", "Off" }, SelectedItem = hudFixSelected };
-            ToolTipService.SetToolTip(hudFixCombo!, "HUD Fix: enables hudless resource tracking for Frame Generation. On = HUDFix=true in [OptiFG].");
+            hudFixCombo = new ComboBox { ItemsSource = new[] { "Default", "开", "关" }, SelectedItem = hudFixSelected };
+            ToolTipService.SetToolTip(hudFixCombo!, "HUD 修复：为帧生成启用无 HUD 资源追踪。开启 = 在 [OptiFG] 中设置 HUDFix=true。");
 
-            AddRow(unifiedGrid, 7, "FG Input", fgInputCombo!, "HUD Fix", hudFixCombo!);
+            AddRow(unifiedGrid, 7, "帧生成输入", fgInputCombo!, "HUD 修复", hudFixCombo!);
 
             // Row 5: FG Output (left) | FG Nvngx Override (right)
-            fgOutputCombo = new ComboBox { ItemsSource = new[] { "Auto (Default)", "FSR FG", "DLSSG", "XeFG" }, SelectedItem = IniToFgOutput(ViewModel.GetOsFgOutput(card.GameName, card.Source ?? "")) };
+            fgOutputCombo = new ComboBox { ItemsSource = new[] { "自动（默认）", "FSR FG", "DLSSG", "XeFG" }, SelectedItem = IniToFgOutput(ViewModel.GetOsFgOutput(card.GameName, card.Source ?? "")) };
             bool enablerAvail = true; // Always allow Enabler — requires Streamline deployed, user responsibility
-            var nvngxItems = new List<object> { "None (Real DLSSG)", "Nukem's", new ComboBoxItem { Content = "Enabler", IsEnabled = enablerAvail }, "FSR 3/4 FG", "Combo" };
+            var nvngxItems = new List<object> { "无（真实 DLSSG）", "Nukem's", new ComboBoxItem { Content = "Enabler", IsEnabled = enablerAvail }, "FSR 3/4 FG", "Combo" };
             var currentNvngxDisplay = IniToFgNvngx(ViewModel.GetOsFgNvngxReplacement(card.GameName, card.Source ?? ""));
             object? nvngxSelected = nvngxItems.FirstOrDefault(i => i is ComboBoxItem cb ? (cb.Content as string) == currentNvngxDisplay : (i as string) == currentNvngxDisplay) ?? nvngxItems[0];
             fgNvngxCombo = new ComboBox { ItemsSource = nvngxItems, SelectedItem = nvngxSelected };
-            ToolTipService.SetToolTip(fgNvngxCombo!, "Only relevant when FG Output = DLSSG. Enabler requires Deploy Streamline + Deploy DLSS Enabler.");
-            AddRow(unifiedGrid, 8, "FG Output", fgOutputCombo!, "FG Nvngx Override", fgNvngxCombo!);
+            ToolTipService.SetToolTip(fgNvngxCombo!, "仅在 FG 输出 = DLSSG 时相关。Enabler 需要「部署 Streamline」+「部署 DLSS Enabler」。");
+            AddRow(unifiedGrid, 8, "帧生成输出", fgOutputCombo!, "FG Nvngx Override", fgNvngxCombo!);
 
             bool fgOutputIsDlssg = fgOutputCombo!.SelectedItem as string == "DLSSG";
             fgNvngxCombo!.Opacity = fgOutputIsDlssg ? 1.0 : 0.35;
@@ -2892,8 +2892,8 @@ public sealed partial class MainWindow
             var currentForceReflex = ReadOsIniValue("fakenvapi", "ForceReflex");
             forceReflexCombo = new ComboBox
             {
-                ItemsSource = new[] { "Auto (0)", "Force Disable (1)", "Force Enable (2)" },
-                SelectedItem = currentForceReflex switch { "1" => "Force Disable (1)", "2" => "Force Enable (2)", _ => "Auto (0)" },
+                ItemsSource = new[] { "自动 (0)", "强制禁用 (1)", "强制启用 (2)" },
+                SelectedItem = currentForceReflex switch { "1" => "强制禁用 (1)", "2" => "强制启用 (2)", _ => "自动 (0)" },
             };
             ToolTipService.SetToolTip(forceReflexCombo,
                 "ForceReflex: controls Reflex state when using DLSS FG.\n0 = follow in-game setting (default), 1 = force disable, 2 = force enable.");
@@ -2905,14 +2905,14 @@ public sealed partial class MainWindow
                 SelectedItem = currentReflexMarkers.Equals("false", StringComparison.OrdinalIgnoreCase) ? "False" : "True",
             };
             ToolTipService.SetToolTip(reflexMarkersCombo,
-                "UseGamesReflexMarkers: whether to use the game's Reflex markers for Frame Generation timing. Default is true.");
+                "UseGamesReflexMarkers：是否使用游戏的 Reflex 标记来进行帧生成计时。默认为 true。");
 
-            AddRow(unifiedGrid, 9, "Force Reflex", forceReflexCombo, "Use Games Reflex Markers", reflexMarkersCombo);
+            AddRow(unifiedGrid, 9, "强制 Reflex", forceReflexCombo, "使用游戏 Reflex 标记", reflexMarkersCombo);
 
             // ── Wire handlers ──────────────────────────────────────────────
             combinedCombo!.SelectionChanged += (s, ev) =>
             {
-                bool on = combinedCombo.SelectedItem as string == "Yes";
+                bool on = combinedCombo.SelectedItem as string == "是";
                 ViewModel.SetOsDeployStreamline(card.GameName, on, card.Source ?? "");
                 ViewModel.SetOsDeployDlssEnabler(card.GameName, on, card.Source ?? "");
                 slVersionCombo.IsEnabled = on;
@@ -2963,7 +2963,7 @@ public sealed partial class MainWindow
             hudFixCombo!.SelectionChanged += (s, ev) =>
             {
                 if (hudFixCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
-                var val = sel == "On" ? "true" : sel == "Off" ? "false" : "auto";
+                var val = sel == "开" ? "true" : sel == "关" ? "false" : "auto";
                 OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "OptiFG", "HUDFix", val);
             };
             fgOutputCombo!.SelectionChanged += (s, ev) =>
@@ -2988,15 +2988,15 @@ public sealed partial class MainWindow
             {
                 if (string.IsNullOrEmpty(card.InstallPath)) return;
                 var v = fgEnabledCombo.SelectedItem as string == "True" ? "true" : "false";
-                OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "FrameGen", "Enabled", v);
+                OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "FrameGen", "已启用", v);
             };
             forceReflexCombo.SelectionChanged += (s, ev) =>
             {
                 if (string.IsNullOrEmpty(card.InstallPath)) return;
                 var v = forceReflexCombo.SelectedItem as string switch
                 {
-                    "Force Disable (1)" => "1",
-                    "Force Enable (2)"  => "2",
+                    "强制禁用 (1)" => "1",
+                    "强制启用 (2)"  => "2",
                     _                   => "0",
                 };
                 OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "fakenvapi", "ForceReflex", v);
@@ -3010,7 +3010,7 @@ public sealed partial class MainWindow
 
             // ── Additional Settings ────────────────────────────────────────
             content.Children.Add(MakeSeparator());
-            content.Children.Add(new TextBlock { Text = "Additional Settings", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+            content.Children.Add(new TextBlock { Text = "附加设置", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) });
 
             var addGrid = MakeSettingsGrid();
 
@@ -3037,40 +3037,40 @@ public sealed partial class MainWindow
             var srCurrent = ReadIniValue("DLSS", "RenderPresetForAll");
             var srSelected = srPresetMap.FirstOrDefault(p => p.Item2 == srCurrent).Item1 ?? "Default";
             srPresetCombo = new ComboBox { ItemsSource = srPresetMap.Select(p => p.Item1).ToArray(), SelectedItem = srSelected };
-            ToolTipService.SetToolTip(srPresetCombo!, "DLSS Super Resolution render preset. J-M are the recommended modern presets.");
+            ToolTipService.SetToolTip(srPresetCombo!, "DLSS 超分辨率渲染预设。J-M 是推荐的现代预设。");
 
             // DLSS RR preset: 3=D, 4=E, 5=F
             rrPresetMap = new[] { ("Default", "auto"), ("D", "3"), ("E", "4"), ("F", "5") };
             var rrCurrent = ReadIniValue("DLSSD", "RenderPresetForAll");
             var rrSelected = rrPresetMap.FirstOrDefault(p => p.Item2 == rrCurrent).Item1 ?? "Default";
             rrPresetCombo = new ComboBox { ItemsSource = rrPresetMap.Select(p => p.Item1).ToArray(), SelectedItem = rrSelected };
-            ToolTipService.SetToolTip(rrPresetCombo!, "DLSS Ray Reconstruction render preset.");
+            ToolTipService.SetToolTip(rrPresetCombo!, "DLSS 光线重建渲染预设。");
 
-            AddRow(addGrid, 0, "DLSS SR Preset", srPresetCombo!, "DLSS RR Preset", rrPresetCombo!);
+            AddRow(addGrid, 0, "DLSS SR 预设", srPresetCombo!, "DLSS RR 预设", rrPresetCombo!);
 
             // Disable Flip Metering + Render Scale
             var flipCurrent = ReadIniValue("NvApi", "DisableFlipMetering");
-            var flipSelected = flipCurrent == "true" ? "On" : "Default";
-            flipCombo = new ComboBox { ItemsSource = new[] { "Default", "On" }, SelectedItem = flipSelected };
-            ToolTipService.SetToolTip(flipCombo!, "On: DisableFlipMetering=true — fixes thick frametime graph with NukemFG + fakenvapi.");
+            var flipSelected = flipCurrent == "true" ? "开" : "Default";
+            flipCombo = new ComboBox { ItemsSource = new[] { "Default", "开" }, SelectedItem = flipSelected };
+            ToolTipService.SetToolTip(flipCombo!, "开启：DisableFlipMetering=true — 修复 NukemFG + fakenvapi 下帧时间曲线过粗的问题。");
 
             // Render Scale — UpscaleRatioOverride
             renderScaleMap = new[] {
-                ("Off",          0f),
+                ("关",          0f),
                 ("100% DLAA",    1.0f),
                 ("99% DLAA Alt", 1.0101f),
                 ("88% DLAA Lite",1.136f),
-                ("77% Ultra Quality", 1.3f),
-                ("75% Quality+", 1.333f),
-                ("67% Quality",  1.5f),
-                ("58% Balanced", 1.724f),
-                ("50% Performance", 2.0f),
-                ("45% Performance-", 2.222f),
-                ("33% Ultra Perf", 3.0f),
+                ("77% 极高质量", 1.3f),
+                ("75% 质量+", 1.333f),
+                ("67% 质量",  1.5f),
+                ("58% 平衡", 1.724f),
+                ("50% 性能", 2.0f),
+                ("45% 性能-", 2.222f),
+                ("33% 超级性能", 3.0f),
             };
             var rsCurrentEnabled = ReadIniValue("UpscaleRatio", "UpscaleRatioOverrideEnabled");
             var rsCurrentValue   = ReadIniValue("UpscaleRatio", "UpscaleRatioOverrideValue");
-            string rsSelected = "Off";
+            string rsSelected = "关";
             if (rsCurrentEnabled.Equals("true", StringComparison.OrdinalIgnoreCase)
                 && float.TryParse(rsCurrentValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var rsVal))
             {
@@ -3078,9 +3078,9 @@ public sealed partial class MainWindow
                 if (match.Item1 != null) rsSelected = match.Item1;
             }
             rsCombo = new ComboBox { ItemsSource = renderScaleMap.Select(p => p.Item1).ToArray(), SelectedItem = rsSelected };
-            ToolTipService.SetToolTip(rsCombo!, "Override the internal render resolution. Off = use in-game quality preset as-is.");
+            ToolTipService.SetToolTip(rsCombo!, "覆盖内部渲染分辨率。关闭 = 按原样使用游戏内质量预设。");
 
-            AddRow(addGrid, 1, "Render Scale", rsCombo!, "Disable Flip Metering", flipCombo!);
+            AddRow(addGrid, 1, "渲染缩放", rsCombo!, "禁用 Flip Metering", flipCombo!);
 
             content.Children.Add(addGrid);
 
@@ -3101,12 +3101,12 @@ public sealed partial class MainWindow
             flipCombo!.SelectionChanged += (s, ev) =>
             {
                 if (flipCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
-                OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "NvApi", "DisableFlipMetering", sel == "On" ? "true" : "false");
+                OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "NvApi", "DisableFlipMetering", sel == "开" ? "true" : "false");
             };
             rsCombo!.SelectionChanged += (s, ev) =>
             {
                 if (rsCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
-                if (sel == "Off")
+                if (sel == "关")
                 {
                     OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "UpscaleRatio", "UpscaleRatioOverrideEnabled", "false");
                 }
@@ -3127,27 +3127,27 @@ public sealed partial class MainWindow
             if (isUnreal)
             {
                 content.Children.Add(MakeSeparator());
-                content.Children.Add(new TextBlock { Text = "Engine.ini Settings", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                content.Children.Add(new TextBlock { Text = "Engine.ini 设置", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) });
 
                 var ueGrid = MakeSettingsGrid();
 
-                var dmvCombo = new ComboBox { ItemsSource = new[] { "Default", "Off" }, SelectedItem = ViewModel.GetOsDilatedMotionVectorsOff(card.GameName, card.Source ?? "") ? "Off" : "Default" };
+                var dmvCombo = new ComboBox { ItemsSource = new[] { "Default", "关" }, SelectedItem = ViewModel.GetOsDilatedMotionVectorsOff(card.GameName, card.Source ?? "") ? "关" : "Default" };
                 ToolTipService.SetToolTip(dmvCombo, "Off: r.NGX.DLSS.DilateMotionVectors=0 + r.Streamline.DilateMotionVectors=0");
                 var fsrCombo = new ComboBox { ItemsSource = new[] { "None", "FSR2", "FSR3", "FSR3.1" }, SelectedItem = ViewModel.GetOsFsrCrashFix(card.GameName, card.Source ?? "") };
                 ToolTipService.SetToolTip(fsrCombo, "FSR2: r.FidelityFX.FSR2.UseNativeDX12=1\nFSR3: r.FidelityFX.FSR3.UseNativeDX12=1\nFSR3.1: above + r.FidelityFX.FSR3.UseRHI=0");
-                AddRow(ueGrid, 0, "Dilated Motion Vectors", dmvCombo, "FSR Crash Fix", fsrCombo);
+                AddRow(ueGrid, 0, "扩张运动矢量", dmvCombo, "FSR 崩溃修复", fsrCombo);
 
-                var fgSwapCombo = new ComboBox { ItemsSource = new[] { "Default", "On" }, SelectedItem = ViewModel.GetOsFsrFgSwapchain(card.GameName, card.Source ?? "") ? "On" : "Default" };
+                var fgSwapCombo = new ComboBox { ItemsSource = new[] { "Default", "开" }, SelectedItem = ViewModel.GetOsFsrFgSwapchain(card.GameName, card.Source ?? "") ? "开" : "Default" };
                 ToolTipService.SetToolTip(fgSwapCombo, "On: r.FidelityFX.FI.OverrideSwapChainDX12=1");
-                var upscalerCombo = new ComboBox { ItemsSource = new[] { "Default", "On" }, SelectedItem = ViewModel.GetOsUpscalerPlugin(card.GameName, card.Source ?? "") ? "On" : "Default" };
+                var upscalerCombo = new ComboBox { ItemsSource = new[] { "Default", "开" }, SelectedItem = ViewModel.GetOsUpscalerPlugin(card.GameName, card.Source ?? "") ? "开" : "Default" };
                 ToolTipService.SetToolTip(upscalerCombo, "On: r.AntiAliasingMethod=4 + r.TemporalAA.Upscaler=1");
-                AddRow(ueGrid, 1, "FSR-FG Swapchain", fgSwapCombo, "Upscaler Plugin", upscalerCombo);
+                AddRow(ueGrid, 1, "FSR-FG Swapchain", fgSwapCombo, "超分插件", upscalerCombo);
 
                 content.Children.Add(ueGrid);
 
                 dmvCombo.SelectionChanged += (s, ev) =>
                 {
-                    bool off = dmvCombo.SelectedItem as string == "Off"; ViewModel.SetOsDilatedMotionVectorsOff(card.GameName, off, card.Source ?? "");
+                    bool off = dmvCombo.SelectedItem as string == "关"; ViewModel.SetOsDilatedMotionVectorsOff(card.GameName, off, card.Source ?? "");
                     if (!string.IsNullOrEmpty(card.InstallPath)) { var keys = new (string, string, string)[] { ("SystemSettings", "r.NGX.DLSS.DilateMotionVectors", "0"), ("SystemSettings", "r.Streamline.DilateMotionVectors", "0") }; try { if (off) AuxInstallService.ApplyEngineIniCustomKeys(card.InstallPath, keys, card.EngineIniProjectOverride, card.GameName, card.Source); else AuxInstallService.RemoveEngineIniCustomKeys(card.InstallPath, keys.Select(k => k.Item2), card.EngineIniProjectOverride, card.GameName, card.Source); } catch { } }
                 };
                 fsrCombo.SelectionChanged += (s, ev) =>
@@ -3158,12 +3158,12 @@ public sealed partial class MainWindow
                 };
                 fgSwapCombo.SelectionChanged += (s, ev) =>
                 {
-                    bool on = fgSwapCombo.SelectedItem as string == "On"; ViewModel.SetOsFsrFgSwapchain(card.GameName, on, card.Source ?? "");
+                    bool on = fgSwapCombo.SelectedItem as string == "开"; ViewModel.SetOsFsrFgSwapchain(card.GameName, on, card.Source ?? "");
                     if (!string.IsNullOrEmpty(card.InstallPath)) { var k = new (string, string, string)[] { ("SystemSettings", "r.FidelityFX.FI.OverrideSwapChainDX12", "1") }; try { if (on) AuxInstallService.ApplyEngineIniCustomKeys(card.InstallPath, k, card.EngineIniProjectOverride, card.GameName, card.Source); else AuxInstallService.RemoveEngineIniCustomKeys(card.InstallPath, k.Select(x => x.Item2), card.EngineIniProjectOverride, card.GameName, card.Source); } catch { } }
                 };
                 upscalerCombo.SelectionChanged += (s, ev) =>
                 {
-                    bool on = upscalerCombo.SelectedItem as string == "On"; ViewModel.SetOsUpscalerPlugin(card.GameName, on, card.Source ?? "");
+                    bool on = upscalerCombo.SelectedItem as string == "开"; ViewModel.SetOsUpscalerPlugin(card.GameName, on, card.Source ?? "");
                     if (!string.IsNullOrEmpty(card.InstallPath)) { var k = new (string, string, string)[] { ("SystemSettings", "r.AntiAliasingMethod", "4"), ("SystemSettings", "r.TemporalAA.Upscaler", "1") }; try { if (on) AuxInstallService.ApplyEngineIniCustomKeys(card.InstallPath, k, card.EngineIniProjectOverride, card.GameName, card.Source); else AuxInstallService.RemoveEngineIniCustomKeys(card.InstallPath, k.Select(x => x.Item2), card.EngineIniProjectOverride, card.GameName, card.Source); } catch { } }
                 };
             }
@@ -3172,7 +3172,7 @@ public sealed partial class MainWindow
             if (isDlssNr || isF5)
             {
                 content.Children.Add(MakeSeparator());
-                content.Children.Add(new TextBlock { Text = "Neural Rendering Settings", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                content.Children.Add(new TextBlock { Text = "神经网络渲染设置", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var nrGrid = MakeSettingsGrid();
 
                 // Helper: read a key from the [DlssNr] section of OptiScaler.ini
@@ -3204,42 +3204,42 @@ public sealed partial class MainWindow
                 if (!string.IsNullOrEmpty(currentNrRuntime) && !nrVersions.Contains(currentNrRuntime))
                     nrVersions.Insert(0, currentNrRuntime);
                 nrRuntimeCombo = new ComboBox { ItemsSource = nrVersions, SelectedItem = currentNrRuntime };
-                ToolTipService.SetToolTip(nrRuntimeCombo, "NR runtime: 310.8.2 = original NVIDIA (RTX 50). 310.8.SF-v2 = ShortFuse cross-gen (RTX 20/30/40).");
+                ToolTipService.SetToolTip(nrRuntimeCombo, "NR 运行时：310.8.2 = 原始 NVIDIA（RTX 50）。310.8.SF-v2 = ShortFuse 跨代版（RTX 20/30/40）。");
 
-                var nrEnabledRaw = ReadNrIni("Enabled");
-                nrEnabledCombo = new ComboBox { ItemsSource = new[] { "Default", "On", "Off" },
-                    SelectedItem = nrEnabledRaw.Equals("true", StringComparison.OrdinalIgnoreCase) ? "On"
-                                 : nrEnabledRaw.Equals("false", StringComparison.OrdinalIgnoreCase) ? "Off"
+                var nrEnabledRaw = ReadNrIni("已启用");
+                nrEnabledCombo = new ComboBox { ItemsSource = new[] { "Default", "开", "关" },
+                    SelectedItem = nrEnabledRaw.Equals("true", StringComparison.OrdinalIgnoreCase) ? "开"
+                                 : nrEnabledRaw.Equals("false", StringComparison.OrdinalIgnoreCase) ? "关"
                                  : "Default" };
-                ToolTipService.SetToolTip(nrEnabledCombo, "Enable DLSS Neural Rendering. Requires nvngx_dlssnr.dll + nvngx.dll_dlssnr.dll in game folder.");
+                ToolTipService.SetToolTip(nrEnabledCombo, "启用 DLSS 神经网络渲染。需要游戏文件夹中存在 nvngx_dlssnr.dll + nvngx.dll_dlssnr.dll。");
                 AddRow(nrGrid, 0, "NR Runtime", nrRuntimeCombo!, "NR Enabled", nrEnabledCombo!);
 
                 // Row 1: Run Before SR | Passes
                 var nrRunBeforeRaw = ReadNrIni("RunBeforeSR");
-                nrRunBeforeSrCombo = new ComboBox { ItemsSource = new[] { "Default", "On", "Off" },
-                    SelectedItem = nrRunBeforeRaw.Equals("true", StringComparison.OrdinalIgnoreCase) ? "On"
-                                 : nrRunBeforeRaw.Equals("false", StringComparison.OrdinalIgnoreCase) ? "Off"
+                nrRunBeforeSrCombo = new ComboBox { ItemsSource = new[] { "Default", "开", "关" },
+                    SelectedItem = nrRunBeforeRaw.Equals("true", StringComparison.OrdinalIgnoreCase) ? "开"
+                                 : nrRunBeforeRaw.Equals("false", StringComparison.OrdinalIgnoreCase) ? "关"
                                  : "Default" };
-                ToolTipService.SetToolTip(nrRunBeforeSrCombo, "Run NR before Super Resolution. On = before upscaling; Off = after upscaling.");
+                ToolTipService.SetToolTip(nrRunBeforeSrCombo, "在超分辨率之前运行 NR。开启 = 超分之前；关闭 = 超分之后。");
 
                 var nrPassesRaw = ReadNrIni("Passes");
                 nrPassesCombo = new ComboBox { ItemsSource = new[] { "Default", "1", "2", "3" },
                     SelectedItem = nrPassesRaw is "1" or "2" or "3" ? nrPassesRaw : "Default" };
-                ToolTipService.SetToolTip(nrPassesCombo, "Number of NR model passes. Each extra pass costs ~2x the model time but increases quality.");
-                AddRow(nrGrid, 1, "Run Before SR", nrRunBeforeSrCombo!, "Passes", nrPassesCombo!);
+                ToolTipService.SetToolTip(nrPassesCombo, "NR 模型处理遍数。每增加一遍约使模型耗时翻倍，但能提升质量。");
+                AddRow(nrGrid, 1, "在 SR 之前运行", nrRunBeforeSrCombo!, "Passes", nrPassesCombo!);
 
                 // Row 2: Working Scale | Finished Picture
                 var nrScaleRaw = ReadNrIni("WorkingScale");
-                nrScaleMap = new[] { ("Default", "auto"), ("0.5x (half)", "0.5"), ("0.75x", "0.75"), ("1.0x (full)", "1.0"), ("1.5x (supersample)", "1.5") };
+                nrScaleMap = new[] { ("Default", "auto"), ("0.5x（一半）", "0.5"), ("0.75x", "0.75"), ("1.0x（完整）", "1.0"), ("1.5x（超级采样）", "1.5") };
                 var nrScaleSelected = nrScaleMap.FirstOrDefault(p => p.Item2 == nrScaleRaw).Item1 ?? "Default";
                 nrWorkingScaleCombo = new ComboBox { ItemsSource = nrScaleMap.Select(p => p.Item1).ToArray(), SelectedItem = nrScaleSelected };
-                ToolTipService.SetToolTip(nrWorkingScaleCombo, "Model work resolution as a fraction of frame size. Lower = faster; above 1.0 supersamples the model.");
+                ToolTipService.SetToolTip(nrWorkingScaleCombo, "模型工作分辨率占帧尺寸的比例。越低 = 越快；高于 1.0 则对模型进行超级采样。");
 
                 var nrFinishedRaw = ReadNrIni("FinishedPicture");
-                nrFinishedPicCombo = new ComboBox { ItemsSource = new[] { "Default", "On" },
-                    SelectedItem = nrFinishedRaw.Equals("true", StringComparison.OrdinalIgnoreCase) ? "On" : "Default" };
-                ToolTipService.SetToolTip(nrFinishedPicCombo, "Apply NR to the finished picture (after all game lighting and effects). Helps with green noise. DX12 native only.");
-                AddRow(nrGrid, 2, "Working Scale", nrWorkingScaleCombo!, "Apply to Finished Picture", nrFinishedPicCombo!);
+                nrFinishedPicCombo = new ComboBox { ItemsSource = new[] { "Default", "开" },
+                    SelectedItem = nrFinishedRaw.Equals("true", StringComparison.OrdinalIgnoreCase) ? "开" : "Default" };
+                ToolTipService.SetToolTip(nrFinishedPicCombo, "将 NR 应用到最终画面（在所有游戏光照和效果之后）。有助于解决绿色噪点。仅限 DX12 原生。");
+                AddRow(nrGrid, 2, "工作比例", nrWorkingScaleCombo!, "应用到最终画面", nrFinishedPicCombo!);
 
                 content.Children.Add(nrGrid);
 
@@ -3280,13 +3280,13 @@ public sealed partial class MainWindow
                 nrEnabledCombo!.SelectionChanged += (s, ev) =>
                 {
                     if (nrEnabledCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
-                    var v = sel == "On" ? "true" : sel == "Off" ? "false" : "auto";
-                    OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "Enabled", v);
+                    var v = sel == "开" ? "true" : sel == "关" ? "false" : "auto";
+                    OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "已启用", v);
                 };
                 nrRunBeforeSrCombo!.SelectionChanged += (s, ev) =>
                 {
                     if (nrRunBeforeSrCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
-                    var v = sel == "On" ? "true" : sel == "Off" ? "false" : "auto";
+                    var v = sel == "开" ? "true" : sel == "关" ? "false" : "auto";
                     OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "RunBeforeSR", v);
                 };
                 nrPassesCombo!.SelectionChanged += (s, ev) =>
@@ -3304,7 +3304,7 @@ public sealed partial class MainWindow
                 nrFinishedPicCombo!.SelectionChanged += (s, ev) =>
                 {
                     if (nrFinishedPicCombo.SelectedItem is not string sel || string.IsNullOrEmpty(card.InstallPath)) return;
-                    OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "FinishedPicture", sel == "On" ? "true" : "false");
+                    OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "FinishedPicture", sel == "开" ? "true" : "false");
                 };
             }
         }
@@ -3319,7 +3319,7 @@ public sealed partial class MainWindow
 
         if (isNightly || isDlssNr || isF5)
         {
-            var presetsLabel = new TextBlock { Text = "Presets", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
+            var presetsLabel = new TextBlock { Text = "预设", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
             bottomBorder.Children.Add(presetsLabel);
 
             // Load global presets from disk
@@ -3353,13 +3353,13 @@ public sealed partial class MainWindow
 
                 var saveBtn = new Button
                 {
-                    Content = "Save",
+                    Content = "保存",
                     FontSize = 11,
                     Width = 42,
                     Padding = new Thickness(4),
                     CornerRadius = new CornerRadius(4),
                 };
-                ToolTipService.SetToolTip(saveBtn, "Save current cog settings into this slot");
+                ToolTipService.SetToolTip(saveBtn, "将当前齿轮设置保存到此槽位");
 
                 // Stretch the textbox to fill remaining space
                 var nameRowGrid = new Grid { ColumnSpacing = 4 };
@@ -3381,7 +3381,7 @@ public sealed partial class MainWindow
                     IsEnabled = hasData,
                     Opacity = hasData ? 1.0 : 0.40,
                 };
-                ToolTipService.SetToolTip(applyBtn, hasData ? "Apply this preset to the current game" : "No preset saved yet — click Save to capture current settings");
+                ToolTipService.SetToolTip(applyBtn, hasData ? "将此预设应用到当前游戏" : "尚未保存预设 — 点击「保存」以记录当前设置");
 
                 // ── Wire: TextBox name editing ─────────────────────────────
                 nameBox.TextChanged += (s, ev) =>
@@ -3399,12 +3399,12 @@ public sealed partial class MainWindow
                     string? capturedFgInput     = fgInputCombo?.SelectedItem is string fgi ? FgInputToIni!(fgi) : null;
                     string? capturedFgOutput    = fgOutputCombo?.SelectedItem is string fgo ? FgOutputToIni!(fgo) : null;
                     string? capturedFgNvngx     = fgNvngxCombo?.SelectedItem is ComboBoxItem cbi ? FgNvngxToIni!(cbi.Content as string ?? "") : fgNvngxCombo?.SelectedItem is string fgns ? FgNvngxToIni!(fgns) : null;
-                    bool?   capturedDeploySl    = combinedCombo?.SelectedItem as string == "Yes";
+                    bool?   capturedDeploySl    = combinedCombo?.SelectedItem as string == "是";
                     string? capturedSrPreset    = srPresetCombo?.SelectedItem is string srp ? (srPresetMap?.FirstOrDefault(p => p.Item1 == srp).Item2 ?? "auto") : null;
                     string? capturedRrPreset    = rrPresetCombo?.SelectedItem is string rrp ? (rrPresetMap?.FirstOrDefault(p => p.Item1 == rrp).Item2 ?? "auto") : null;
                     string? capturedRenderScale = rsCombo?.SelectedItem as string;
-                    bool?   capturedFlip        = flipCombo?.SelectedItem as string == "On";
-                    string? capturedHudFix      = hudFixCombo?.SelectedItem is string hf ? (hf == "On" ? "true" : hf == "Off" ? "false" : "auto") : null;
+                    bool?   capturedFlip        = flipCombo?.SelectedItem as string == "开";
+                    string? capturedHudFix      = hudFixCombo?.SelectedItem is string hf ? (hf == "开" ? "true" : hf == "关" ? "false" : "auto") : null;
 
                     // Capture the 6 previously missing settings
                     string? capturedVariant     = variantCombo.SelectedItem as string; // "Stable", "Nightly", "DLSS NR"
@@ -3414,23 +3414,23 @@ public sealed partial class MainWindow
                     string? capturedFgEnabled   = fgEnabledCombo.SelectedItem is string fge
                                                   ? (fge == "True" ? "true" : fge == "Auto (false)" ? "auto" : null) : null;
                     string? capturedForceReflex = forceReflexCombo.SelectedItem is string fr ? fr switch
-                                                  { "Force Disable (1)" => "1", "Force Enable (2)" => "2", _ => "0" } : null;
+                                                  { "强制禁用 (1)" => "1", "强制启用 (2)" => "2", _ => "0" } : null;
                     string? capturedReflexMarkers = reflexMarkersCombo.SelectedItem is string rm
                                                     ? (rm == "False" ? "false" : "true") : null;
                     float?  capturedFps         = null;
                     if (fpsLimitCombo.SelectedItem is string fpsSel)
                     {
-                        if (fpsSel == "Off") capturedFps = 0f;
+                        if (fpsSel == "关") capturedFps = 0f;
                         else { var m = vrrPresetsOs.FirstOrDefault(p => p.Label == fpsSel); if (m.Label != null) capturedFps = m.Fps; }
                     }
                     // NR fields (only non-null when isDlssNr)
                     string? capturedNrRuntime     = nrRuntimeCombo?.SelectedItem as string;
-                    string? capturedNrEnabled     = nrEnabledCombo?.SelectedItem is string ne ? (ne == "On" ? "true" : ne == "Off" ? "false" : "auto") : null;
-                    string? capturedNrRunBeforeSr = nrRunBeforeSrCombo?.SelectedItem is string rb ? (rb == "On" ? "true" : rb == "Off" ? "false" : "auto") : null;
+                    string? capturedNrEnabled     = nrEnabledCombo?.SelectedItem is string ne ? (ne == "开" ? "true" : ne == "关" ? "false" : "auto") : null;
+                    string? capturedNrRunBeforeSr = nrRunBeforeSrCombo?.SelectedItem is string rb ? (rb == "开" ? "true" : rb == "关" ? "false" : "auto") : null;
                     string? capturedNrPasses      = nrPassesCombo?.SelectedItem is string np && np != "Default" ? np : nrPassesCombo != null ? "auto" : null;
                     string? capturedNrWorkingScale = nrWorkingScaleCombo?.SelectedItem is string nws
                         ? (nrScaleMap?.FirstOrDefault(p2 => p2.Item1 == nws).Item2 ?? "auto") : null;
-                    string? capturedNrFinishedPic  = nrFinishedPicCombo?.SelectedItem is string nfp ? (nfp == "On" ? "true" : "false") : null;
+                    string? capturedNrFinishedPic  = nrFinishedPicCombo?.SelectedItem is string nfp ? (nfp == "开" ? "true" : "false") : null;
 
                     if (presets[i] == null) presets[i] = new Models.OsPreset();
                     var p = presets[i]!;
@@ -3464,7 +3464,7 @@ public sealed partial class MainWindow
                     applyBtn.IsEnabled = true;
                     applyBtn.Opacity = 1.0;
                     applyBtn.Content = p.Name ?? $"Slot {i + 1}";
-                    ToolTipService.SetToolTip(applyBtn, "Apply this preset to the current game");
+                    ToolTipService.SetToolTip(applyBtn, "将此预设应用到当前游戏");
                 };
 
                 // ── Wire: Apply button ─────────────────────────────────────
@@ -3529,7 +3529,7 @@ public sealed partial class MainWindow
                         // Render scale
                         if (p.RenderScale != null)
                         {
-                            if (p.RenderScale == "Off")
+                            if (p.RenderScale == "关")
                             {
                                 OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "UpscaleRatio", "UpscaleRatioOverrideEnabled", "false");
                             }
@@ -3564,7 +3564,7 @@ public sealed partial class MainWindow
                         }
 
                         // NR INI values (DlssNr variant only)
-                        if (p.NrEnabled        != null) OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "Enabled",        p.NrEnabled);
+                        if (p.NrEnabled        != null) OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "已启用",        p.NrEnabled);
                         if (p.NrRunBeforeSr    != null) OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "RunBeforeSR",     p.NrRunBeforeSr);
                         if (p.NrPasses         != null) OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "Passes",          p.NrPasses);
                         if (p.NrWorkingScale   != null) OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "DlssNr", "WorkingScale",    p.NrWorkingScale);
@@ -3572,11 +3572,11 @@ public sealed partial class MainWindow
 
                         // Previously missing: FG Enabled, Upscaler, Force Reflex, Reflex Markers
                         if (p.FgEnabled != null && p.FgEnabled != "auto")
-                            OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "FrameGen", "Enabled", p.FgEnabled);
+                            OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "FrameGen", "已启用", p.FgEnabled);
                         if (p.UpscalerApi != null && p.Upscaler != null)
                         {
                             var iniKey = p.UpscalerApi switch { "DX12" => "Dx12Upscaler", "Vulkan" => "VulkanUpscaler", _ => "Dx11Upscaler" };
-                            OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "Upscalers", iniKey, p.Upscaler);
+                            OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "超分", iniKey, p.Upscaler);
                         }
                         if (p.ForceReflex != null)
                             OptiScalerService.SetOptiScalerIniValue(card.InstallPath, "fakenvapi", "ForceReflex", p.ForceReflex);
@@ -3631,7 +3631,7 @@ public sealed partial class MainWindow
 
         bottomBorder.Children.Add(new TextBlock
         {
-            Text = "Settings above apply in real time. Only deploy an ini if the game folder has no OptiScaler.ini yet, or you want a fresh one — it will not carry over the settings configured above.",
+            Text = "上方的设置会实时生效。仅当游戏文件夹中还没有 OptiScaler.ini，或您想要一个全新的文件时才需要部署 ini — 它不会携带上方配置的设置。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
             TextWrapping = TextWrapping.Wrap,
@@ -3640,7 +3640,7 @@ public sealed partial class MainWindow
 
         var deployBtn = new Button
         {
-            Content = "Deploy OptiScaler.ini",
+            Content = "部署 OptiScaler.ini",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -3653,7 +3653,7 @@ public sealed partial class MainWindow
 
         bottomBorder.Children.Add(new TextBlock
         {
-            Text = "If the game crashes with both ReShade and OptiScaler installed, try renaming ReShade to d3d12.dll (or another DLL name) using DLL Naming Overrides in the Overrides panel.",
+            Text = "如果同时安装 ReShade 和 OptiScaler 后游戏崩溃，请尝试在「覆盖项」面板中使用 DLL 命名覆盖，将 ReShade 重命名为 d3d12.dll（或其他 DLL 名称）。",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             TextWrapping = TextWrapping.Wrap,
@@ -3707,9 +3707,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "OptiScaler Settings",
+            Title = "OptiScaler 设置",
             Content = rootGrid,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -3762,12 +3762,12 @@ public sealed partial class MainWindow
 
         var variantLabel = new TextBlock
         {
-            Text = "Variant",
+            Text = "变体",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
         };
-        ToolTipService.SetToolTip(variantLabel, "Development: latest nightly build. Stable: last stable release. Lilium HDR: HDR-optimised variant (default).");
+        ToolTipService.SetToolTip(variantLabel, "开发版：最新的每夜版构建。稳定版：上一个稳定发行版。Lilium HDR：HDR 优化变体（默认）。");
         Grid.SetRow(variantLabel, 0); Grid.SetColumn(variantLabel, 0);
         variantGrid.Children.Add(variantLabel);
 
@@ -3791,7 +3791,7 @@ public sealed partial class MainWindow
 
         var liliumPresetLabel = new TextBlock
         {
-            Text = "Lilium Preset",
+            Text = "Lilium 预设",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
@@ -3876,7 +3876,7 @@ public sealed partial class MainWindow
         // ── Deploy dxvk.conf button ───────────────────────────────────────────
         var deployBtn = new Button
         {
-            Content = "Deploy dxvk.conf",
+            Content = "部署 dxvk.conf",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
@@ -3906,18 +3906,18 @@ public sealed partial class MainWindow
         // Row 0: Prefer DXGI Swapchain
         var presentLabel = new TextBlock
         {
-            Text = "Prefer DXGI Swapchain",
+            Text = "优先使用 DXGI 交换链",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
         };
-        ToolTipService.SetToolTip(presentLabel, "Sets Vulkan/OpenGL Present Method to 'Preferred layered on DXGI Swapchain' in the NVIDIA driver profile. Recommended for DXVK — improves compatibility and HDR support.");
+        ToolTipService.SetToolTip(presentLabel, "在 NVIDIA 驱动配置文件中将 Vulkan/OpenGL 呈现方式设为「首选分层于 DXGI 交换链」。推荐用于 DXVK — 可改善兼容性和 HDR 支持。");
         Grid.SetRow(presentLabel, 0); Grid.SetColumn(presentLabel, 0);
         presentGrid.Children.Add(presentLabel);
 
         var presentCombo = new ComboBox { FontSize = 11, HorizontalAlignment = HorizontalAlignment.Stretch };
-        presentCombo.Items.Add("No");   // 0x00000002 — Auto
-        presentCombo.Items.Add("Yes");  // 0x00000001 — Preferred layered on DXGI Swapchain
+        presentCombo.Items.Add("否");   // 0x00000002 — Auto
+        presentCombo.Items.Add("是");  // 0x00000001 — Preferred layered on DXGI Swapchain
         var currentPresentMethod2 = currentPresentMethod; // already fetched above
         presentCombo.SelectedIndex = currentPresentMethod2 == 0x00000001 ? 1 : 0;
         presentCombo.SelectionChanged += (s, ev) =>
@@ -3932,12 +3932,12 @@ public sealed partial class MainWindow
         // Row 1: DXVK as Native Flags
         var flagsLabel = new TextBlock
         {
-            Text = "DXVK as Native",
+            Text = "DXVK 原生模式",
             FontSize = 11,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             VerticalAlignment = VerticalAlignment.Center,
         };
-        ToolTipService.SetToolTip(flagsLabel, "Standard: Treat DXVK as Native (0x000802A5). Alternative: Allow DXVK Promotion + DirectFlip (0x00080004). Only active when Prefer DXGI Swapchain is Yes.");
+        ToolTipService.SetToolTip(flagsLabel, "标准：将 DXVK 视为原生（0x000802A5）。替代：允许 DXVK 提升 + DirectFlip（0x00080004）。仅在「优先使用 DXGI 交换链」为「是」时生效。");
         Grid.SetRow(flagsLabel, 1); Grid.SetColumn(flagsLabel, 0);
         presentGrid.Children.Add(flagsLabel);
 
@@ -3999,9 +3999,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "DXVK Settings",
+            Title = "DXVK 设置",
             Content = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };

@@ -131,7 +131,7 @@ public partial class OptiScalerService : IOptiScalerService
     public static readonly Dictionary<string, string> HotkeyNameToVkCode = new(StringComparer.OrdinalIgnoreCase)
     {
         ["Insert"]    = "0x2D",
-        ["Delete"]    = "0x2E",
+        ["删除"]    = "0x2E",
         ["Home"]      = "0x24",
         ["End"]       = "0x23",
         ["Page Up"]   = "0x21",

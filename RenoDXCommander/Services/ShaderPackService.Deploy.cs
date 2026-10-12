@@ -71,9 +71,9 @@ public partial class ShaderPackService
                 fileExclusions?.TryGetValue(pack.Id, out excluded);
                 foreach (var rel in files)
                 {
-                    if (rel.StartsWith("Shaders" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                    if (rel.StartsWith("着色器" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                     {
-                        var relSub = rel.Substring("Shaders".Length + 1);
+                        var relSub = rel.Substring("着色器".Length + 1);
                         if (excluded != null && excluded.Contains(Path.GetFileName(relSub))) continue;
                         shadersFiles.Add(relSub);
                     }
@@ -144,8 +144,8 @@ public partial class ShaderPackService
                 var files = JsonSerializer.Deserialize<List<string>>(json) ?? new();
                 foreach (var rel in files)
                 {
-                    if (rel.StartsWith("Shaders" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                        shaders.Add(rel.Substring("Shaders".Length + 1));
+                    if (rel.StartsWith("着色器" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                        shaders.Add(rel.Substring("着色器".Length + 1));
                     else if (rel.StartsWith("Textures" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                         textures.Add(rel.Substring("Textures".Length + 1));
                 }
@@ -231,9 +231,9 @@ public partial class ShaderPackService
         }
 
         if (packIds != null)
-            DeployPacksIfAbsent(packIds, Path.Combine(rsDir, "Shaders"), Path.Combine(rsDir, "Textures"), fileExclusions);
+            DeployPacksIfAbsent(packIds, Path.Combine(rsDir, "着色器"), Path.Combine(rsDir, "Textures"), fileExclusions);
         else
-            DeployAllPacksIfAbsent(Path.Combine(rsDir, "Shaders"), Path.Combine(rsDir, "Textures"), fileExclusions);
+            DeployAllPacksIfAbsent(Path.Combine(rsDir, "着色器"), Path.Combine(rsDir, "Textures"), fileExclusions);
         WriteMarker(gameDir);
     }
 
@@ -288,8 +288,8 @@ public partial class ShaderPackService
                 var files = JsonSerializer.Deserialize<List<string>>(json) ?? new();
                 foreach (var rel in files)
                 {
-                    if (rel.StartsWith("Shaders" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-                        shaders.Add(rel.Substring("Shaders".Length + 1));
+                    if (rel.StartsWith("着色器" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                        shaders.Add(rel.Substring("着色器".Length + 1));
                     else if (rel.StartsWith("Textures" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                         textures.Add(rel.Substring("Textures".Length + 1));
                 }
@@ -326,7 +326,7 @@ public partial class ShaderPackService
     public void SyncGameFolder(string gameDir, IEnumerable<string>? selectedPackIds = null,
         Dictionary<string, HashSet<string>>? fileExclusions = null)
     {
-        var rsShaders = Path.Combine(gameDir, GameReShadeShaders, "Shaders");
+        var rsShaders = Path.Combine(gameDir, GameReShadeShaders, "着色器");
         var rsTextures = Path.Combine(gameDir, GameReShadeShaders, "Textures");
 
         var (allKnownShaders, allKnownTextures) = AllKnownPackFiles();
@@ -414,9 +414,9 @@ public partial class ShaderPackService
             bool hasCustomPacksNew = selectedPackIds.Any(id => id.Equals(CustomFilePackId, StringComparison.OrdinalIgnoreCase)
                                                             || id.StartsWith(CustomFilePackId + "_", StringComparison.OrdinalIgnoreCase));
             if (normalPacksNew.Count > 0)
-                DeployPacksIfAbsent(normalPacksNew, Path.Combine(rsDir, "Shaders"), Path.Combine(rsDir, "Textures"), fileExclusions);
+                DeployPacksIfAbsent(normalPacksNew, Path.Combine(rsDir, "着色器"), Path.Combine(rsDir, "Textures"), fileExclusions);
             if (hasCustomPacksNew)
-                DeployCustomFilesIfAbsent(Path.Combine(rsDir, "Shaders"), Path.Combine(rsDir, "Textures"), fileExclusions);
+                DeployCustomFilesIfAbsent(Path.Combine(rsDir, "着色器"), Path.Combine(rsDir, "Textures"), fileExclusions);
             WriteMarker(gameDir);
         }
     }

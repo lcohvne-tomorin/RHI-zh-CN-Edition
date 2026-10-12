@@ -164,7 +164,7 @@ public static class ShortcutService
                 workingDir:  exeDir,
                 iconPath:    iconPath,
                 iconIndex:   iconIndex,
-                description: $"Launch {gameName} via RHI",
+                description: $"通过 RHI 启动 {gameName}",
                 outputPath:  lnkPath);
 
             return lnkPath;

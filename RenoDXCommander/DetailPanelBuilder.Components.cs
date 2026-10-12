@@ -157,13 +157,13 @@ public partial class DetailPanelBuilder
                 {
                     // Use cached Vulkan layer version from card instead of reading from disk
                     var vulkanVersion = card.VulkanLayerInstalledVersion;
-                    _window.DetailRsStatus.Text = (vulkanVersion ?? "Installed") + "\n(Vulkan)";
+                    _window.DetailRsStatus.Text = (vulkanVersion ?? "已安装") + "\n(Vulkan)";
                     _window.DetailRsStatus.Foreground = UIFactory.GetBrush("#5ECB7D");
                     _window.DetailRsStatus.TextDecorations = Windows.UI.Text.TextDecorations.Underline;
                 }
                 else
                 {
-                    _window.DetailRsStatus.Text = "Ready";
+                    _window.DetailRsStatus.Text = "就绪";
                     _window.DetailRsStatus.Foreground = UIFactory.GetBrush("#A0AABB");
                     _window.DetailRsStatus.TextDecorations = Windows.UI.Text.TextDecorations.None;
                 }
@@ -380,7 +380,7 @@ public partial class DetailPanelBuilder
                 _window.DetailRdxLabel.TextDecorations = extStrike;
                 _window.DetailRdxLabel.Opacity = rdxGreyed ? 0.35 : 1.0;
 
-                _window.DetailRdxStatus.Text = card.IsRdxInstalled ? (card.RdxInstalledVersion ?? "Installed") : "";
+                _window.DetailRdxStatus.Text = card.IsRdxInstalled ? (card.RdxInstalledVersion ?? "已安装") : "";
                 _window.DetailRdxStatus.Foreground = UIFactory.GetBrush("#5ECB7D");
                 _window.DetailRdxStatus.TextDecorations = card.UseNormalReShade
                     ? Windows.UI.Text.TextDecorations.Strikethrough

@@ -159,7 +159,7 @@ public partial class ShaderPackService
             $"versionMatch={versionMatch} cacheExists={cacheExists} hasExtracted={hasExtracted}");
 
         // ── Download ──────────────────────────────────────────────────────────────
-        progress?.Report($"Downloading {pack.DisplayName}...");
+        progress?.Report($"正在下载 {pack.DisplayName}...");
         CrashReporter.Log($"[ShaderPackService.EnsurePackAsync] [{pack.Id}] Downloading from {downloadUrl}");
 
         Directory.CreateDirectory(DownloadPaths.Shaders);
@@ -187,7 +187,7 @@ public partial class ShaderPackService
                     await file.WriteAsync(buf.AsMemory(0, read));
                     received += read;
                     if (total > 0)
-                        progress?.Report($"Downloading {pack.DisplayName}... {received / 1024} KB / {total / 1024} KB");
+                        progress?.Report($"正在下载 {pack.DisplayName}... {received / 1024} KB / {total / 1024} KB");
                 }
             }
 
@@ -202,7 +202,7 @@ public partial class ShaderPackService
         }
 
         // ── Extract ───────────────────────────────────────────────────────────────
-        progress?.Report($"Extracting {pack.DisplayName}...");
+        progress?.Report($"正在解压 {pack.DisplayName}...");
         try
         {
             Directory.CreateDirectory(ShadersDir);
@@ -306,12 +306,12 @@ public partial class ShaderPackService
 
         await SaveStoredVersionAsync(pack.Id, versionToken);
         ClearIncludeCache();
-        progress?.Report($"{pack.DisplayName} updated.");
+        progress?.Report($"{pack.DisplayName} 已更新。");
         CrashReporter.Log($"[ShaderPackService.EnsurePackAsync] [{pack.Id}] Done. Version = {versionToken}");
         App.Services.GetRequiredService<IUpdateLogService>().Record(new Models.UpdateLogEntry
         {
             Timestamp     = DateTime.UtcNow,
-            Category      = "Shader Pack",
+            Category      = "着色器包",
             ComponentName = pack.DisplayName,
             OldVersion    = stored,
             NewVersion    = versionToken,
@@ -401,7 +401,7 @@ public partial class ShaderPackService
             var cacheExt = Path.GetExtension(cachePath);
             if (cacheExt.Equals(".fx", StringComparison.OrdinalIgnoreCase) || cacheExt.Equals(".fxh", StringComparison.OrdinalIgnoreCase))
             {
-                files.Add(Path.Combine("Shaders", packId, Path.GetFileName(cachePath)));
+                files.Add(Path.Combine("着色器", packId, Path.GetFileName(cachePath)));
             }
             else
             {
@@ -442,7 +442,7 @@ public partial class ShaderPackService
                 var recFileName = Path.GetFileName(relInRoot);
                 if (rootDir == ShadersDir && ExcludedShaderFiles.Contains(recFileName)) continue;
                 // Store as relative path from RsStagingDir, with pack subdirectory
-                var subDir = rootDir == ShadersDir ? "Shaders" : "Textures";
+                var subDir = rootDir == ShadersDir ? "着色器" : "Textures";
                 files.Add(Path.Combine(subDir, packId, relInRoot.Replace('/', Path.DirectorySeparatorChar)));
             }
             } // end else (archive recording)
@@ -745,7 +745,7 @@ public partial class ShaderPackService
             foreach (var file in Directory.EnumerateFiles(packShadersDir, "*", SearchOption.AllDirectories))
             {
                 var rel = Path.GetRelativePath(packShadersDir, file);
-                files.Add(Path.Combine("Shaders", packId, rel));
+                files.Add(Path.Combine("着色器", packId, rel));
             }
         }
         if (Directory.Exists(packTexturesDir))
@@ -784,7 +784,7 @@ public partial class ShaderPackService
             foreach (var file in Directory.EnumerateFiles(packShadersDir, "*", SearchOption.AllDirectories))
             {
                 var rel = Path.GetRelativePath(packShadersDir, file);
-                files.Add(Path.Combine("Shaders", packId, rel));
+                files.Add(Path.Combine("着色器", packId, rel));
             }
         }
         if (Directory.Exists(packTexturesDir))

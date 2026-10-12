@@ -37,7 +37,7 @@ public class LumaService : ILumaService
     /// </summary>
     public async Task<List<LumaMod>> FetchCompletedModsAsync(IProgress<string>? progress = null)
     {
-        progress?.Report("Fetching Luma wiki...");
+        progress?.Report("正在获取 Luma wiki...");
         var html = await _http.GetStringAsync(WikiUrl);
         var doc = new HtmlDocument();
         doc.LoadHtml(html);
@@ -171,7 +171,7 @@ public class LumaService : ILumaService
                 mods[i].FeatureNotes = ExtractAnchorSection(doc, anchor, allAnchors);
         }
 
-        progress?.Report($"Found {mods.Count} Luma mods");
+        progress?.Report($"找到 {mods.Count} 个 Luma mod");
         return mods;
     }
 
@@ -182,7 +182,7 @@ public class LumaService : ILumaService
     /// </summary>
     public async Task<Dictionary<string, LumaGenericGameEntry>> FetchGenericUeTableAsync(IProgress<string>? progress = null)
     {
-        progress?.Report("Fetching Luma UE wiki...");
+        progress?.Report("正在获取 Luma UE wiki...");
         var result = new Dictionary<string, LumaGenericGameEntry>(StringComparer.OrdinalIgnoreCase);
 
         try
@@ -561,7 +561,7 @@ public class LumaService : ILumaService
         string? store = null)
     {
         if (mod.DownloadUrl == null)
-            throw new InvalidOperationException($"{mod.Name} has no download URL.");
+            throw new InvalidOperationException($"{mod.Name} 没有下载 URL。");
 
         // Only allow downloads from Filoppi's GitHub to prevent untrusted sources.
         if (!mod.DownloadUrl.StartsWith("https://github.com/Filoppi/", StringComparison.OrdinalIgnoreCase))
@@ -601,7 +601,7 @@ public class LumaService : ILumaService
         // Download
         if (needsDownload)
         {
-        progress?.Report(("Downloading Luma mod...", 0));
+        progress?.Report(("正在下载 Luma mod...", 0));
         HttpResponseMessage? response = null;
         try
         {
@@ -622,7 +622,7 @@ public class LumaService : ILumaService
                     await cacheFile.WriteAsync(buffer.AsMemory(0, read));
                     downloaded += read;
                     if (total > 0)
-                        progress?.Report(($"Downloading... {downloaded / 1024} KB",
+                        progress?.Report(($"正在下载... {downloaded / 1024} KB",
                                           (double)downloaded / total * 100));
                 }
                 cacheFile.Flush();
@@ -637,7 +637,7 @@ public class LumaService : ILumaService
         }
         catch (Exception ex)
         {
-            throw new HttpRequestException($"Failed to download Luma mod: {ex.Message}");
+            throw new HttpRequestException($"下载 Luma mod 失败：{ex.Message}");
         }
         finally
         {
@@ -646,7 +646,7 @@ public class LumaService : ILumaService
         } // end if (needsDownload)
 
         // Extract zip to game folder, tracking all extracted file names
-        progress?.Report(("Extracting Luma files...", 80));
+        progress?.Report(("正在解压 Luma 文件...", 80));
         var installedFiles = new List<string>();
 
         // ── Deploy reshade.ini FIRST ──────────────────────────────────────────────
@@ -665,7 +665,7 @@ public class LumaService : ILumaService
         catch (Exception ex) { CrashReporter.Log($"[LumaService.Install] reshade.ini deploy failed — {ex.Message}"); }
 
         // ── Extract zip ───────────────────────────────────────────────────────────
-        progress?.Report(("Extracting Luma files...", 80));
+        progress?.Report(("正在解压 Luma 文件...", 80));
 
         if (cachePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
         {
@@ -720,7 +720,7 @@ public class LumaService : ILumaService
         }
 
         // ── Deploy shaders (same as normal ReShade — respects global/per-game selection) ──
-        progress?.Report(("Deploying shaders...", 95));
+        progress?.Report(("正在部署着色器...", 95));
         try
         {
             var exclLuma1 = selectedShaderPacks == null ? null : await Task.Run(() =>
@@ -755,7 +755,7 @@ public class LumaService : ILumaService
             InstalledBuildNumber = await GetLatestBuildNumberAsync().ConfigureAwait(false),
         };
         SaveRecord(record);
-        progress?.Report(("Luma installed!", 100));
+        progress?.Report(("Luma 已安装！", 100));
         return record;
     }
 
@@ -1027,7 +1027,7 @@ public class LumaService : ILumaService
     // Generics and dev tools — not real game mods, skip them
     private static readonly HashSet<string> ReleasesApiExclusions = new(StringComparer.OrdinalIgnoreCase)
     {
-        "Generic Mod", "Unreal Engine", "Unity Engine", "Graphics Analyzer"
+        "通用 Mod", "虚幻引擎", "Unity 引擎", "图形分析器"
     };
 
     /// <summary>

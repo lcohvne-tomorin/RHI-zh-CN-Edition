@@ -34,14 +34,14 @@ public class LiliumShaderService : ILiliumShaderService
     private const string SettingsKey = "LiliumShadersVersion";
 
     // Staging paths (inside the RenoDXCommander reshade folder)
-    public static readonly string ShadersDir  = Path.Combine(AuxInstallService.RsStagingDir, "Shaders");
+    public static readonly string ShadersDir  = Path.Combine(AuxInstallService.RsStagingDir, "着色器");
     public static readonly string TexturesDir = Path.Combine(AuxInstallService.RsStagingDir, "Textures");
 
     // DC global path — shaders go here when DC Mode is active
     public static readonly string DcReshadeDir = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "Programs", "Display_Commander", "Reshade");
-    public static readonly string DcShadersDir  = Path.Combine(DcReshadeDir, "Shaders");
+    public static readonly string DcShadersDir  = Path.Combine(DcReshadeDir, "着色器");
     public static readonly string DcTexturesDir = Path.Combine(DcReshadeDir, "Textures");
 
     // Game-local path name (non-DC mode)
@@ -62,7 +62,7 @@ public class LiliumShaderService : ILiliumShaderService
     {
         try
         {
-            progress?.Report("Checking Lilium HDR shaders...");
+            progress?.Report("正在检查 Lilium HDR 着色器...");
 
             // ── 1. Fetch latest release metadata ─────────────────────────────────
             string? json;
@@ -121,7 +121,7 @@ public class LiliumShaderService : ILiliumShaderService
                 return;
             }
 
-            progress?.Report($"Downloading Lilium shaders ({assetName})...");
+            progress?.Report($"正在下载 Lilium 着色器（{assetName}）...");
             CrashReporter.Log($"[LiliumShaderService.EnsureLatestAsync] Downloading {assetName} from {downloadUrl}");
 
             // ── 4. Download the .7z into the downloads cache ─────────────────────
@@ -151,7 +151,7 @@ public class LiliumShaderService : ILiliumShaderService
                         await file.WriteAsync(buf.AsMemory(0, read));
                         downloaded += read;
                         if (total > 0)
-                            progress?.Report($"Downloading Lilium shaders... {downloaded / 1024} KB / {total / 1024} KB");
+                            progress?.Report($"正在下载 Lilium 着色器... {downloaded / 1024} KB / {total / 1024} KB");
                     }
                 }
 
@@ -166,7 +166,7 @@ public class LiliumShaderService : ILiliumShaderService
             }
 
             // ── 5. Extract Shaders/ and Textures/ from the .7z ──────────────────
-            progress?.Report("Extracting Lilium shaders...");
+            progress?.Report("正在解压 Lilium 着色器...");
             try
             {
                 Directory.CreateDirectory(ShadersDir);
@@ -262,7 +262,7 @@ public class LiliumShaderService : ILiliumShaderService
     {
         if (!ShadersAvailable) return;
         var rsDir = Path.Combine(gameDir, GameReShadeShaders);
-        DeployFolderIfAbsent(ShadersDir,  Path.Combine(rsDir, "Shaders"));
+        DeployFolderIfAbsent(ShadersDir,  Path.Combine(rsDir, "着色器"));
         DeployFolderIfAbsent(TexturesDir, Path.Combine(rsDir, "Textures"));
     }
 

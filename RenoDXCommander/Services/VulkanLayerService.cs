@@ -107,7 +107,7 @@ public static class VulkanLayerService
     {
         if (!IsRunningAsAdmin())
             throw new UnauthorizedAccessException(
-                "Administrator privileges are required to install the Vulkan ReShade layer.");
+                "安装 Vulkan ReShade 层需要管理员权限。");
 
         var stagedDll = AuxInstallService.RsStagedPath64;
         if (!File.Exists(stagedDll))
@@ -163,7 +163,7 @@ public static class VulkanLayerService
     {
         if (!IsRunningAsAdmin())
             throw new UnauthorizedAccessException(
-                "Administrator privileges are required to uninstall the Vulkan ReShade layer.");
+                "卸载 Vulkan ReShade 层需要管理员权限。");
 
         UninstallLayer(Registry.LocalMachine, RegistryKeyPath, LayerManifestPath, LayerDllPath);
     }

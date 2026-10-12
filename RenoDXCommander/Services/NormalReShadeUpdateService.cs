@@ -113,7 +113,7 @@ public class NormalReShadeUpdateService : INormalReShadeUpdateService
             && new FileInfo(stagedPath32).Length > 1_000_000)
         {
             CrashReporter.Log($"[NormalReShadeUpdateService.EnsureLatestAsync] Already have v{version}");
-            progress?.Report(($"Normal ReShade {version} is current", 100));
+            progress?.Report(($"标准 ReShade {version} 已是最新", 100));
             return false;
         }
 
@@ -154,7 +154,7 @@ public class NormalReShadeUpdateService : INormalReShadeUpdateService
                         if (totalBytes > 0)
                         {
                             var pct = 15.0 + (downloaded / (double)totalBytes * 60.0);
-                            progress?.Report(($"Downloading Normal ReShade {version}... {downloaded / 1024}KB", pct));
+                            progress?.Report(($"正在下载标准 ReShade {version}... {downloaded / 1024}KB", pct));
                         }
                     }
                 }
@@ -216,7 +216,7 @@ public class NormalReShadeUpdateService : INormalReShadeUpdateService
         }
 
         // Extract DLLs from the exe (it has an appended ZIP archive)
-        progress?.Report(("Extracting Normal ReShade DLLs...", 80));
+        progress?.Report(("正在解压标准 ReShade DLL...", 80));
         try
         {
             await _extractor.ExtractFileAsync(exePath, "ReShade64.dll", stagedPath64);
@@ -254,13 +254,13 @@ public class NormalReShadeUpdateService : INormalReShadeUpdateService
         }
         catch (Exception ex) { CrashReporter.Log($"[NormalReShadeUpdateService.EnsureLatestAsync] Failed to clean up old installers — {ex.Message}"); }
 
-        progress?.Report(($"Normal ReShade {version} ready!", 100));
+        progress?.Report(($"标准 ReShade {version} 就绪！", 100));
         CrashReporter.Log($"[NormalReShadeUpdateService.EnsureLatestAsync] Staged v{version} successfully");
         App.Services.GetRequiredService<IUpdateLogService>().Record(new Models.UpdateLogEntry
         {
             Timestamp     = DateTime.UtcNow,
             Category      = "ReShade",
-            ComponentName = "ReShade (Standard)",
+            ComponentName = "ReShade（标准）",
             NewVersion    = version,
         });
         return true;

@@ -205,10 +205,10 @@ public class InstallEventHandler
             {
                 var warningDialog = new ContentDialog
                 {
-                    Title = "⚠ OptiScaler Setup",
+                    Title = "⚠ OptiScaler 设置",
                     Content = "Before installing OptiScaler, please configure your GPU type and DLSS input (AMD/Intel only) settings in the OptiScaler Settings section on the Settings page.\n\nThis ensures OptiScaler is configured correctly for your hardware.",
-                    PrimaryButtonText = "Continue",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "继续",
+                    CloseButtonText = "取消",
                     XamlRoot = xamlRoot,
                     RequestedTheme = ElementTheme.Dark,
                 };
@@ -227,7 +227,7 @@ public class InstallEventHandler
         var osVariant = ViewModel.GetOsVariant(card.GameName, card.Source ?? "");
 
         card.OsIsInstalling = true;
-        card.OsActionMessage = "Installing OptiScaler...";
+        card.OsActionMessage = "正在安装 OptiScaler...";
         card.OsProgress = 0;
         AuxInstalledRecord? osRecord = null;
         try
@@ -278,7 +278,7 @@ public class InstallEventHandler
                 }
             }
 
-            card.OsActionMessage = "✅ OptiScaler installed!";
+            card.OsActionMessage = "✅ OptiScaler 已安装！";
             card.OsStatus = GameStatus.Installed;
             card.NotifyAll();
             card.FadeMessage(m => card.OsActionMessage = m, card.OsActionMessage);
@@ -321,7 +321,7 @@ public class InstallEventHandler
         }
         catch (Exception ex)
         {
-            card.OsActionMessage = $"❌ Install failed: {ex.Message}";
+            card.OsActionMessage = $"❌ 安装失败：{ex.Message}";
         }
         finally
         {
@@ -392,14 +392,14 @@ public class InstallEventHandler
             }
             catch (Exception cleanEx) { CrashReporter.Log($"[InstallEventHandler.UninstallOptiScaler] Settings cleanup failed — {cleanEx.Message}"); }
 
-            card.OsActionMessage = "✖ OptiScaler removed.";
+            card.OsActionMessage = "✖ OptiScaler 已移除。";
             card.OsStatus = GameStatus.Available;
             card.NotifyAll();
             card.FadeMessage(m => card.OsActionMessage = m, card.OsActionMessage);
         }
         catch (Exception ex)
         {
-            card.OsActionMessage = $"❌ Uninstall failed: {ex.Message}";
+            card.OsActionMessage = $"❌ 卸载失败：{ex.Message}";
         }
 
         _window.DispatcherQueue?.TryEnqueue(() =>
@@ -421,7 +421,7 @@ public class InstallEventHandler
             var fgOutput = ViewModel.GetOsFgOutput(card.GameName, card.Source ?? "");
             var fgNvngx = ViewModel.GetOsFgNvngxReplacement(card.GameName, card.Source ?? "");
             OptiScalerService.ApplyFgSettings(card.InstallPath, fgInput, fgOutput, fgNvngx);
-            card.OsActionMessage = "✅ OptiScaler.ini copied to game folder.";
+            card.OsActionMessage = "✅ OptiScaler.ini 已复制到游戏文件夹。";
             card.FadeMessage(m => card.OsActionMessage = m, card.OsActionMessage);
         }
         catch (Exception ex)
@@ -535,7 +535,7 @@ public class InstallEventHandler
         ViewModel.ToggleUeExtended(card);
 
         // Directly update the badge text based on the new state
-        string newLabel = card.UseUeExtended ? "UE Extended" : "Generic UE";
+        string newLabel = card.UseUeExtended ? "UE Extended" : "通用 UE";
         _window.DetailGenericText.Text = newLabel;
 
         // Update the UE button styling
@@ -554,7 +554,7 @@ public class InstallEventHandler
 
         // Update tooltip
         ToolTipService.SetToolTip(_window.DetailUeExtendedBtn,
-            card.UseUeExtended ? "Disable UE Extended" : "Enable UE Extended");
+            card.UseUeExtended ? "禁用 UE 扩展" : "启用 UE 扩展");
 
         // Show inline message or warning dialog
         if (card.UseUeExtended)
@@ -598,7 +598,7 @@ public class InstallEventHandler
 
         var dontShowCheck = new CheckBox
         {
-            Content = "Don't show this again",
+            Content = "不再显示",
             FontSize = 12,
             Margin = new Thickness(0, 12, 0, 0),
         };
@@ -607,7 +607,7 @@ public class InstallEventHandler
         {
             Text = "Heads up — you're installing both RenoDX and Luma on this game.\n\n" +
                    "There's no guarantee they'll work well together. If you're using RenoDX for HDR and just want Luma for DLAA, make sure to disable HDR in the Luma mod settings to avoid conflicts.\n\n" +
-                   "If something doesn't look right, uninstalling one of them is the first thing to try. We can't offer support for issues that come from running both together.",
+                   "如果出现问题，首先尝试卸载其中一个。我们无法为同时运行两者所导致的问题提供支持。",
             TextWrapping = TextWrapping.Wrap,
             FontSize = 13,
             LineHeight = 22,
@@ -620,10 +620,10 @@ public class InstallEventHandler
 
         var dialog = new ContentDialog
         {
-            Title = "Installing both RenoDX and Luma",
+            Title = "同时安装 RenoDX 和 Luma",
             Content = content,
-            PrimaryButtonText = "Continue",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "继续",
+            CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = xamlRoot,
             RequestedTheme = ElementTheme.Dark,

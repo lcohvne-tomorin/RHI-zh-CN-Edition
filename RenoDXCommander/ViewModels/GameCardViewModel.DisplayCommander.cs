@@ -12,11 +12,11 @@ public partial class GameCardViewModel
     public string DcStatusDot => DcStatus == GameStatus.UpdateAvailable ? "🟢"
         : DcStatus == GameStatus.Installed ? "🟢" : "⚪";
 
-    public string DcActionLabel => DcIsInstalling ? "Installing..."
-        : (!IsRsInstalled && !ExcludeFromUpdateAllReShade) ? "⚠  ReShade required"
-        : DcStatus == GameStatus.UpdateAvailable ? "⬆  Update DC"
-        : DcStatus == GameStatus.Installed ? "↺  Reinstall DC"
-        : "⬇  Install DC";
+    public string DcActionLabel => DcIsInstalling ? "正在安装..."
+        : (!IsRsInstalled && !ExcludeFromUpdateAllReShade) ? "⚠  ReShade 必需"
+        : DcStatus == GameStatus.UpdateAvailable ? "⬆  更新 DC"
+        : DcStatus == GameStatus.Installed ? "↺  重新安装 DC"
+        : "⬇  安装 DC";
 
     public string DcBtnBackground  => DcStatus == GameStatus.UpdateAvailable ? "#201838" : "#182840";
     public string DcBtnForeground  => DcStatus == GameStatus.UpdateAvailable ? "#B898E8" : "#7AACDD";
@@ -27,18 +27,18 @@ public partial class GameCardViewModel
     public Visibility DcDeleteVisibility   => DcStatus == GameStatus.Installed || DcStatus == GameStatus.UpdateAvailable
         ? Visibility.Visible : Visibility.Collapsed;
 
-    public string DcStatusText => DcIsInstalling ? "Installing…"
-        : DcStatus == GameStatus.UpdateAvailable ? "Update"
-        : DcStatus == GameStatus.Installed ? (DcInstalledVersion ?? "Installed")
-        : "Ready";
+    public string DcStatusText => DcIsInstalling ? "正在安装…"
+        : DcStatus == GameStatus.UpdateAvailable ? "更新"
+        : DcStatus == GameStatus.Installed ? (DcInstalledVersion ?? "已安装")
+        : "就绪";
     public string DcStatusColor => DcIsInstalling ? "#D4A856"
         : DcStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : DcStatus == GameStatus.Installed ? "#5ECB7D"
         : "#A0AABB";
     public string DcShortAction => DcIsInstalling ? "…"
-        : DcStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-        : DcStatus == GameStatus.Installed ? "↺ Reinstall"
-        : "⬇ Install";
+        : DcStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+        : DcStatus == GameStatus.Installed ? "↺ 重新安装"
+        : "⬇ 安装";
 
     public bool IsDcNotInstalling => !DcIsInstalling;
     public bool IsDcInstalled => DcStatus == GameStatus.Installed || DcStatus == GameStatus.UpdateAvailable;

@@ -483,7 +483,7 @@ public partial class MainViewModel
                 // Create or override the mod to use UE-Extended URL
                 effectiveMod = new GameMod
                 {
-                    Name            = effectiveMod?.Name ?? "Generic Unreal Engine",
+                    Name            = effectiveMod?.Name ?? "通用虚幻引擎",
                     Maintainer      = effectiveMod?.Maintainer ?? "ShortFuse",
                     SnapshotUrl     = UeExtendedUrl,
                     Status          = effectiveMod?.Status ?? "✅",
@@ -499,7 +499,7 @@ public partial class MainViewModel
             {
                 effectiveMod = new GameMod
                 {
-                    Name            = "Generic Unreal Engine",
+                    Name            = "通用虚幻引擎",
                     Maintainer      = "ShortFuse",
                     SnapshotUrl     = UeExtendedUrl,
                     Status          = "✅",
@@ -689,7 +689,7 @@ public partial class MainViewModel
                                        ? (useUeExt && engine == EngineType.Unknown ? FormatEngineHint(EngineType.Unreal, installPath) : engineOverrideLabel)
                                        : (useUeExt && engine == EngineType.Unknown) ? FormatEngineHint(EngineType.Unreal, installPath)
                                        : engine == EngineType.Unreal       ? FormatEngineHint(EngineType.Unreal, installPath)
-                                       : engine == EngineType.UnrealLegacy ? "Unreal (Legacy)"
+                                       : engine == EngineType.UnrealLegacy ? "虚幻（旧版）"
                                        : engine == EngineType.Unity        ? "Unity"
                                        : engine == EngineType.REEngine     ? "RE Engine" : "",
                 Notes                  = effectiveMod != null ? BuildNotes(game.Name, effectiveMod, fallback, genericNotes, isNativeHdr) : "",
@@ -711,7 +711,7 @@ public partial class MainViewModel
                                          : effectiveMod?.NexusUrl ?? effectiveMod?.DiscordUrl ?? "",
                 ExternalLabel          = _wikiExclusions.Contains(game.Name)
                                          ? ""
-                                         : effectiveMod?.NexusUrl != null ? "Download from Nexus Mods" : "Download from Discord",
+                                         : effectiveMod?.NexusUrl != null ? "从 Nexus Mods 下载" : "从 Discord 下载",
                 NexusUrl               = effectiveMod?.NexusUrl,
                 DiscordUrl             = _wikiExclusions.Contains(game.Name)
                                          ? null
@@ -781,7 +781,7 @@ public partial class MainViewModel
             var ue5ApiKey = GameKey.FromCard(game.Name, game.Source).ToKey();
             bool hasUserApiOverride = _apiOverrides.ContainsKey(ue5ApiKey) || _apiOverrides.ContainsKey(game.Name);
             if (engine == EngineType.Unreal
-                && newCard.EngineHint.Contains("Unreal Engine 5.", StringComparison.OrdinalIgnoreCase)
+                && newCard.EngineHint.Contains("虚幻引擎 5。", StringComparison.OrdinalIgnoreCase)
                 && !hasUserApiOverride
                 && (_manifest?.GraphicsApiOverrides?.ContainsKey(game.Name) != true))
             {
@@ -792,7 +792,7 @@ public partial class MainViewModel
 
             // Unreal Legacy (UE1/2/3) games ran DX9. If PE scan picked up a DX11 shim
             // (common in older UE titles that added partial DX11 support), cap back to DX9.
-            if (newCard.EngineHint == "Unreal (Legacy)"
+            if (newCard.EngineHint == "虚幻（旧版）"
                 && !hasUserApiOverride
                 && (_manifest?.GraphicsApiOverrides?.ContainsKey(game.Name) != true)
                 && newCard.DetectedApis.Contains(GraphicsApiType.DirectX9))
@@ -1329,7 +1329,7 @@ public partial class MainViewModel
                 newCard.EngineHint = manifestEngineHint;
 
             // ── Engine version user override (for games where detection failed) ──
-            if (newCard.EngineHint == "Unreal Engine" && _gameNameService.EngineVersionOverrides.TryGetValue(game.Name, out var evOverride))
+            if (newCard.EngineHint == "虚幻引擎" && _gameNameService.EngineVersionOverrides.TryGetValue(game.Name, out var evOverride))
                 newCard.EngineHint = evOverride;
 
             // ── PCGW engine fallback — fills EngineHint when PE detection returned nothing ──

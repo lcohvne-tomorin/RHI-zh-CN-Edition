@@ -426,16 +426,16 @@ public sealed partial class MainWindow : Window
         _selectionDebounceTimer?.Stop();
         _crashReporter.Log("[Shutdown] Sequence started");
         RunShutdownStep("dialogs", DialogService.Stop);
-        RunShutdownStep("background timers", ViewModel.StopBackgroundWork);
+        RunShutdownStep("后台计时器", ViewModel.StopBackgroundWork);
         RunShutdownStep("panel scans", _detailPanelBuilder.StopBackgroundWork);
 
         // An auxiliary Window keeps WinUI alive even after the main Window closes.
-        RunShutdownStep("update log window", () => _updateLogWindow?.Close());
+        RunShutdownStep("更新日志窗口", () => _updateLogWindow?.Close());
         ViewModel.PropertyChanged -= OnViewModelChanged;
         if (_detailPanelBuilder.CurrentDetailCard != null)
             _detailPanelBuilder.CurrentDetailCard.PropertyChanged -= _detailPanelBuilder.DetailCard_PropertyChanged;
         RunShutdownStep("file watcher", _addonFileWatcher.Dispose);
-        RunShutdownStep("drag and drop", _windowStateManager.CleanupOleDragDrop);
+        RunShutdownStep("拖放", _windowStateManager.CleanupOleDragDrop);
         RunShutdownStep("tray", TrayIconService.Dispose);
         // Save first, then flush: SaveSettingsPublic schedules a debounced write.
         RunShutdownStep("settings", () => { ViewModel.SaveSettingsPublic(); ViewModel.FlushPendingSaves(); });
@@ -443,7 +443,7 @@ public sealed partial class MainWindow : Window
         if (!ViewModel.IsLoading)
             RunShutdownStep("library", ViewModel.SaveLibraryPublic);
         RunShutdownStep("window bounds", _windowStateManager.SaveWindowBounds);
-        RunShutdownStep("single instance", SingleInstanceService.Stop);
+        RunShutdownStep("单实例", SingleInstanceService.Stop);
         _crashReporter.Log("[Shutdown] All steps complete — exiting");
         CrashReporter.Shutdown(); // flush async log channel (waits up to 2s for drain)
         Application.Current.Exit();
@@ -598,18 +598,18 @@ public sealed partial class MainWindow : Window
                 };
                 var pickerDialog = new ContentDialog
                 {
-                    Title = "🌙 Install Luma Addon",
+                    Title = "🌙 安装 Luma 插件",
                     Content = new StackPanel
                     {
                         Spacing = 8,
                         Children =
                         {
-                            new TextBlock { Text = $"Install {Path.GetFileName(filePath)} to:", TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap, FontSize = 12 },
+                            new TextBlock { Text = $"将 {Path.GetFileName(filePath)} 安装到：", TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap, FontSize = 12 },
                             combo,
                         }
                     },
-                    PrimaryButtonText = "Install",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "安装",
+                    CloseButtonText = "取消",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
                 };

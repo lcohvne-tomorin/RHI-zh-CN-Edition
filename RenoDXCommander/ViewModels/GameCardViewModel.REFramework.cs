@@ -13,10 +13,10 @@ public partial class GameCardViewModel
 
     // ── REF computed properties ───────────────────────────────────────────────────
 
-    public string RefActionLabel => RefIsInstalling ? "Installing..."
-        : RefStatus == GameStatus.UpdateAvailable ? "⬆  Update RE Framework"
-        : RefStatus == GameStatus.Installed ? "↺  Reinstall RE Framework"
-        : "⬇  Install RE Framework";
+    public string RefActionLabel => RefIsInstalling ? "正在安装..."
+        : RefStatus == GameStatus.UpdateAvailable ? "⬆  更新 RE Framework"
+        : RefStatus == GameStatus.Installed ? "↺  重新安装 RE Framework"
+        : "⬇  安装 RE Framework";
 
     public string RefBtnBackground  => RefStatus == GameStatus.UpdateAvailable ? "#201838" : "#182840";
     public string RefBtnForeground  => RefStatus == GameStatus.UpdateAvailable ? "#B898E8" : "#7AACDD";
@@ -26,18 +26,18 @@ public partial class GameCardViewModel
     public Visibility RefMessageVisibility  => string.IsNullOrEmpty(RefActionMessage) ? Visibility.Collapsed : Visibility.Visible;
     public Visibility RefDeleteVisibility   => RefStatus == GameStatus.Installed || RefStatus == GameStatus.UpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
 
-    public string RefStatusText => RefIsInstalling ? "Installing…"
-        : RefStatus == GameStatus.UpdateAvailable ? "Update"
-        : RefStatus == GameStatus.Installed ? (RefInstalledVersion ?? "Installed")
-        : "Ready";
+    public string RefStatusText => RefIsInstalling ? "正在安装…"
+        : RefStatus == GameStatus.UpdateAvailable ? "更新"
+        : RefStatus == GameStatus.Installed ? (RefInstalledVersion ?? "已安装")
+        : "就绪";
     public string RefStatusColor => RefIsInstalling ? "#D4A856"
         : RefStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : RefStatus == GameStatus.Installed ? "#5ECB7D"
         : "#A0AABB";
     public string RefShortAction => RefIsInstalling ? "…"
-        : RefStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-        : RefStatus == GameStatus.Installed ? "↺ Reinstall"
-        : "⬇ Install";
+        : RefStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+        : RefStatus == GameStatus.Installed ? "↺ 重新安装"
+        : "⬇ 安装";
 
     public bool IsRefNotInstalling => !RefIsInstalling;
     public bool IsRefInstalled => RefStatus == GameStatus.Installed || RefStatus == GameStatus.UpdateAvailable;

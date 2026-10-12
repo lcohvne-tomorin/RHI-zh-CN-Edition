@@ -100,7 +100,7 @@ public class Dlssg20_30Service
             return;
         }
 
-        progress?.Report(("Downloading 20/30 FG Unlock DLL...", 20));
+        progress?.Report(("正在下载 20/30 系帧生成解锁 DLL...", 20));
         if (!await DownloadFileAsync(DllRawUrl, Path.Combine(_stagingDir, StagedDllName)).ConfigureAwait(false))
             return;
 
@@ -112,7 +112,7 @@ public class Dlssg20_30Service
         LatestVersion = sha;
         HasUpdate = false;
         _crashReporter.Log($"[Dlssg20_30Service.EnsureStaging] Staged commit {sha}");
-        progress?.Report(("20/30 FG Unlock ready", 100));
+        progress?.Report(("20/30 系帧生成解锁就绪", 100));
     }
 
     // ── Install ───────────────────────────────────────────────────────────────

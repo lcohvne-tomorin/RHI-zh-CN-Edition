@@ -1047,7 +1047,7 @@ public class PcgwService : IPcgwService
                 var tables = doc.DocumentNode.SelectNodes("//table");
                 if (tables != null)
                     foreach (var t in tables)
-                        if (t.InnerText.IndexOf("Technical specs", StringComparison.OrdinalIgnoreCase) >= 0)
+                        if (t.InnerText.IndexOf("技术规格", StringComparison.OrdinalIgnoreCase) >= 0)
                         { apiTable = t; break; }
             }
 
@@ -1099,7 +1099,7 @@ public class PcgwService : IPcgwService
                 // Plain-text fallback
                 var plain = System.Text.RegularExpressions.Regex.Replace(html, "<[^>]+>", "\n");
                 plain = System.Text.RegularExpressions.Regex.Replace(plain, @"\s+", " ");
-                int apiIdx = plain.IndexOf("Technical specs", StringComparison.OrdinalIgnoreCase);
+                int apiIdx = plain.IndexOf("技术规格", StringComparison.OrdinalIgnoreCase);
                 if (apiIdx < 0) return null;
                 int windowEnd = plain.IndexOf("Executable", apiIdx, StringComparison.OrdinalIgnoreCase);
                 if (windowEnd < 0) windowEnd = Math.Min(apiIdx + 1500, plain.Length);
@@ -1179,7 +1179,7 @@ public class PcgwService : IPcgwService
         if (n.Contains("os x") || n.Contains("macos") || n.Contains("mac os")) return true;
         if (System.Text.RegularExpressions.Regex.IsMatch(n, @"\blinux\b.*\bonly\b")) return true;
         if (System.Text.RegularExpressions.Regex.IsMatch(n, @"\bonly\b.*\blinux\b")) return true;
-        if (n.Contains("linux default") || n.Contains("linux only")) return true;
+        if (n.Contains("linux default") || n.Contains("仅 Linux")) return true;
         return false;
     }
 
@@ -1210,7 +1210,7 @@ public class PcgwService : IPcgwService
                 foreach (var node in doc.DocumentNode.Descendants())
                 {
                     if (node.NodeType != HtmlAgilityPack.HtmlNodeType.Element) continue;
-                    if (!node.InnerText.Contains("Configuration file", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (!node.InnerText.Contains("配置文件", StringComparison.OrdinalIgnoreCase)) continue;
 
                     // Only consider elements that look like headings or caption-like cells
                     var tag = node.Name.ToLowerInvariant();
@@ -1316,10 +1316,10 @@ public class PcgwService : IPcgwService
                 plain = System.Text.RegularExpressions.Regex.Replace(plain, @"\s+", " ");
 
                 // Find the second occurrence of "Configuration file" to skip the TOC entry
-                int cfIdx = plain.IndexOf("Configuration file", StringComparison.OrdinalIgnoreCase);
+                int cfIdx = plain.IndexOf("配置文件", StringComparison.OrdinalIgnoreCase);
                 if (cfIdx >= 0)
                 {
-                    int cfIdx2 = plain.IndexOf("Configuration file", cfIdx + 1, StringComparison.OrdinalIgnoreCase);
+                    int cfIdx2 = plain.IndexOf("配置文件", cfIdx + 1, StringComparison.OrdinalIgnoreCase);
                     int searchFrom = cfIdx2 >= 0 ? cfIdx2 : cfIdx;
 
                     // Look within the next 800 chars for a Windows env-var path

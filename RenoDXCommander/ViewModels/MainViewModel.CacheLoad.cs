@@ -19,9 +19,9 @@ public partial class MainViewModel
         if (engine == EngineType.Unreal)
         {
             var version = GameDetectionService.DetectUeVersion(installPath);
-            return version != null ? $"Unreal Engine {version}" : "Unreal Engine";
+            return version != null ? $"虚幻引擎 {version}" : "虚幻引擎";
         }
-        return "Unreal Engine";
+        return "虚幻引擎";
     }
 
     private string BuildNotes(string gameName, GameMod effectiveMod, GameMod? fallback, Dictionary<string, string> genericNotes, bool isNativeHdr = false)
@@ -31,7 +31,7 @@ public partial class MainViewModel
         if (isNativeHdr)
         {
             var parts = new List<string>();
-            parts.Add("⚠ In-game HDR must be turned ON for UE-Extended to work correctly in this title.");
+            parts.Add("⚠ 本作必须开启游戏内 HDR，UE-Extended 才能正常工作。");
 
             // Include wiki tooltip if present (from a specific mod entry)
             if (fallback == null && !string.IsNullOrWhiteSpace(effectiveMod.Notes))
@@ -73,7 +73,7 @@ public partial class MainViewModel
             var specific = GetGenericNote(gameName, genericNotes);
             if (!string.IsNullOrEmpty(specific))
             {
-                notesParts.Add("📋 Game-specific settings:");
+                notesParts.Add("📋 游戏专属设置：");
                 notesParts.Add(specific);
             }
             notesParts.Add(UnrealWarnings);
@@ -83,7 +83,7 @@ public partial class MainViewModel
             var specific = GetGenericNote(gameName, genericNotes);
             if (!string.IsNullOrEmpty(specific))
             {
-                notesParts.Add("📋 Game-specific settings:");
+                notesParts.Add("📋 游戏专属设置：");
                 notesParts.Add(specific);
             }
         }
@@ -582,7 +582,7 @@ public partial class MainViewModel
             var engineHint = engineOverrideLabel != null
                 ? engineOverrideLabel
                 : engine == EngineType.Unreal       ? FormatEngineHint(EngineType.Unreal, installPath)
-                : engine == EngineType.UnrealLegacy ? "Unreal (Legacy)"
+                : engine == EngineType.UnrealLegacy ? "虚幻（旧版）"
                 : engine == EngineType.Unity        ? "Unity"
                 : engine == EngineType.REEngine     ? "RE Engine" : "";
 
@@ -800,7 +800,7 @@ public partial class MainViewModel
                 newCard.EngineHint = manifestEngineHint2;
 
             // Engine version user override (for games where detection failed)
-            if (newCard.EngineHint == "Unreal Engine" && _gameNameService.EngineVersionOverrides.TryGetValue(game.Name, out var evOverride2))
+            if (newCard.EngineHint == "虚幻引擎" && _gameNameService.EngineVersionOverrides.TryGetValue(game.Name, out var evOverride2))
                 newCard.EngineHint = evOverride2;
 
             // PCGW engine fallback — fills EngineHint when PE detection returned nothing.
@@ -888,7 +888,7 @@ public partial class MainViewModel
             var clApiKey = GameKey.FromCard(game.Name, game.Source).ToKey();
             bool clHasUserApiOverride = _apiOverrides.ContainsKey(clApiKey) || _apiOverrides.ContainsKey(game.Name);
             if (engine == EngineType.Unreal
-                && newCard.EngineHint.Contains("Unreal Engine 5.", StringComparison.OrdinalIgnoreCase)
+                && newCard.EngineHint.Contains("虚幻引擎 5。", StringComparison.OrdinalIgnoreCase)
                 && !clHasUserApiOverride
                 && (_manifest?.GraphicsApiOverrides?.ContainsKey(game.Name) != true))
             {
@@ -900,7 +900,7 @@ public partial class MainViewModel
             }
 
             // Unreal Legacy (UE1/2/3) games ran DX9. Cap DX11 shim back to DX9.
-            if (newCard.EngineHint == "Unreal (Legacy)"
+            if (newCard.EngineHint == "虚幻（旧版）"
                 && !clHasUserApiOverride
                 && (_manifest?.GraphicsApiOverrides?.ContainsKey(game.Name) != true)
                 && detectedApis.Contains(GraphicsApiType.DirectX9))
@@ -1172,7 +1172,7 @@ public partial class MainViewModel
         }
 
         // 14. Set StatusText to show cached game count
-        StatusText    = $"{_allCards.Count} games";
+        StatusText    = $"{_allCards.Count} 个游戏";
         SubStatusText = "";
 
         _crashReporter.Log($"[MainViewModel.LoadCacheAndBuildCardsAsync] Cache phase complete — {_allCards.Count} cards displayed");

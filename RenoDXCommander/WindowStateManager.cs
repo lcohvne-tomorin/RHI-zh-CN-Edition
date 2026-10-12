@@ -219,7 +219,7 @@ public class WindowStateManager
 
             // Write HWND and watch folder path to temp file so the helper can find them
             var hwndFile = Path.Combine(Path.GetTempPath(), "rhi_drop_hwnd.txt");
-            var watchFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            var watchFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "下载");
             // Try to get the configured watch folder from settings
             try
             {

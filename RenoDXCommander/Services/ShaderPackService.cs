@@ -30,15 +30,15 @@ public partial class ShaderPackService : IShaderPackService
         _etagCache = etagCache;
     }
     // ── Public path constants (used by AuxInstallService) ─────────────────────────
-    public static readonly string ShadersDir = Path.Combine(AuxInstallService.RsStagingDir, "Shaders");
+    public static readonly string ShadersDir = Path.Combine(AuxInstallService.RsStagingDir, "着色器");
     public static readonly string TexturesDir = Path.Combine(AuxInstallService.RsStagingDir, "Textures");
 
     // User-defined custom shaders — placed by the user, never auto-downloaded
     public const string CustomShaderSentinel = "__custom__";
     /// <summary>Virtual pack ID for individual custom shader file selection in the picker.</summary>
     public const string CustomFilePackId = "__custom_files__";
-    public static readonly string CustomDir = Path.Combine(AuxInstallService.RsStagingDir, "Custom");
-    public static readonly string CustomShadersDir = Path.Combine(CustomDir, "Shaders");
+    public static readonly string CustomDir = Path.Combine(AuxInstallService.RsStagingDir, "自定义");
+    public static readonly string CustomShadersDir = Path.Combine(CustomDir, "着色器");
     public static readonly string CustomTexturesDir = Path.Combine(CustomDir, "Textures");
 
     /// <summary>
@@ -53,7 +53,7 @@ public partial class ShaderPackService : IShaderPackService
         {
             if (Directory.Exists(CustomShadersDir))
                 foreach (var f in Directory.EnumerateFiles(CustomShadersDir, "*", SearchOption.AllDirectories))
-                    files.Add(Path.Combine("Shaders", Path.GetRelativePath(CustomShadersDir, f)));
+                    files.Add(Path.Combine("着色器", Path.GetRelativePath(CustomShadersDir, f)));
             if (Directory.Exists(CustomTexturesDir))
                 foreach (var f in Directory.EnumerateFiles(CustomTexturesDir, "*", SearchOption.AllDirectories))
                     files.Add(Path.Combine("Textures", Path.GetRelativePath(CustomTexturesDir, f)));
@@ -69,7 +69,7 @@ public partial class ShaderPackService : IShaderPackService
     public const string GameReShadeOriginal = "reshade-shaders-original";
     internal const string ManagedMarkerFileName = "Managed by RDXC.txt";
     private const string ManagedMarkerContent = "This folder is managed by RenoDXCommander. Do not edit manually.\n"
-                                                  + "Deleting this file will cause RDXC to treat the folder as user-managed.";
+                                                  + "删除此文件会使 RDXC 将该文件夹视为用户自行管理。";
 
     // ── Pack definitions ──────────────────────────────────────────────────────────
 
@@ -118,7 +118,7 @@ public partial class ShaderPackService : IShaderPackService
             Url         : "https://api.github.com/repos/EndlesslyFlowering/ReShade_HDR_shaders/releases/latest",
             IsMinimum   : true,
             AssetExt    : ".7z",
-            Description : "HDR tone mapping and inverse tone mapping shaders",
+            Description : "HDR 色调映射和逆向色调映射着色器",
             Category    : PackCategory.Essential
         ),
         new(
@@ -127,7 +127,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/crosire/reshade-shaders/archive/refs/heads/master.zip",
             IsMinimum   : true,
-            Description : "Official ReShade standard effects — full master branch",
+            Description : "官方 ReShade 标准效果 — 完整 master 分支",
             Category    : PackCategory.Recommended
         ),
         new(
@@ -136,7 +136,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/crosire/reshade-shaders/archive/refs/heads/legacy.zip",
             IsMinimum   : false,
-            Description : "Legacy ReShade effects (older versions removed from master)",
+            Description : "旧版 ReShade 效果（已从 master 移除的较旧版本）",
             Category    : PackCategory.Extra
         ),
         new(
@@ -146,7 +146,7 @@ public partial class ShaderPackService : IShaderPackService
             Url         : "https://api.github.com/repos/Filoppi/PumboAutoHDR/releases/latest",
             IsMinimum   : false,
             AssetExt    : ".zip",
-            Description : "Automatic HDR conversion for SDR games",
+            Description : "为 SDR 游戏自动进行 HDR 转换",
             Category    : PackCategory.Recommended
         ),
         new(
@@ -155,7 +155,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/smolbbsoop/smolbbsoopshaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "HDR utility shaders and effects",
+            Description : "HDR 实用着色器和效果",
             Category    : PackCategory.Extra
         ),
         new(
@@ -164,7 +164,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/MaxG2D/ReshadeSimpleHDRShaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Simple HDR bloom, lens flare, and tone mapping",
+            Description : "简单的 HDR 泛光、镜头光晕和色调映射",
             Category    : PackCategory.Recommended
         ),
         new(
@@ -173,7 +173,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/clshortfuse/reshade-shaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "HDR and color correction shaders for RenoDX",
+            Description : "用于 RenoDX 的 HDR 和色彩校正着色器",
             Category    : PackCategory.Recommended
         ),
         new(
@@ -182,7 +182,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/CreepySasquatch/potatoFX/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Lightweight post-processing effects for low-end hardware",
+            Description : "面向低端硬件的轻量后处理效果",
             Category    : PackCategory.Extra
         ),
         new(
@@ -191,7 +191,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Zenteon/Azen/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Zenteon's casual shader collection — experimental effects",
+            Description : "Zenteon 的休闲着色器合集 — 实验性效果",
             Requires    : new[] { "SmolbbsoopShaders" }
         ),
         new(
@@ -200,7 +200,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/CeeJayDK/SweetFX/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Classic color grading, sharpening, and bloom effects"
+            Description : "经典调色、锐化和泛光效果"
         ),
         new(
             Id          : "OtisFX",
@@ -208,7 +208,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/FransBouma/OtisFX/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Cinematic depth of field, light rays, and camera effects"
+            Description : "电影级景深、光线和摄像机效果"
         ),
         new(
             Id          : "Depth3D",
@@ -216,7 +216,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/BlueSkyDefender/Depth3D/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Stereoscopic 3D and depth-based visual effects"
+            Description : "立体 3D 和基于深度的视觉效果"
         ),
         new(
             Id          : "DaodanShaders",
@@ -224,7 +224,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Daodan317081/reshade-shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Comic, crosshatch, and artistic style effects"
+            Description : "漫画、交叉阴影和艺术风格效果"
         ),
         new(
             Id          : "BrussellShaders",
@@ -232,7 +232,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/brussell1/Shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Halftone, sketch, and stylized rendering effects"
+            Description : "半调、素描和风格化渲染效果"
         ),
         new(
             Id          : "FubaxShaders",
@@ -240,7 +240,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Fubaxiusz/fubax-shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "VR-friendly lens distortion and chromatic aberration"
+            Description : "VR 友好的镜头畸变和色差"
         ),
         new(
             Id          : "qUINT",
@@ -248,7 +248,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/martymcmodding/qUINT/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "MXAO, ADOF, lightroom, and screen-space reflections"
+            Description : "MXAO、ADOF、Lightroom 和屏幕空间反射"
         ),
         new(
             Id          : "AlucardDH",
@@ -256,7 +256,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/AlucardDH/dh-reshade-shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Ambient occlusion, undither, and color enhancement"
+            Description : "环境光遮蔽、去抖动和色彩增强"
         ),
         new(
             Id          : "WarpFX",
@@ -264,7 +264,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Radegast-FFXIV/Warp-FX/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Screen warp, swirl, and distortion effects"
+            Description : "屏幕扭曲、旋涡和变形效果"
         ),
         new(
             Id          : "Prod80",
@@ -272,7 +272,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/prod80/prod80-ReShade-Repository/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Professional color grading, curves, and tone tools"
+            Description : "专业调色、曲线和色调工具"
         ),
         new(
             Id          : "CorgiFX",
@@ -280,7 +280,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/originalnicodr/CorgiFX/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Screenshot and virtual photography tools"
+            Description : "截图和虚拟摄影工具"
         ),
         new(
             Id          : "InsaneShaders",
@@ -288,7 +288,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/LordOfLunacy/Insane-Shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Advanced dithering, fog removal, and edge detection"
+            Description : "高级抖动、去雾和边缘检测"
         ),
         new(
             Id          : "CobraFX",
@@ -296,7 +296,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/LordKobra/CobraFX/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Gravity, auto-focus, and real-time ray tracing effects"
+            Description : "重力、自动对焦和实时光线追踪效果"
         ),
         new(
             Id          : "AstrayFX",
@@ -304,7 +304,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/BlueSkyDefender/AstrayFX/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Depth-based fog, haze, and atmospheric effects"
+            Description : "基于深度的雾、霾和大气效果"
         ),
         new(
             Id          : "CRTRoyale",
@@ -312,7 +312,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/akgunter/crt-royale-reshade/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "CRT monitor simulation with phosphor and scanline emulation"
+            Description : "带荧光和扫描线模拟的 CRT 显示器仿真"
         ),
         new(
             Id          : "RSRetroArch",
@@ -320,7 +320,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Matsilagi/RSRetroArch/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "RetroArch shader ports — CRT, LCD, and retro filters"
+            Description : "RetroArch 着色器移植 — CRT、LCD 和复古滤镜"
         ),
         new(
             Id          : "VRToolkit",
@@ -328,7 +328,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/retroluxfilm/reshade-vrtoolkit/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Sharpening and clarity tools optimized for VR headsets"
+            Description : "为 VR 头显优化的锐化和清晰度工具"
         ),
         new(
             Id          : "FGFX",
@@ -336,7 +336,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/AlexTuduran/FGFX/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Film grain, multi-LUT, and cinematic post-processing"
+            Description : "胶片颗粒、多 LUT 和电影级后处理"
         ),
         new(
             Id          : "CShade",
@@ -344,7 +344,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/papadanku/CShade/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Optical flow, motion blur, and convolution effects"
+            Description : "光流、运动模糊和卷积效果"
         ),
         new(
             Id          : "iMMERSE",
@@ -352,7 +352,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/martymcmodding/iMMERSE/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Next-gen RTGI, MXAO, and anti-aliasing suite"
+            Description : "下一代 RTGI、MXAO 和抗锯齿套件"
         ),
         new(
             Id          : "VortShaders",
@@ -360,7 +360,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/vortigern11/vort_Shaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Sharpening, color correction, and depth effects"
+            Description : "锐化、色彩校正和深度效果"
         ),
         new(
             Id          : "BXShade",
@@ -368,7 +368,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/liuxd17thu/BX-Shade/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Bloom, exposure, and color enhancement effects"
+            Description : "泛光、曝光和色彩增强效果"
         ),
         new(
             Id          : "SHADERDECK",
@@ -376,7 +376,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/IAmTreyM/SHADERDECK/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Curated collection of color and lighting effects"
+            Description : "精选的色彩和光照效果合集"
         ),
         new(
             Id          : "METEOR",
@@ -384,7 +384,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/martymcmodding/METEOR/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Advanced denoiser and image reconstruction"
+            Description : "高级降噪和图像重建"
         ),
         new(
             Id          : "AnnReShade",
@@ -392,7 +392,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/AnastasiaGals/Ann-ReShade/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Soft bloom, color grading, and ambient light presets"
+            Description : "柔和泛光、调色和环境光预设"
         ),
         new(
             Id          : "ZenteonFX",
@@ -400,7 +400,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Zenteon/ZenteonFX/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Global illumination, SSR, and path tracing effects"
+            Description : "全局光照、屏幕空间反射和路径追踪效果"
         ),
         new(
             Id          : "GShadeShaders",
@@ -408,7 +408,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Mortalitas/GShade-Shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Large collection of community shaders from GShade"
+            Description : "GShade 的社区着色器大型合集"
         ),
         new(
             Id          : "PthoFX",
@@ -416,7 +416,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/PthoEastCoast/Ptho-FX/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Cinematic color grading and film emulation"
+            Description : "电影级调色和胶片模拟"
         ),
         new(
             Id          : "Anagrama",
@@ -424,7 +424,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/nullfrctl/reshade-shaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Artistic and experimental visual effects"
+            Description : "艺术与实验性视觉效果"
         ),
         new(
             Id          : "BarbatosShaders",
@@ -432,7 +432,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/BarbatosBachiko/Reshade-Shaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Ambient occlusion, bloom, and color effects"
+            Description : "环境光遮蔽、泛光和色彩效果"
         ),
         new(
             Id          : "BFBFX",
@@ -440,7 +440,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/yplebedev/BFBFX/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Stylized and artistic post-processing effects"
+            Description : "风格化艺术后处理效果"
         ),
         new(
             Id          : "Rendepth",
@@ -448,7 +448,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/outmode/rendepth-reshade/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Depth-based 3D rendering and stereo effects"
+            Description : "基于深度的 3D 渲染和立体效果"
         ),
         new(
             Id          : "CropAndResize",
@@ -456,7 +456,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/P0NYSLAYSTATION/Scaling-Shaders/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Screen cropping, scaling, and aspect ratio tools"
+            Description : "屏幕裁剪、缩放和宽高比工具"
         ),
         new(
             Id          : "FXShaders",
@@ -464,7 +464,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/luluco250/FXShaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Bloom, grain, dithering, and utility shader library"
+            Description : "泛光、颗粒、抖动和实用着色器库"
         ),
         new(
             Id          : "LumeniteFX",
@@ -472,7 +472,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/umar-afzaal/LumeniteFX/archive/refs/heads/mainline.zip",
             IsMinimum   : false,
-            Description : "Lighting, bloom, and atmospheric glow effects"
+            Description : "光照、泛光和大气辉光效果"
         ),
         new(
             Id          : "NNShaders",
@@ -480,7 +480,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Sarenya/NN-Shaders/archive/refs/heads/master.zip",
             IsMinimum   : false,
-            Description : "Neural network-based image processing shaders"
+            Description : "基于神经网络的图像处理着色器"
         ),
         new(
             Id          : "QdOledAplFixer",
@@ -488,7 +488,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/mspeedo/QD-OLED-APL-FIXER/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "HDR brightness boost to compensate for QD-OLED ABL dimming"
+            Description : "HDR 亮度增强，以补偿 QD-OLED 的 ABL 变暗"
         ),
         new(
             Id          : "GlamaryeFX",
@@ -496,7 +496,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/rj200/Glamarye_Fast_Effects_for_ReShade/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "Lightweight all-in-one: sharpening, AO, indirect lighting, and color correction in a single pass"
+            Description : "轻量一体化：单次处理完成锐化、环境光遮蔽、间接光照和色彩校正"
         ),
         new(
             Id          : "LumaBoost",
@@ -504,7 +504,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/Valadore/LumaBoost/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "OLED ABL compensation — dynamically lifts midtones to counteract auto brightness limiting"
+            Description : "OLED ABL 补偿 — 动态提升中间调以抵消自动亮度限制"
         ),
         new(
             Id          : "DLSS5Feeder",
@@ -512,7 +512,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "",   // no URL — seeded from the Feeder addon zip by RHI, never downloaded
             IsMinimum   : false,
-            Description : "DLSS5_Feed.fx — seeded from the Feeder addon zip by RHI. Not shown in the shader picker.",
+            Description : "DLSS5_Feed.fx — 由 RHI 从 Feeder 插件压缩包中提取。不会显示在着色器选择器中。",
             Category    : PackCategory.Extra
         ),
         new(
@@ -521,7 +521,7 @@ public partial class ShaderPackService : IShaderPackService
             Kind        : SourceKind.DirectUrl,
             Url         : "https://github.com/clshortfuse/renofx/archive/refs/heads/main.zip",
             IsMinimum   : false,
-            Description : "SDR to HDR conversion, tone mapping, and color grading for games without a RenoDX mod",
+            Description : "为没有 RenoDX mod 的游戏进行 SDR 到 HDR 转换、色调映射和调色",
             Category    : PackCategory.Recommended
         ),
     };
@@ -644,7 +644,7 @@ public partial class ShaderPackService : IShaderPackService
         {
             "Essential"   => PackCategory.Essential,
             "Recommended" => PackCategory.Recommended,
-            "Extra"       => PackCategory.Extra,
+            "额外"       => PackCategory.Extra,
             _ => null
         };
 }

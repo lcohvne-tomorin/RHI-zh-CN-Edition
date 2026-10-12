@@ -46,9 +46,9 @@ public partial class DlssStreamlineService : IDlssStreamlineService
     private static readonly string DlssgCacheDir = Path.Combine(BaseStagingDir, "DLSS-G");
     private static readonly string DlssnrCacheDir = Path.Combine(BaseStagingDir, "DLSS-NR");
     private static readonly string StreamlineCacheDir = Path.Combine(BaseStagingDir, "Streamline");
-    private static readonly string DlssCustomDir = Path.Combine(BaseStagingDir, "Custom", "DLSS");
-    private static readonly string StreamlineCustomDir = Path.Combine(BaseStagingDir, "Custom", "Streamline");
-    private static readonly string CustomBaseDir = Path.Combine(BaseStagingDir, "Custom");
+    private static readonly string DlssCustomDir = Path.Combine(BaseStagingDir, "自定义", "DLSS");
+    private static readonly string StreamlineCustomDir = Path.Combine(BaseStagingDir, "自定义", "Streamline");
+    private static readonly string CustomBaseDir = Path.Combine(BaseStagingDir, "自定义");
 
     /// <summary>AppData backup root for game-original Streamline DLLs — one subfolder per game name.</summary>
     internal static readonly string StreamlineBackupsDir = Path.Combine(BaseStagingDir, "StreamlineBackups");
@@ -105,7 +105,7 @@ public partial class DlssStreamlineService : IDlssStreamlineService
 
     /// <summary>Custom ReShade folder path — exposed for AuxInstallService.</summary>
     public static string RsCustomDir => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RHI", "Custom", "ReShade");
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RHI", "自定义", "ReShade");
 
     /// <summary>
     /// One-time migration: moves files from old DLSS-Custom/Streamline-Custom to Custom\DLSS and Custom\Streamline.
@@ -276,7 +276,7 @@ public partial class DlssStreamlineService : IDlssStreamlineService
     /// </summary>
     public static string FormatVersion(string? rawVersion)
     {
-        if (string.IsNullOrEmpty(rawVersion)) return "Unknown";
+        if (string.IsNullOrEmpty(rawVersion)) return "未知";
 
         // Only trim the last .0 if there are 4 parts and the last part is "0"
         var parts = rawVersion.Split('.');

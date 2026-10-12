@@ -55,7 +55,7 @@ public partial class DragDropHandler
         {
             var dupDialog = new ContentDialog
             {
-                Title           = "Game Already Exists",
+                Title           = "游戏已存在",
                 Content         = $"\"{existingCard.GameName}\" is already in your library at:\n{existingCard.InstallPath}",
                 CloseButtonText = "OK",
                 XamlRoot        = _window.Content.XamlRoot,
@@ -70,16 +70,16 @@ public partial class DragDropHandler
         var nameBox = new TextBox { Text = gameName, Width = 380 };
         var engineLabel = engine switch
         {
-            EngineType.Unreal       => "Unreal Engine",
-            EngineType.UnrealLegacy => "Unreal Engine (Legacy)",
+            EngineType.Unreal       => "虚幻引擎",
+            EngineType.UnrealLegacy => "虚幻引擎（旧版）",
             EngineType.Unity        => "Unity",
-            _                       => "Unknown"
+            _                       => "未知"
         };
 
         var confirmPanel = new StackPanel { Spacing = 8 };
         confirmPanel.Children.Add(new TextBlock
         {
-            Text = "Game name:", Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
+            Text = "游戏名称：", Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
         });
         confirmPanel.Children.Add(nameBox);
         confirmPanel.Children.Add(new TextBlock
@@ -92,10 +92,10 @@ public partial class DragDropHandler
 
         var confirmDialog = new ContentDialog
         {
-            Title             = "➕ Add Dropped Game",
+            Title             = "➕ 添加拖入的游戏",
             Content           = confirmPanel,
-            PrimaryButtonText = "Add Game",
-            CloseButtonText   = "Cancel",
+            PrimaryButtonText = "添加游戏",
+            CloseButtonText   = "取消",
             XamlRoot          = _window.Content.XamlRoot,
             Background        = UIFactory.Brush(ResourceKeys.SurfaceToolbarBrush),
             RequestedTheme    = ElementTheme.Dark,

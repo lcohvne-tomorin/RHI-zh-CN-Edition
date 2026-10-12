@@ -89,7 +89,7 @@ public partial class MainViewModel : ObservableObject
         set => _settingsViewModel.LastSeenVersion = value;
     }
 
-    public string UpdateButtonTooltip => "Update ReShade, RenoDX, ReLimiter, Display Commander, and RE Framework for all games";
+    public string UpdateButtonTooltip => "为所有游戏更新 ReShade、RenoDX、ReLimiter、Display Commander 和 RE Framework";
 
     /// <summary>
     /// The global shader picker button is disabled while custom shaders are active.
@@ -251,7 +251,7 @@ public partial class MainViewModel : ObservableObject
     public void RefreshStatusBarText()
     {
         if (!string.IsNullOrEmpty(StatusText) && StatusText.Contains("games detected"))
-            StatusText = $"{_allCards.Count} games detected · {InstalledCount} ReShade installs";
+            StatusText = $"检测到 {_allCards.Count} 个游戏 · {InstalledCount} 个 ReShade 安装";
     }
 
     /// <summary>
@@ -386,11 +386,11 @@ public partial class MainViewModel : ObservableObject
     internal IEnumerable<string>? ResolveShaderSelection(string gameName, string? shaderModeOverride, string store = "")
     {
         // 0. Per-game "Off" mode → null (removes managed shaders)
-        if (string.Equals(shaderModeOverride, "Off", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(shaderModeOverride, "关", StringComparison.OrdinalIgnoreCase))
             return null;
 
         // 1. Per-game "Custom" mode → custom shader sentinel
-        if (string.Equals(shaderModeOverride, "Custom", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(shaderModeOverride, "自定义", StringComparison.OrdinalIgnoreCase))
             return new[] { ShaderPackService.CustomShaderSentinel };
 
         // 2. Per-game "Select" mode → per-game pack selection (try composite key first, fallback to name-only)
@@ -541,7 +541,7 @@ public partial class MainViewModel : ObservableObject
         {
             if (string.IsNullOrWhiteSpace(mod.Name)) continue;
             var rdxUrl    = mod.SnapshotUrl ?? mod.NexusUrl ?? mod.DiscordUrl;
-            var rdxStatus = mod.Status == "🚧" ? "WIP" : "Done";
+            var rdxStatus = mod.Status == "🚧" ? "WIP" : "完成";
             dict[mod.Name] = new HdrModEntry(
                 Name:        mod.Name,
                 RenoDXStatus: rdxStatus,
@@ -555,7 +555,7 @@ public partial class MainViewModel : ObservableObject
         {
             if (string.IsNullOrWhiteSpace(kv.Key)) continue;
             var ueStatus = string.Equals(kv.Value.Status, "WIP", StringComparison.OrdinalIgnoreCase)
-                ? "WIP" : "Done";
+                ? "WIP" : "完成";
             if (!dict.ContainsKey(kv.Key))
             {
                 dict[kv.Key] = new HdrModEntry(
@@ -574,7 +574,7 @@ public partial class MainViewModel : ObservableObject
             if (string.IsNullOrWhiteSpace(kv.Key)) continue;
             if (dict.ContainsKey(kv.Key)) continue; // named mod already covers it
             var unityStatus = string.Equals(kv.Value.Status, "WIP", StringComparison.OrdinalIgnoreCase)
-                ? "WIP" : "Done";
+                ? "WIP" : "完成";
             dict[kv.Key] = new HdrModEntry(
                 Name:        kv.Value.Name,
                 RenoDXStatus: unityStatus,
@@ -588,7 +588,7 @@ public partial class MainViewModel : ObservableObject
         {
             if (string.IsNullOrWhiteSpace(luma.Name) || luma.IsGenericLuma) continue;
             var lumaUrl    = luma.DownloadUrl ?? luma.NexusUrl;
-            var lumaStatus = luma.Status == "🚧" ? "WIP" : "Done";
+            var lumaStatus = luma.Status == "🚧" ? "WIP" : "完成";
             if (dict.TryGetValue(luma.Name, out var existing))
             {
                 dict[luma.Name] = existing with { LumaStatus = lumaStatus, LumaUrl = lumaUrl };
@@ -643,7 +643,7 @@ public partial class MainViewModel : ObservableObject
 
     // Settings file I/O delegated to SettingsViewModel
 
-    [ObservableProperty] private string _statusText = "Loading...";
+    [ObservableProperty] private string _statusText = "加载中...";
     [ObservableProperty] private string _subStatusText = "";
     [ObservableProperty] private bool _isLoading = true;
     [ObservableProperty] private bool _isBackgroundScanning;
@@ -708,7 +708,7 @@ public partial class MainViewModel : ObservableObject
         "Upgrade `R10G10B10A2_UNORM` → `output size`\n" +
         "Unlock upgrade sliders: Settings Mode → Advanced, then restart game.\n\n" +
         "🖥 DLSS FG Flickering\n" +
-        "Replace DLSSG DLL with older 3.8.x (locks FG x2) or use DLSS FIX (beta) from Discord.";
+        "将 DLSSG DLL 替换为较旧的 3.8.x（锁定帧生成 x2），或使用 Discord 上的 DLSS FIX（测试版）。";
 
     public MainViewModel(
         HttpClient http,

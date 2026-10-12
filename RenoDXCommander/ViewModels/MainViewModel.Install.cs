@@ -120,7 +120,7 @@ public partial class MainViewModel
             card.IsExternalOnly = effectiveMod?.SnapshotUrl == null &&
                                   (effectiveMod?.NexusUrl != null || effectiveMod?.DiscordUrl != null);
             card.ExternalUrl    = effectiveMod?.NexusUrl ?? effectiveMod?.DiscordUrl ?? "";
-            card.ExternalLabel  = effectiveMod?.NexusUrl != null ? "Download from Nexus Mods" : "Download from Discord";
+            card.ExternalLabel  = effectiveMod?.NexusUrl != null ? "从 Nexus Mods 下载" : "从 Discord 下载";
             card.NexusUrl       = effectiveMod?.NexusUrl;
             card.DiscordUrl     = effectiveMod?.DiscordUrl;
             card.WikiStatus     = (mod == null && fallback != null && !card.UseUeExtended && !card.IsNativeHdrGame)
@@ -198,7 +198,7 @@ public partial class MainViewModel
             else
                 card.Mod = new GameMod
                 {
-                    Name = "Generic Unreal Engine",
+                    Name = "通用虚幻引擎",
                     Maintainer = "ShortFuse",
                     SnapshotUrl = UeExtendedUrl,
                     Status = "✅",
@@ -387,7 +387,7 @@ public partial class MainViewModel
         card.IsFavourite = _favouriteGames.Contains(key);
         SaveLibrary();
         // Only re-filter if on the Favourites tab (unfavouriting removes the card from view)
-        if (_filterViewModel.ActiveFilters.Contains("Favourites"))
+        if (_filterViewModel.ActiveFilters.Contains("收藏"))
             _filterViewModel.ApplyFilter();
         _filterViewModel.UpdateCounts();
     }
@@ -590,7 +590,7 @@ public partial class MainViewModel
         {
             effectiveMod = new GameMod
             {
-                Name            = effectiveMod?.Name ?? "Generic Unreal Engine",
+                Name            = effectiveMod?.Name ?? "通用虚幻引擎",
                 Maintainer      = effectiveMod?.Maintainer ?? "ShortFuse",
                 SnapshotUrl     = UeExtendedUrl,
                 Status          = effectiveMod?.Status ?? "✅",
@@ -604,7 +604,7 @@ public partial class MainViewModel
         {
             effectiveMod = new GameMod
             {
-                Name            = "Generic Unreal Engine",
+                Name            = "通用虚幻引擎",
                 Maintainer      = "ShortFuse",
                 SnapshotUrl     = UeExtendedUrl,
                 Status          = "✅",
@@ -665,7 +665,7 @@ public partial class MainViewModel
                            ? (useUeExt && engine == EngineType.Unknown ? FormatEngineHint(EngineType.Unreal, scanPath) : engineOverrideLabel)
                            : (useUeExt && engine == EngineType.Unknown) ? FormatEngineHint(EngineType.Unreal, scanPath)
                            : engine == EngineType.Unreal       ? FormatEngineHint(EngineType.Unreal, scanPath)
-                           : engine == EngineType.UnrealLegacy ? "Unreal (Legacy)"
+                           : engine == EngineType.UnrealLegacy ? "虚幻（旧版）"
                            : engine == EngineType.Unity        ? "Unity"
                            : engine == EngineType.REEngine     ? "RE Engine" : "",
             Notes          = effectiveMod != null ? BuildNotes(game.Name, effectiveMod, fallback, _genericNotes, isNativeHdr) : "",
@@ -680,7 +680,7 @@ public partial class MainViewModel
                               : effectiveMod?.NexusUrl ?? effectiveMod?.DiscordUrl ?? "",
             ExternalLabel   = _wikiExclusions.Contains(game.Name)
                               ? ""
-                              : effectiveMod?.NexusUrl != null ? "Download from Nexus Mods" : "Download from Discord",
+                              : effectiveMod?.NexusUrl != null ? "从 Nexus Mods 下载" : "从 Discord 下载",
             NexusUrl        = effectiveMod?.NexusUrl,
             DiscordUrl      = _wikiExclusions.Contains(game.Name)
                               ? null
@@ -859,7 +859,7 @@ public partial class MainViewModel
         }
 
         card.IsInstalling = true;
-        card.ActionMessage = "Starting download...";
+        card.ActionMessage = "开始下载...";
         _crashReporter.Log($"[MainViewModel.InstallModAsync] Install started: {card.GameName} → {card.InstallPath}");
         try
         {
@@ -882,7 +882,7 @@ public partial class MainViewModel
             // Priority: DB entry (Method field) > manifest ueExtendedCompatibility > UE4/UE5 detection
             if (card.UseUeExtended)
             {
-                bool isUe4 = card.EngineHint?.Contains("Unreal Engine 4") == true;
+                bool isUe4 = card.EngineHint?.Contains("虚幻引擎 4") == true;
 
                 // DB-driven configuration — only when dev-unlocked and source is not WikiOnly
                 var dbEntry = !string.Equals(_settingsViewModel.RenoDxDbSource, "WikiOnly", StringComparison.OrdinalIgnoreCase)
@@ -936,7 +936,7 @@ public partial class MainViewModel
 
             // Deploy Engine.ini HDR settings for UE-Extended games
             // Priority: DB entry > manifest ueExtendedCompatibility > UE4/UE5 detection
-            bool isUe4Game = card.EngineHint?.Contains("Unreal Engine 4") == true;
+            bool isUe4Game = card.EngineHint?.Contains("虚幻引擎 4") == true;
             var compatEntry = _manifestUeExtendedCompat.TryGetValue(card.GameName, out var ce) ? ce : null;
 
             // Resolve db entry once more (already looked up above, re-use for Engine.ini decision)
@@ -1030,7 +1030,7 @@ public partial class MainViewModel
                 card.InstalledAddonFileName = record.AddonFileName;
                 card.RdxInstalledVersion    = AuxInstallService.ReadInstalledVersion(record.InstallPath, record.AddonFileName);
                 card.Status                 = GameStatus.Installed;
-                card.FadeMessage(m => card.ActionMessage = m, "✅ Installed! Press Home in-game to open ReShade.");
+                card.FadeMessage(m => card.ActionMessage = m, "✅ 已安装！游戏内按 Home 键打开 ReShade。");
                 _crashReporter.Log($"[MainViewModel.InstallModAsync] Install complete: {card.GameName} — {record.AddonFileName}");
                 // Reset Nexus baseline so update indicator clears after install
                 _nexusUpdateService.ResetBaseline(card.GameName);
@@ -1051,8 +1051,8 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            DispatcherQueue?.TryEnqueue(() => card.ActionMessage = $"❌ Failed: {ex.Message}");
-            _crashReporter.WriteCrashReport("InstallModAsync", ex, note: $"Game: {card.GameName}, Path: {card.InstallPath}");
+            DispatcherQueue?.TryEnqueue(() => card.ActionMessage = $"❌ 失败：{ex.Message}");
+            _crashReporter.WriteCrashReport("InstallModAsync", ex, note: $"游戏：{card.GameName}，路径：{card.InstallPath}");
         }
         finally
         {
@@ -1093,7 +1093,7 @@ public partial class MainViewModel
         card.InstalledAddonFileName = null;
         card.RdxInstalledVersion    = null;
         card.Status                 = GameStatus.Available;
-        card.ActionMessage          = "✖ Mod removed.";
+        card.ActionMessage          = "✖ Mod 已移除。";
         card.FadeMessage(m => card.ActionMessage = m, card.ActionMessage);
         // Clear the addon file cache so the next Refresh doesn't think a file is still there.
         if (!string.IsNullOrEmpty(card.InstallPath))

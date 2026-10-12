@@ -45,7 +45,7 @@ public partial class MainViewModel
     public void SetBitnessOverride(string gameName, string? value, string store = "")
     {
         var key = GameKey.From(gameName, store).ToKey();
-        if (value == null || value.Equals("Auto", StringComparison.OrdinalIgnoreCase))
+        if (value == null || value.Equals("自动", StringComparison.OrdinalIgnoreCase))
             _bitnessOverrides.Remove(key);
         else
             _bitnessOverrides[key] = value;
@@ -101,8 +101,8 @@ public partial class MainViewModel
         SaveNameMappings();
 
         // Auto-manage update exclusion for legacy and custom versions
-        bool wasExcluded = IsLegacyVersion(previousValue) || string.Equals(previousValue, "Custom", StringComparison.OrdinalIgnoreCase);
-        bool isExcluded = IsLegacyVersion(value) || string.Equals(value, "Custom", StringComparison.OrdinalIgnoreCase);
+        bool wasExcluded = IsLegacyVersion(previousValue) || string.Equals(previousValue, "自定义", StringComparison.OrdinalIgnoreCase);
+        bool isExcluded = IsLegacyVersion(value) || string.Equals(value, "自定义", StringComparison.OrdinalIgnoreCase);
 
         if (isExcluded && !wasExcluded)
         {
@@ -131,7 +131,7 @@ public partial class MainViewModel
         if (string.IsNullOrEmpty(channel)) return false;
         if (string.Equals(channel, "Stable", StringComparison.OrdinalIgnoreCase)) return false;
         if (string.Equals(channel, "Nightly", StringComparison.OrdinalIgnoreCase)) return false;
-        if (string.Equals(channel, "Custom", StringComparison.OrdinalIgnoreCase)) return false;
+        if (string.Equals(channel, "自定义", StringComparison.OrdinalIgnoreCase)) return false;
         return true;
     }
 
@@ -1183,14 +1183,14 @@ public partial class MainViewModel
         var key = GameKey.From(gameName, store).ToKey();
         if (_perGameShaderMode.TryGetValue(key, out var mode)) return mode;
         // Fallback to name-only for legacy entries
-        return _perGameShaderMode.TryGetValue(gameName, out mode) ? mode : "Global";
+        return _perGameShaderMode.TryGetValue(gameName, out mode) ? mode : "全局";
     }
 
     /// <summary>Sets the per-game shader mode override. "Global" removes the override.</summary>
     public void SetPerGameShaderMode(string gameName, string mode, string store = "")
     {
         var key = GameKey.From(gameName, store).ToKey();
-        if (mode == "Global")
+        if (mode == "全局")
         {
             _perGameShaderMode.Remove(key);
             _perGameShaderMode.Remove(gameName); // clear legacy name-only entry too
@@ -1205,7 +1205,7 @@ public partial class MainViewModel
             && (c.Source ?? "").Equals(store ?? "", StringComparison.OrdinalIgnoreCase));
         if (card != null)
         {
-            card.ShaderModeOverride = mode == "Global" ? null : mode;
+            card.ShaderModeOverride = mode == "全局" ? null : mode;
         }
     }
 
@@ -1215,14 +1215,14 @@ public partial class MainViewModel
         var key = GameKey.From(gameName, store).ToKey();
         if (_gameNameService.PerGameAddonMode.TryGetValue(key, out var mode)) return mode;
         // Fallback to name-only for legacy entries
-        return _gameNameService.PerGameAddonMode.TryGetValue(gameName, out mode) ? mode : "Global";
+        return _gameNameService.PerGameAddonMode.TryGetValue(gameName, out mode) ? mode : "全局";
     }
 
     /// <summary>Sets the per-game addon mode override. "Global" removes the override and clears per-game selection.</summary>
     public void SetPerGameAddonMode(string gameName, string mode, string store = "")
     {
         var key = GameKey.From(gameName, store).ToKey();
-        if (mode == "Global")
+        if (mode == "全局")
         {
             _gameNameService.PerGameAddonMode.Remove(key);
             _gameNameService.PerGameAddonMode.Remove(gameName); // clear legacy name-only entry too
@@ -1275,7 +1275,7 @@ public partial class MainViewModel
                 string addonMode = GetPerGameAddonMode(gameName, card.Source ?? "");
 
                 // "Off" mode → deploy with empty list (removes all managed addons)
-                if (addonMode == "Off")
+                if (addonMode == "关")
                 {
                     _addonPackService.DeployAddonsForGame(gameName, card.InstallPath, is32Bit,
                         useGlobalSet: true, perGameSelection: new List<string>());
@@ -1438,9 +1438,9 @@ public partial class MainViewModel
         // Determine if DLSS Fix is in the active addon selection
         bool dlssFixActive;
         if (perGameSelection != null)
-            dlssFixActive = perGameSelection.Any(n => n.Contains("DLSS Fix", StringComparison.OrdinalIgnoreCase));
+            dlssFixActive = perGameSelection.Any(n => n.Contains("DLSS 修复", StringComparison.OrdinalIgnoreCase));
         else if (useGlobalSet)
-            dlssFixActive = _settingsViewModel.EnabledGlobalAddons?.Any(n => n.Contains("DLSS Fix", StringComparison.OrdinalIgnoreCase)) == true;
+            dlssFixActive = _settingsViewModel.EnabledGlobalAddons?.Any(n => n.Contains("DLSS 修复", StringComparison.OrdinalIgnoreCase)) == true;
         else
             dlssFixActive = false;
 
@@ -1556,7 +1556,7 @@ public partial class MainViewModel
                     string addonMode = GetPerGameAddonMode(card.GameName, card.Source ?? "");
 
                     // "Off" mode → deploy with empty list (removes all managed addons)
-                    if (addonMode == "Off")
+                    if (addonMode == "关")
                     {
                         _addonPackService.DeployAddonsForGame(card.GameName, card.InstallPath, is32Bit,
                             useGlobalSet: true, perGameSelection: new List<string>());

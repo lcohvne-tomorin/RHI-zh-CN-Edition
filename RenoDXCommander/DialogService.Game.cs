@@ -20,7 +20,7 @@ public partial class DialogService
 
         var dlg = new ContentDialog
         {
-            Title               = "⚠ Unknown dxgi.dll Detected",
+            Title               = "⚠ 检测到未知的 dxgi.dll",
             Content             = new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,
@@ -28,12 +28,12 @@ public partial class DialogService
                 FontSize     = 13,
                 Text         = $"A dxgi.dll file was found in:\n{card.InstallPath}\n\n" +
                                $"File size: {sizeKB:N0} KB\n\n" +
-                               "RHI cannot identify this file as ReShade or Display Commander. " +
+                               "RHI 无法将此文件识别为 ReShade 或 Display Commander。 " +
                                "It may belong to another mod (e.g. DXVK, Special K, ENB).\n\n" +
-                               "Overwriting it may break the existing mod. Do you want to proceed?",
+                               "覆盖它可能会破坏现有 mod。是否继续？",
             },
-            PrimaryButtonText   = "Overwrite",
-            CloseButtonText     = "Cancel",
+            PrimaryButtonText   = "覆盖",
+            CloseButtonText     = "取消",
             XamlRoot            = _window.Content.XamlRoot,
             Background          = Brush(ResourceKeys.SurfaceOverlayBrush),
             RequestedTheme      = ElementTheme.Dark,
@@ -50,7 +50,7 @@ public partial class DialogService
 
         var dlg = new ContentDialog
         {
-            Title               = "⚠ Unknown winmm.dll Detected",
+            Title               = "⚠ 检测到未知的 winmm.dll",
             Content             = new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,
@@ -58,12 +58,12 @@ public partial class DialogService
                 FontSize     = 13,
                 Text         = $"A winmm.dll file was found in:\n{card.InstallPath}\n\n" +
                                $"File size: {sizeKB:N0} KB\n\n" +
-                               "RHI cannot identify this file as Display Commander. " +
+                               "RHI 无法将此文件识别为 Display Commander。 " +
                                "It may belong to another mod or DLL injector.\n\n" +
-                               "Overwriting it may break the existing mod. Do you want to proceed?",
+                               "覆盖它可能会破坏现有 mod。是否继续？",
             },
-            PrimaryButtonText   = "Overwrite",
-            CloseButtonText     = "Cancel",
+            PrimaryButtonText   = "覆盖",
+            CloseButtonText     = "取消",
             XamlRoot            = _window.Content.XamlRoot,
             Background          = Brush(ResourceKeys.SurfaceOverlayBrush),
             RequestedTheme      = ElementTheme.Dark,
@@ -192,7 +192,7 @@ public partial class DialogService
             {
                 Title           = $"{addonName} — {card.GameName}",
                 Content         = scrollContent,
-                CloseButtonText = "Close",
+                CloseButtonText = "关闭",
                 XamlRoot        = _window.Content.XamlRoot,
                 Background      = Brush(ResourceKeys.SurfaceToolbarBrush),
                 RequestedTheme  = ElementTheme.Dark,
@@ -215,7 +215,7 @@ public partial class DialogService
         AddonType.DisplayCommander => "Display Commander",
         AddonType.OptiScaler      => "OptiScaler",
         AddonType.Luma            => "Luma",
-        _                         => "Info"
+        _                         => "信息"
     };
 
     // ── RenoDX-specific dialog content (8.2) ─────────────────────────────────────
@@ -248,7 +248,7 @@ public partial class DialogService
                 BorderThickness     = new Thickness(1),
                 Child = new TextBlock
                 {
-                    Text       = "RTX HDR Enabled",
+                    Text       = "RTX HDR 已启用",
                     FontSize   = 12,
                     Foreground = Brush(ResourceKeys.AccentGreenBrush),
                 }
@@ -257,21 +257,21 @@ public partial class DialogService
 
             panel.Children.Add(new TextBlock
             {
-                Text = "RTX HDR uses NVIDIA's driver-level HDR injection to upgrade SDR games to HDR. " +
+                Text = "RTX HDR 使用 NVIDIA 驱动级 HDR 注入，将 SDR 游戏升级为 HDR。 " +
                        "It works at the GPU level without injecting DLLs into the game, making it compatible with anti-cheat systems.\n\n" +
-                       "Requires: NVIDIA App installed, Game Filter/Freestyle enabled, RTX GPU, driver 550+.",
+                       "要求：已安装 NVIDIA App、启用游戏滤镜/Freestyle、RTX 显卡、驱动 550 及以上。",
                 TextWrapping = TextWrapping.Wrap,
                 Foreground   = textColour,
                 FontSize     = 13,
                 LineHeight   = 22,
             });
 
-            AddHyperlinkBlock(panel, "RTX HDR Calibration Guide", manifest?.RtxHdrInfoUrl ?? "https://www.reddit.com/r/nvidia/comments/1b03yfg/rtx_hdr_paper_white_gamma_reference_settings/", linkColour);
+            AddHyperlinkBlock(panel, "RTX HDR 校准指南", manifest?.RtxHdrInfoUrl ?? "https://www.reddit.com/r/nvidia/comments/1b03yfg/rtx_hdr_paper_white_gamma_reference_settings/", linkColour);
 
             // Still show HDR Gaming Database link if available
             if (!string.IsNullOrEmpty(result.HdrAnalysisUrl))
             {
-                AddHyperlinkBlock(panel, "HDR Analysis — HDR Gaming Database", result.HdrAnalysisUrl, linkColour);
+                AddHyperlinkBlock(panel, "HDR 分析 — HDR Gaming 数据库", result.HdrAnalysisUrl, linkColour);
             }
 
             return; // Skip regular RenoDX content
@@ -319,19 +319,19 @@ public partial class DialogService
         // ── Wiki page link (NameUrl) as clickable hyperlink ──────────────────
         if (!string.IsNullOrEmpty(result.Url))
         {
-            AddHyperlinkBlock(panel, result.UrlLabel ?? "View wiki page", result.Url, linkColour);
+            AddHyperlinkBlock(panel, result.UrlLabel ?? "查看 Wiki 页面", result.Url, linkColour);
         }
 
         // ── "Also available on Nexus" link (Snapshot+Nexus games only) ───────
         if (!card.IsExternalOnly && card.Mod?.SnapshotUrl != null && !string.IsNullOrEmpty(card.NexusUrl))
         {
-            AddHyperlinkBlock(panel, "Also available on Nexus Mods", card.NexusUrl, linkColour);
+            AddHyperlinkBlock(panel, "也可在 Nexus Mods 获取", card.NexusUrl, linkColour);
         }
 
         // ── HDR Gaming Database link (supplementary) ─────────────────────────
         if (!string.IsNullOrEmpty(result.HdrAnalysisUrl))
         {
-            AddHyperlinkBlock(panel, "HDR Analysis — HDR Gaming Database", result.HdrAnalysisUrl, linkColour);
+            AddHyperlinkBlock(panel, "HDR 分析 — HDR Gaming 数据库", result.HdrAnalysisUrl, linkColour);
         }
 
         // ── Fallback if no content at all ────────────────────────────────────
@@ -339,7 +339,7 @@ public partial class DialogService
         {
             panel.Children.Add(new TextBlock
             {
-                Text       = "No additional RenoDX notes for this game.",
+                Text       = "此游戏没有额外的 RenoDX 说明。",
                 Foreground = dimColour,
                 FontSize   = 13,
             });
@@ -472,7 +472,7 @@ public partial class DialogService
         // ── HDR Gaming Database link (supplementary) ─────────────────────────
         if (!string.IsNullOrEmpty(result.HdrAnalysisUrl))
         {
-            AddHyperlinkBlock(panel, "HDR Analysis — HDR Gaming Database", result.HdrAnalysisUrl, linkColour);
+            AddHyperlinkBlock(panel, "HDR 分析 — HDR Gaming 数据库", result.HdrAnalysisUrl, linkColour);
         }
 
         // ── Fallback if no content at all ────────────────────────────────────
@@ -493,7 +493,7 @@ public partial class DialogService
             {
                 panel.Children.Add(new TextBlock
                 {
-                    Text       = "No additional Luma notes for this game.",
+                    Text       = "此游戏没有额外的 Luma 说明。",
                     Foreground = dimColour,
                     FontSize   = 13,
                 });
@@ -520,7 +520,7 @@ public partial class DialogService
             // ── Standard OptiScaler Compatibility section ─────────────────────
             if (result.OptiScalerCompat != null)
             {
-                BuildOptiScalerSection(panel, "OptiScaler Compatibility",
+                BuildOptiScalerSection(panel, "OptiScaler 兼容性",
                     result.OptiScalerCompat, textColour, linkColour);
             }
 
@@ -531,7 +531,7 @@ public partial class DialogService
                 if (result.OptiScalerCompat != null)
                     panel.Children.Add(new Border { Height = 4 });
 
-                BuildOptiScalerSection(panel, "FSR4 Compatibility",
+                BuildOptiScalerSection(panel, "FSR4 兼容性",
                     result.OptiScalerFsr4Compat, textColour, linkColour);
             }
 
@@ -551,7 +551,7 @@ public partial class DialogService
                 });
                 // Show URL only for the unstructured fallback path (no per-section links)
                 if (!string.IsNullOrEmpty(result.Url))
-                    AddHyperlinkBlock(panel, result.UrlLabel ?? "View wiki page", result.Url, linkColour);
+                    AddHyperlinkBlock(panel, result.UrlLabel ?? "查看 Wiki 页面", result.Url, linkColour);
             }
         }
         else
@@ -564,7 +564,7 @@ public partial class DialogService
         {
             panel.Children.Add(new TextBlock
             {
-                Text       = "No OptiScaler compatibility data available for this game.",
+                Text       = "此游戏没有可用的 OptiScaler 兼容性数据。",
                 Foreground = dimColour,
                 FontSize   = 13,
             });
@@ -584,7 +584,7 @@ public partial class DialogService
     {
         var upscalers = entry.Upscalers.Count > 0
             ? string.Join(", ", entry.Upscalers)
-            : "None listed";
+            : "无";
 
         // Section header with status
         panel.Children.Add(new TextBlock
@@ -600,7 +600,7 @@ public partial class DialogService
         // Upscaler list
         panel.Children.Add(new TextBlock
         {
-            Text         = $"Upscalers: {upscalers}",
+            Text         = $"超分方案：{upscalers}",
             TextWrapping = TextWrapping.Wrap,
             Foreground   = textColour,
             FontSize     = 13,
@@ -630,7 +630,7 @@ public partial class DialogService
             };
             link.Inlines.Add(new Microsoft.UI.Xaml.Documents.Run
             {
-                Text     = "View details",
+                Text     = "查看详情",
                 FontSize = 13,
             });
             var para = new Microsoft.UI.Xaml.Documents.Paragraph();
@@ -670,7 +670,7 @@ public partial class DialogService
 
         // ── HDR Gaming Database link (supplementary) ─────────────────────────
         if (!string.IsNullOrEmpty(result.HdrAnalysisUrl))
-            AddHyperlinkBlock(panel, "HDR Analysis — HDR Gaming Database", result.HdrAnalysisUrl, linkColour);
+            AddHyperlinkBlock(panel, "HDR 分析 — HDR Gaming 数据库", result.HdrAnalysisUrl, linkColour);
     }
 
     // ── Release notes content rendering (ReLimiter, Display Commander) ───────────
@@ -694,7 +694,7 @@ public partial class DialogService
         {
             panel.Children.Add(new TextBlock
             {
-                Text       = $"Installed: {installedVersion}",
+                Text       = $"已安装：{installedVersion}",
                 Foreground = dimColour,
                 FontSize   = 12,
                 Margin     = new Thickness(0, 0, 0, 4),
@@ -757,7 +757,7 @@ public partial class DialogService
         }
 
         // Always show link to the releases page
-        AddHyperlinkBlock(panel, "View all releases on GitHub", releasesPageUrl, linkColour);
+        AddHyperlinkBlock(panel, "在 GitHub 上查看所有发行版", releasesPageUrl, linkColour);
     }
 
     // ── Shared helpers for dialog content ────────────────────────────────────────
@@ -855,20 +855,20 @@ public partial class DialogService
 
             var dlg = new ContentDialog
             {
-                Title               = "⚠ UE-Extended Compatibility Warning",
+                Title               = "⚠ UE-Extended 兼容性警告",
                 Content             = new TextBlock
                 {
                     TextWrapping = TextWrapping.Wrap,
                     FontSize     = 13,
                     Text         = "Not all Unreal Engine games are compatible with UE-Extended.\n\n" +
-                                   "UE-Extended uses a generic injection method that works with most " +
-                                   "Unreal Engine games but may cause crashes or visual issues with others. " +
-                                   "If the game has a named RenoDX mod, that mod is specifically tailored " +
+                                   "UE-Extended 使用通用注入方法，适用于大多数 " +
+                                   "虚幻引擎游戏，但在其他游戏中可能导致崩溃或画面问题。 " +
+                                   "如果游戏有专属的 RenoDX mod，该 mod 是专门为此定制的 " +
                                    "for the game and may provide better results." +
                                    notesHint,
                 },
-                PrimaryButtonText   = "OK, I understand",
-                SecondaryButtonText = "Don't show again",
+                PrimaryButtonText   = "好的，我明白了",
+                SecondaryButtonText = "不再显示",
                 XamlRoot            = _window.Content.XamlRoot,
                 Background          = Brush(ResourceKeys.SurfaceOverlayBrush),
                 RequestedTheme      = ElementTheme.Dark,
@@ -899,19 +899,19 @@ public partial class DialogService
 
             var dlg = new ContentDialog
             {
-                Title = "Administrator Privileges Required",
+                Title = "需要管理员权限",
                 Content = new TextBlock
                 {
                     TextWrapping = TextWrapping.Wrap,
                     FontSize = 13,
-                    Text = "Installing the Vulkan ReShade layer requires writing to C:\\ProgramData\\ReShade\\ " +
+                    Text = "安装 Vulkan ReShade 层需要写入 C:\\ProgramData\\ReShade\\ " +
                            "and modifying system registry keys, which needs administrator privileges.\n\n" +
                            "Enable Admin Mode — RHI will always launch elevated (no UAC prompt after setup).\n\n" +
-                           "Restart as Admin — one-time elevated restart to complete this install.",
+                           "以管理员身份重启 — 一次性提权重启以完成此安装。",
                 },
-                PrimaryButtonText = "Enable Admin Mode",
-                SecondaryButtonText = "Restart as Admin",
-                CloseButtonText = "Cancel",
+                PrimaryButtonText = "启用管理员模式",
+                SecondaryButtonText = "以管理员身份重启",
+                CloseButtonText = "取消",
                 XamlRoot = _window.Content.XamlRoot,
                 Background = Brush(ResourceKeys.SurfaceOverlayBrush),
                 RequestedTheme = ElementTheme.Dark,

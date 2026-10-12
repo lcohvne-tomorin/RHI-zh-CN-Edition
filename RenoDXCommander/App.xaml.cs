@@ -556,7 +556,7 @@ public partial class App : Application
             }
             return bestStr.Length > 0 ? bestStr : "unknown";
         }
-        catch (Exception ex) { return $"error: {ex.Message}"; }
+        catch (Exception ex) { return $"错误：{ex.Message}"; }
     }
 
     private static async Task<bool> IsAdminTaskRegisteredAsync()

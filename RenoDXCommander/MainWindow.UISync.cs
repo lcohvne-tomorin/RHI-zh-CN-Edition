@@ -55,7 +55,7 @@ public sealed partial class MainWindow
                         // Show one-line notice in status bar if this session was auto-restarted after a freeze
                         if (ViewModel.WasAutoRestarted)
                         {
-                            var msg = "⚠ RHI restarted after a UI freeze — check Settings → session log for details";
+                            var msg = "⚠ RHI 在界面卡死后已重启 — 详情请查看 设置 → 会话日志";
                             // Defer slightly so StatusText updates that fire immediately after loading
                             // don't overwrite the notice before the user sees it.
                             _ = System.Threading.Tasks.Task.Delay(500).ContinueWith(_ =>
@@ -70,7 +70,7 @@ public sealed partial class MainWindow
                         // Show one-line notice if the GitHub token was found to be expired/revoked at startup
                         if (App._gitHubTokenExpiredOnStartup)
                         {
-                            var msg = "⚠ GitHub session expired — go to Settings → GitHub API and re-connect to restore the download rate limit";
+                            var msg = "⚠ GitHub 会话已过期 — 请前往 设置 → GitHub API 重新连接以恢复下载速率限制";
                             _ = System.Threading.Tasks.Task.Delay(500).ContinueWith(_ =>
                                 DispatcherQueue?.TryEnqueue(() =>
                                 {
@@ -119,14 +119,14 @@ public sealed partial class MainWindow
                         + (string.IsNullOrEmpty(ViewModel.SubStatusText) ? "" : $"  —  {ViewModel.SubStatusText}");
                     break;
                 case nameof(ViewModel.InstalledCount):
-                    InstalledCountText.Text = $"{ViewModel.InstalledCount} ReShade";
+                    InstalledCountText.Text = $"{ViewModel.InstalledCount} 个 ReShade";
                     break;
                 case nameof(ViewModel.TotalGames):
-                    GameCountText.Text = $"{ViewModel.TotalGames} shown";
+                    GameCountText.Text = $"已显示 {ViewModel.TotalGames} 个";
                     break;
                 case nameof(ViewModel.HiddenCount):
                     HiddenCountText.Text = ViewModel.HiddenCount > 0
-                        ? $"· {ViewModel.HiddenCount} hidden" : "";
+                        ? $"· {ViewModel.HiddenCount} 个已隐藏" : "";
                     break;
                 case nameof(ViewModel.FilterMode):
                     RefreshFilterButtonStyles();
@@ -142,8 +142,8 @@ public sealed partial class MainWindow
                 case nameof(ViewModel.IsBackgroundScanning):
                     HdrModsListBtn.IsEnabled = !ViewModel.IsBackgroundScanning;
                     ToolTipService.SetToolTip(HdrModsListBtn, ViewModel.IsBackgroundScanning
-                        ? "Loading mod data, please wait..."
-                        : "Browse all games with available HDR mods");
+                        ? "正在加载 Mod 数据，请稍候..."
+                        : "浏览所有可用 HDR mod 的游戏");
                     break;
                 case nameof(ViewModel.CurrentPage):
                     UpdatePageVisibility();

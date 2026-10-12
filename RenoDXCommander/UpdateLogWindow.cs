@@ -25,7 +25,7 @@ public sealed class UpdateLogWindow : Window
     {
         _updateLogService = updateLogService;
 
-        Title = "Component Updates";
+        Title = "组件更新";
 
         // Size — 720 × 500 logical px, DPI-scaled
         var hwnd = WindowNative.GetWindowHandle(this);
@@ -109,14 +109,14 @@ public sealed class UpdateLogWindow : Window
         };
         var entries = _updateLogService.GetAll();
         countText.Text = entries.Count == 0
-            ? "No updates recorded yet."
+            ? "暂无更新记录。"
             : $"{entries.Count} update{(entries.Count == 1 ? "" : "s")} recorded";
         Grid.SetColumn(countText, 0);
         footerRow.Children.Add(countText);
 
         var clearBtn = new Button
         {
-            Content     = "Clear History",
+            Content     = "清除历史",
             FontSize    = 11,
             Padding     = new Thickness(10, 4, 10, 4),
             Margin      = new Thickness(0, 0, 8, 0),
@@ -131,7 +131,7 @@ public sealed class UpdateLogWindow : Window
             {
                 listPanel.Children.Clear();
                 BuildEntryList(listPanel);
-                countText.Text = "No updates recorded yet.";
+                countText.Text = "暂无更新记录。";
             });
         };
         Grid.SetColumn(clearBtn, 1);
@@ -139,7 +139,7 @@ public sealed class UpdateLogWindow : Window
 
         var closeBtn = new Button
         {
-            Content     = "Close",
+            Content     = "关闭",
             FontSize    = 11,
             Padding     = new Thickness(10, 4, 10, 4),
             Background  = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
@@ -317,9 +317,9 @@ public sealed class UpdateLogWindow : Window
     {
         "ReShade"            => (ResourceKeys.AccentTealBgBrush,   ResourceKeys.AccentTealBrush,   ResourceKeys.AccentTealBorderBrush),
         "Addon"              => (ResourceKeys.AccentGreenBgBrush,  ResourceKeys.AccentGreenBrush,  ResourceKeys.AccentGreenBorderBrush),
-        "Shader Pack"        => (ResourceKeys.AccentPurpleBgBrush, ResourceKeys.AccentPurpleBrush, ResourceKeys.AccentPurpleBorderBrush),
+        "着色器包"        => (ResourceKeys.AccentPurpleBgBrush, ResourceKeys.AccentPurpleBrush, ResourceKeys.AccentPurpleBorderBrush),
         "RenoDX DLSS5"       => (ResourceKeys.AccentBlueBgBrush,   ResourceKeys.AccentBlueBrush,   ResourceKeys.AccentBlueBorderBrush),
-        "DLSS Tool"          => (ResourceKeys.AccentBlueBgBrush,   ResourceKeys.AccentBlueBrush,   ResourceKeys.AccentBlueBorderBrush),
+        "DLSS 工具"          => (ResourceKeys.AccentBlueBgBrush,   ResourceKeys.AccentBlueBrush,   ResourceKeys.AccentBlueBorderBrush),
         "OptiScaler"         => (ResourceKeys.AccentAmberBgBrush,  ResourceKeys.AccentAmberBrush,  ResourceKeys.BorderDefaultBrush),
         "OptiScaler Nightly" => (ResourceKeys.AccentAmberBgBrush,  ResourceKeys.AccentAmberBrush,  ResourceKeys.BorderDefaultBrush),
         "OptiPatcher"        => (ResourceKeys.AccentAmberBgBrush,  ResourceKeys.AccentAmberBrush,  ResourceKeys.BorderDefaultBrush),

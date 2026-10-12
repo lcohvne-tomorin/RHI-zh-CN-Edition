@@ -27,7 +27,7 @@ public class WikiService : IWikiService
     public async Task<(List<GameMod> Mods, Dictionary<string, string> GenericNotes)>
         FetchAllAsync(IProgress<string>? progress = null)
     {
-        progress?.Report("Fetching wiki...");
+        progress?.Report("正在获取 wiki...");
         var html = await _http.GetStringAsync(WikiUrl).ConfigureAwait(false);
         var doc  = new HtmlDocument();
         doc.LoadHtml(html);
@@ -120,7 +120,7 @@ public class WikiService : IWikiService
             CrashReporter.Log($"[WikiService.FetchAllAsync] Normalized names ({allNorms.Count}): [{string.Join(", ", allNorms)}]");
         }
 
-        progress?.Report($"Found {mods.Count} mods, {genericNotes.Count} generic game notes");
+        progress?.Report($"找到 {mods.Count} 个 mod、{genericNotes.Count} 条通用游戏说明");
         return (mods, genericNotes);
     }
 

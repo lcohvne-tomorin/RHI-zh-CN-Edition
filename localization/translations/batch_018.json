@@ -1,0 +1,18 @@
+{
+  "Global DMFG target frame rate. Off = no target. Max Refresh Rate = match display. Or pick a specific FPS.": "全局 DMFG 目标帧率。关闭 = 不设目标。最大刷新率 = 匹配显示器。或选择具体的 FPS。",
+  "MVVM helpers (ObservableObject, RelayCommand, etc.) used throughout the app. Copyright © .NET Foundation.": "全应用使用的 MVVM 辅助类（ObservableObject、RelayCommand 等）。版权所有 © .NET Foundation。",
+  "Select your GPU generation in the cog (⚙) before installing. Then choose the filename to deploy the DLL as.": "安装前请在齿轮（⚙）中选择您的显卡代次。然后选择部署 DLL 时使用的文件名。",
+  "⚠ ReShade, OptiScaler, and DLSS/Streamline modifications may trigger anti-cheat in online/multiplayer games": "⚠ ReShade、OptiScaler 以及 DLSS/Streamline 的修改可能会触发网络/多人游戏的反作弊系统",
+  "⚠ Admin rights required to write driver profile settings. Enable Admin Mode in Settings or restart as admin.": "⚠ 写入驱动配置文件设置需要管理员权限。请在「设置」中启用管理员模式，或以管理员身份重启。",
+  "Capture the current DLDSR state from NVIDIA Control Panel. Configure DLDSR in NVIDIA CP first, then capture.": "从 NVIDIA 控制面板捕获当前 DLDSR 状态。请先在 NVIDIA 控制面板中配置 DLDSR，然后捕获。",
+  "Controls G-Sync/FreeSync variable refresh rate. Fullscreen and Windowed recommended for seamless experience.": "控制 G-Sync/FreeSync 可变刷新率。推荐使用「全屏和窗口化」以获得无缝体验。",
+  "dgVoodoo2 version to deploy. Older versions may work better with certain games (e.g. 2.87.3 for Mass Effect).": "要部署的 dgVoodoo2 版本。较旧的版本在某些游戏中可能效果更好（例如《质量效应》用 2.87.3）。",
+  "The display name for this game. Edit and press Enter to rename. Reset reverts to the auto-detected store name.": "此游戏的显示名称。编辑后按回车键重命名。「重置」会恢复为自动检测到的商店名称。",
+  "Maximum disk space for compiled shader cache. Larger = fewer stutters on revisits. 16GB is the driver default.": "编译着色器缓存的最大磁盘空间。越大 = 重访时卡顿越少。16GB 是驱动默认值。",
+  "Modding framework required for ReShade injection on RE Engine games. Downloaded from nightly builds on GitHub.": "RE Engine 游戏进行 ReShade 注入所需的 Mod 框架。从 GitHub 的每夜版构建下载。",
+  "Vertical Sync settings — controls how the driver synchronizes frame rendering with your display's refresh rate.": "垂直同步设置 — 控制驱动如何将帧渲染与显示器刷新率同步。",
+  "Fetches the latest manifest data and checks all components for available updates. Bypasses the 4-hour cooldown.": "获取最新的 manifest 数据并检查所有组件的可用更新。绕过 4 小时的冷却时间。",
+  "This filename is already used by an RHI-managed component (ReShade, OptiScaler, or DC). Choose a different name.": "此文件名已被 RHI 管理的组件（ReShade、OptiScaler 或 DC）使用。请换一个名称。",
+  "When On, Windows HDR is automatically enabled when launching a game through RHI and disabled when the game exits.": "开启后，通过 RHI 启动游戏时会自动启用 Windows HDR，游戏退出时自动禁用。",
+  "HDR mod in progress": "HDR mod 处理中"
+}

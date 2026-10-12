@@ -41,7 +41,7 @@ public class OptiScalerWikiService : IOptiScalerWikiService
         if (CachedData != null)
             return CachedData;
 
-        progress?.Report("Fetching OptiScaler wiki...");
+        progress?.Report("正在获取 OptiScaler wiki...");
 
         var standardCompat = new Dictionary<string, OptiScalerCompatEntry>(StringComparer.OrdinalIgnoreCase);
         var fsr4Compat = new Dictionary<string, OptiScalerCompatEntry>(StringComparer.OrdinalIgnoreCase);
@@ -90,7 +90,7 @@ public class OptiScalerWikiService : IOptiScalerWikiService
         };
 
         CachedData = data;
-        progress?.Report($"OptiScaler wiki: {standardCompat.Count} standard + {fsr4Compat.Count} FSR4 entries");
+        progress?.Report($"OptiScaler wiki：{standardCompat.Count} 个标准 + {fsr4Compat.Count} 个 FSR4 条目");
         return data;
     }
 
@@ -176,14 +176,14 @@ public class OptiScalerWikiService : IOptiScalerWikiService
                 }
 
                 // Column 1: Working status (✔️ = Working, ❌ = Not Working)
-                string status = "Unknown";
+                string status = "未知";
                 if (cells.Count > 1)
                 {
                     var statusText = cells[1].InnerText;
                     if (statusText.Contains("✔") || statusText.Contains("✔️"))
                         status = "Working";
                     else if (statusText.Contains("❌"))
-                        status = "Not Working";
+                        status = "不工作";
                 }
 
                 // Column 2: FSR4 status (✅ = confirmed working with FSR4)

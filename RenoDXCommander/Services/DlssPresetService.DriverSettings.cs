@@ -51,10 +51,10 @@ public partial class DlssPresetService
 
     public static readonly (string Name, uint Value)[] VSyncModeOptions =
     [
-        ("App Controlled", 0x60925292),
-        ("Force Off", 0x08416747),
-        ("Force On", 0x47814940),
-        ("Fast Sync", 0x18888888),
+        ("由应用控制", 0x60925292),
+        ("强制关闭", 0x08416747),
+        ("强制开启", 0x47814940),
+        ("快速同步", 0x18888888),
     ];
 
     public static readonly (string Name, uint Value)[] VSyncTearControlOptions =
@@ -67,16 +67,16 @@ public partial class DlssPresetService
 
     public static readonly (string Name, uint Value)[] PowerManagementOptions =
     [
-        ("Optimal Performance", 0x00000005),
+        ("最佳性能", 0x00000005),
         ("Adaptive", 0x00000000),
-        ("Maximum Performance", 0x00000001),
+        ("最高性能", 0x00000001),
     ];
 
     public static readonly (string Name, uint Value)[] CpuExprModeOptions =
     [
-        ("Mode 0 (Default)", 0x00000000),
-        ("Mode 1", 0x00000001),
-        ("Mode 4", 0x00000004),
+        ("模式 0（默认）", 0x00000000),
+        ("模式 1", 0x00000001),
+        ("模式 4", 0x00000004),
     ];
 
     // ── Latency option arrays ─────────────────────────────────────────────────
@@ -84,8 +84,8 @@ public partial class DlssPresetService
     /// <summary>Combined Low Latency Mode options matching NVIDIA App behavior.</summary>
     public static readonly (string Name, uint Value)[] LowLatencyModeOptions =
     [
-        ("Off", 0x00000000),
-        ("On", 0x00000001),
+        ("关", 0x00000000),
+        ("开", 0x00000001),
         ("Ultra", 0x00000002),
     ];
 
@@ -93,8 +93,8 @@ public partial class DlssPresetService
 
     public static readonly (string Name, uint Value)[] SmoothMotionEnableOptions =
     [
-        ("Off", 0x00000000),
-        ("On [40 Series+]", 0x00000001),
+        ("关", 0x00000000),
+        ("开启 [40 系列+]", 0x00000001),
     ];
 
     public static readonly (string Name, uint Value)[] SmoothMotionApisOptions =
@@ -106,7 +106,7 @@ public partial class DlssPresetService
         ("VK", 0x00000004),
         ("DX12, VK", 0x00000005),
         ("DX11, VK", 0x00000006),
-        ("All [DX11/12, VK]", 0x00000007),
+        ("全部 [DX11/12, VK]", 0x00000007),
     ];
 
     public static readonly (string Name, uint Value)[] SmoothMotionFlipPacingFsOptions =
@@ -119,7 +119,7 @@ public partial class DlssPresetService
     [
         ("Off [Latency]", 0x00000000),
         ("On [Pacing]", 0x00000001),
-        ("Force On [Pacing]", 0xFFFFFFFF),
+        ("强制开启 [Pacing]", 0xFFFFFFFF),
     ];
 
     // ── Shader Cache option arrays ────────────────────────────────────────────
@@ -132,7 +132,7 @@ public partial class DlssPresetService
         ("5GB", 0x00001400),
         ("10GB", 0x00002800),
         ("12GB", 0x00003000),
-        ("16GB (Default)", 0x00004000),
+        ("16GB（默认）", 0x00004000),
         ("24GB", 0x00006000),
         ("32GB", 0x00008000),
         ("48GB", 0x0000C000),
@@ -143,8 +143,8 @@ public partial class DlssPresetService
 
     public static readonly (string Name, uint Value)[] ShaderPrecompileOptions =
     [
-        ("Off", 0x00000000),
-        ("Low (Default)", 0x00000001),
+        ("关", 0x00000000),
+        ("低（默认）", 0x00000001),
         ("Medium", 0x00000002),
         ("High", 0x00000003),
     ];
@@ -153,26 +153,26 @@ public partial class DlssPresetService
 
     public static readonly (string Name, uint Value)[] GSyncModeOptions =
     [
-        ("Off", 0x00000000),
-        ("Fullscreen only", 0x00000001),
+        ("关", 0x00000000),
+        ("仅全屏", 0x00000001),
         ("Fullscreen/Windowed", 0x00000002),
     ];
 
     public static readonly (string Name, uint Value)[] PreferredRefreshRateOptions =
     [
-        ("App Setting", 0x00000000),
-        ("Highest available", 0x00000001),
+        ("应用设置", 0x00000000),
+        ("可用的最高值", 0x00000001),
     ];
 
     public static readonly (string Name, uint Value)[] GSyncEnableOptions =
     [
-        ("Enabled", 0x00000001),
-        ("Disabled", 0x00000000),
+        ("已启用", 0x00000001),
+        ("已禁用", 0x00000000),
     ];
 
     public static readonly (string Name, uint Value)[] FpsLimiterPresets =
     [
-        ("Off", 0),
+        ("关", 0),
         ("59 FPS (60Hz VRR Cap)", 59),
         ("73 FPS (75Hz VRR Cap)", 73),
         ("97 FPS (100Hz VRR Cap)", 97),
@@ -186,24 +186,24 @@ public partial class DlssPresetService
         ("275 FPS (300Hz VRR Cap)", 275),
         ("324 FPS (360Hz VRR Cap)", 324),
         ("416 FPS (480Hz VRR Cap)", 416),
-        ("Custom...", uint.MaxValue),
+        ("自定义...", uint.MaxValue),
     ];
 
     // ── DMFG option arrays (global defaults) ──────────────────────────────────
 
     public static readonly (string Name, uint Value)[] DmfgFrameCountOptions =
     [
-        ("Off", 0x00000000),
-        ("3x [50 Series+]", 0x00000002),
-        ("4x [50 Series+]", 0x00000003),
-        ("5x [50 Series+]", 0x00000004),
-        ("6x [50 Series+]", 0x00000005),
+        ("关", 0x00000000),
+        ("3x [50 系列+]", 0x00000002),
+        ("4x [50 系列+]", 0x00000003),
+        ("5x [50 系列+]", 0x00000004),
+        ("6x [50 系列+]", 0x00000005),
     ];
 
     public static readonly (string Name, uint Value)[] DmfgTargetFpsOptions =
     [
-        ("Off", 0x00000000),
-        ("Max Refresh Rate", 0x01000000),
+        ("关", 0x00000000),
+        ("最大刷新率", 0x01000000),
         ("59 FPS (60Hz VRR Cap)", 59),
         ("73 FPS (75Hz VRR Cap)", 73),
         ("97 FPS (100Hz VRR Cap)", 97),
@@ -217,7 +217,7 @@ public partial class DlssPresetService
         ("275 FPS (300Hz VRR Cap)", 275),
         ("324 FPS (360Hz VRR Cap)", 324),
         ("416 FPS (480Hz VRR Cap)", 416),
-        ("Custom...", uint.MaxValue),
+        ("自定义...", uint.MaxValue),
     ];
 
     // ── VSync get/set ─────────────────────────────────────────────────────────

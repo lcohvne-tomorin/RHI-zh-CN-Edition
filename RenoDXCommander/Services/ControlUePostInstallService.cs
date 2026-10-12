@@ -63,7 +63,7 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "⚠ This is NOT an HDR mod.",
+                Text = "⚠ 这不是 HDR mod。",
                 FontSize = 14,
                 FontWeight = new Windows.UI.Text.FontWeight(700),
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -73,9 +73,9 @@ public static class ControlUePostInstallService
             {
                 Text = "It fixes RT noise using Ray Reconstruction. Two strategies (pick one, they are mutually exclusive):\n"
                      + "  •  Turn off the in-game RT denoiser and use DLSS Super Resolution preset M or L\n"
-                     + "  •  Use Ray Reconstruction with extra inputs derived from the game's shaders "
+                     + "  •  使用带有从游戏着色器派生的额外输入的光线重建 "
                      + "(game denoiser is turned off here too — RR needs that)\n\n"
-                     + "⚠ DLSS, Ray Tracing, and SSAO must all be enabled in-game for Ray Reconstruction to work correctly.",
+                     + "⚠ 游戏内必须同时启用 DLSS、光线追踪和 SSAO，光线重建才能正常工作。",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 13,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -83,7 +83,7 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "Required in-game settings:",
+                Text = "所需的游戏内设置：",
                 FontSize = 12,
                 FontWeight = new Windows.UI.Text.FontWeight(600),
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -95,7 +95,7 @@ public static class ControlUePostInstallService
                 Text = "  •  DLSS ON  •  SSAO ON  •  Post-processing HIGH\n"
                      + "  •  Screen-space reflections HIGH (temporarily turn off RT to change, or set render preset to High/Ultra)\n"
                      + "  •  RT Reflections ON  •  RT Indirect Diffuse ON\n"
-                     + "  •  Render resolution must use even integers (can be set in renderer.ini)",
+                     + "  •  渲染分辨率必须使用偶数（可在 renderer.ini 中设置）",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 12,
                 Foreground = UIFactory.Brush(ResourceKeys.InlineDescriptionBrush),
@@ -103,7 +103,7 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "Clicking Install will also:",
+                Text = "点击安装还会：",
                 FontSize = 13,
                 FontWeight = new Windows.UI.Text.FontWeight(600),
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -116,7 +116,7 @@ public static class ControlUePostInstallService
                      + "  •  Deploy nvngx_dlssd.dll (DLSS Ray Reconstruction runtime)\n"
                      + "  •  Set renderer.ini HDR preset to the correct value\n"
                      + "  •  Clear the DLSS SR preset set in the NVIDIA driver profile for this game\n"
-                     + "  •  If OptiScaler FG = Yes: installs OptiScaler Nightly build 2026-10-04 with Frame Generation pre-configured, deploys Streamline and nvngx_dlssg.dll, renames OptiScaler to winmm.dll and ReShade to dxgi.dll, and applies all required FG INI settings",
+                     + "  •  如果 OptiScaler FG = 是：安装已预配置帧生成的 OptiScaler Nightly 构建 2026-10-04，部署 Streamline 和 nvngx_dlssg.dll，将 OptiScaler 重命名为 winmm.dll、ReShade 重命名为 dxgi.dll，并应用所有必需的帧生成 INI 设置",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 13,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -124,7 +124,7 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "These extra changes are not reverted when uninstalling the mod.",
+                Text = "卸载 mod 时这些额外更改不会被还原。",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 12,
                 Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush),
@@ -147,14 +147,14 @@ public static class ControlUePostInstallService
             var optiStack = new Microsoft.UI.Xaml.Controls.StackPanel { Spacing = 4 };
             optiStack.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "Install OptiScaler FG",
+                Text = "安装 OptiScaler 帧生成",
                 FontSize = 12,
                 FontWeight = new Windows.UI.Text.FontWeight(600),
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             });
             var optiCombo = new Microsoft.UI.Xaml.Controls.ComboBox
             {
-                ItemsSource = new[] { "No", "Yes" },
+                ItemsSource = new[] { "否", "是" },
                 SelectedIndex = 0,
                 HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
                 MaxDropDownHeight = 300,
@@ -169,14 +169,14 @@ public static class ControlUePostInstallService
             var hdrStack = new Microsoft.UI.Xaml.Controls.StackPanel { Spacing = 4 };
             hdrStack.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "Using HDR?",
+                Text = "使用 HDR？",
                 FontSize = 12,
                 FontWeight = new Windows.UI.Text.FontWeight(600),
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             });
             var hdrCombo = new Microsoft.UI.Xaml.Controls.ComboBox
             {
-                ItemsSource = new[] { "No", "Yes" },
+                ItemsSource = new[] { "否", "是" },
                 SelectedIndex = 0,
                 HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
                 MaxDropDownHeight = 300,
@@ -184,7 +184,7 @@ public static class ControlUePostInstallService
                 Opacity = 0.45,
             };
             Microsoft.UI.Xaml.Controls.ToolTipService.SetToolTip(hdrCombo,
-                "If Yes, writes FgSlHdr10=1 to reshade.ini so the FG shader uses HDR10. Only available when installing OptiScaler FG.");
+                "若为「是」，会将 FgSlHdr10=1 写入 reshade.ini，使帧生成着色器使用 HDR10。仅在安装 OptiScaler FG 时可用。");
             hdrStack.Children.Add(hdrCombo);
             Microsoft.UI.Xaml.Controls.Grid.SetColumn(hdrStack, 1);
             comboRow.Children.Add(hdrStack);
@@ -194,7 +194,7 @@ public static class ControlUePostInstallService
             // Wire OptiScaler combo → enable/disable HDR combo
             optiCombo.SelectionChanged += (s, e) =>
             {
-                bool optiOn = optiCombo.SelectedItem as string == "Yes";
+                bool optiOn = optiCombo.SelectedItem as string == "是";
                 hdrCombo.IsEnabled = optiOn;
                 hdrCombo.Opacity   = optiOn ? 1.0 : 0.45;
                 if (!optiOn) hdrCombo.SelectedIndex = 0;
@@ -204,8 +204,8 @@ public static class ControlUePostInstallService
             {
                 Title = "Control Ultimate Edition — RenoDX Mod",
                 Content = content,
-                PrimaryButtonText = "Install",
-                CloseButtonText = "Cancel",
+                PrimaryButtonText = "安装",
+                CloseButtonText = "取消",
                 DefaultButton = Microsoft.UI.Xaml.Controls.ContentDialogButton.Primary,
                 XamlRoot = xamlRoot,
                 RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
@@ -217,8 +217,8 @@ public static class ControlUePostInstallService
 
             return new ControlUeInstallOptions(
                 Proceed: true,
-                InstallOptiScalerFg: optiCombo.SelectedItem as string == "Yes",
-                UseHdr: hdrCombo.SelectedItem as string == "Yes");
+                InstallOptiScalerFg: optiCombo.SelectedItem as string == "是",
+                UseHdr: hdrCombo.SelectedItem as string == "是");
         }
         catch (Exception ex)
         {
@@ -468,10 +468,10 @@ public static class ControlUePostInstallService
 
             // ── Apply OptiScaler INI settings ──────────────────────────────────
             // [Upscalers]
-            OptiScalerService.SetOptiScalerIniValue(installPath, "Upscalers", "Dx12Upscaler", "dlss");
+            OptiScalerService.SetOptiScalerIniValue(installPath, "超分", "Dx12Upscaler", "dlss");
 
             // [FrameGen]
-            OptiScalerService.SetOptiScalerIniValue(installPath, "FrameGen", "Enabled",   "true");
+            OptiScalerService.SetOptiScalerIniValue(installPath, "FrameGen", "已启用",   "true");
             OptiScalerService.SetOptiScalerIniValue(installPath, "FrameGen", "FGInput",   "upscaler");
             OptiScalerService.SetOptiScalerIniValue(installPath, "FrameGen", "FGOutput",  "dlssg");
 

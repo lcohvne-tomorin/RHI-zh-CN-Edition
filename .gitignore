@@ -41,3 +41,8 @@ docs/ui-freeze-audit-report.md
 docs/ui-freeze-fix-tasks.md
 docs/ui-polish-fix-tasks.md
 OptiScaler-DLSSNR-v*/
+
+# Chinese localisation toolchain - regenerable intermediates
+localization/strings_raw.json
+localization/todo.json
+localization/__pycache__/

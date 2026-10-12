@@ -28,7 +28,7 @@ public sealed partial class SetupWindow : Window
     {
         InitializeComponent();
 
-        Title = "RHI Setup";
+        Title = "RHI 安装程序";
 
         // Size and position — scale by display DPI so window is correct at any Windows scaling setting
         var hwndForDpi = WindowNative.GetWindowHandle(this);
@@ -110,7 +110,7 @@ public sealed partial class SetupWindow : Window
         // ── Title ──
         root.Children.Add(new TextBlock
         {
-            Text = "Welcome to RHI",
+            Text = "欢迎使用 RHI",
             FontSize = 22,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -124,8 +124,8 @@ public sealed partial class SetupWindow : Window
             "  - Manages shader packs globally - install once, deployed to every game automatically\n" +
             "  - Backs up any shaders already in your game folders before taking over\n" +
             "  - Keeps ReShade in sync when you install RenoDX, OptiScaler, or other components\n\n" +
-            "If you already have a custom ReShade setup - specific shader collections, hand-tuned configs, " +
-            "or a version you prefer - choose \"I'll manage it myself\" and RHI will leave ReShade completely alone.";
+            "如果您已有自定义的 ReShade 配置 — 特定着色器合集、手工调校的配置， " +
+            "或您偏好的版本 — 选择「我自己管理」，RHI 将完全不干预 ReShade。";
 
         root.Children.Add(new TextBlock
         {
@@ -153,7 +153,7 @@ public sealed partial class SetupWindow : Window
         // "Manage ReShade for me" — accent blue style
         var manageBtn = new Button
         {
-            Content = "Manage ReShade for me",
+            Content = "帮我管理 ReShade",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             FontSize = 14,
             Padding = new Thickness(12, 10, 12, 10),
@@ -166,7 +166,7 @@ public sealed partial class SetupWindow : Window
 
         var selfBtn = new Button
         {
-            Content = "I'll manage it myself",
+            Content = "我自己管理",
             HorizontalAlignment = HorizontalAlignment.Stretch,
             FontSize = 14,
             Padding = new Thickness(12, 10, 12, 10),

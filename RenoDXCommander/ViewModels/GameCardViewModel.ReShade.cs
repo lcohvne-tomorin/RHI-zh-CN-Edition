@@ -49,23 +49,23 @@ public partial class GameCardViewModel
     {
         get
         {
-            if (RsIsInstalling) return "Installing...";
+            if (RsIsInstalling) return "正在安装...";
             // RE Engine games require REFramework before ReShade can be installed
             // (unless user has excluded REF via Update Inclusion toggle)
             if (IsREEngineGame && !IsRefInstalled && !EffectiveLumaMode && !ExcludeFromUpdateAllRef)
-                return "⚠  RE Framework required";
+                return "⚠  RE Framework 必需";
             if (RequiresVulkanInstall)
             {
                 bool layerInstalled = _vulkanLayerInstalled;
                 if (RsStatus == GameStatus.UpdateAvailable && layerInstalled && IsVulkanRsActive)
-                    return "⬆  Update Vulkan ReShade";
-                if (layerInstalled && IsVulkanRsActive) return "↺  Reinstall Vulkan ReShade";
-                if (layerInstalled) return "⬇  Install Vulkan ReShade";
-                return "⬇  Install Vulkan Layer";
+                    return "⬆  更新 Vulkan ReShade";
+                if (layerInstalled && IsVulkanRsActive) return "↺  重新安装 Vulkan ReShade";
+                if (layerInstalled) return "⬇  安装 Vulkan ReShade";
+                return "⬇  安装 Vulkan 层";
             }
-            return RsStatus == GameStatus.UpdateAvailable ? "⬆  Update ReShade"
-                 : RsStatus == GameStatus.Installed       ? "↺  Reinstall ReShade"
-                 : "⬇  Install ReShade";
+            return RsStatus == GameStatus.UpdateAvailable ? "⬆  更新 ReShade"
+                 : RsStatus == GameStatus.Installed       ? "↺  重新安装 ReShade"
+                 : "⬇  安装 ReShade";
         }
     }
 
@@ -81,10 +81,10 @@ public partial class GameCardViewModel
                                                ? Visibility.Visible : Visibility.Collapsed;
 
     // Component table: RS short status text + short action labels
-    public string RsStatusText => RsIsInstalling ? "Installing…"
-        : RsStatus == GameStatus.UpdateAvailable ? (RsInstalledVersion ?? "Update")
-        : RsStatus == GameStatus.Installed       ? (RsInstalledVersion ?? "Installed")
-        : "Ready";
+    public string RsStatusText => RsIsInstalling ? "正在安装…"
+        : RsStatus == GameStatus.UpdateAvailable ? (RsInstalledVersion ?? "更新")
+        : RsStatus == GameStatus.Installed       ? (RsInstalledVersion ?? "已安装")
+        : "就绪";
     public string RsStatusColor => RsIsInstalling ? "#D4A856"
         : RsStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : RsStatus == GameStatus.Installed       ? "#5ECB7D"
@@ -101,14 +101,14 @@ public partial class GameCardViewModel
             {
                 bool layerInstalled = _vulkanLayerInstalled;
                 if (RsStatus == GameStatus.UpdateAvailable && layerInstalled && IsVulkanRsActive)
-                    return "⬆ Update";
-                if (layerInstalled && IsVulkanRsActive) return "↺ Reinstall";
+                    return "⬆ 更新";
+                if (layerInstalled && IsVulkanRsActive) return "↺ 重新安装";
                 if (layerInstalled) return "⬇ Vulkan RS";
-                return "⬇ Install";
+                return "⬇ 安装";
             }
-            return RsStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-                 : RsStatus == GameStatus.Installed       ? "↺ Reinstall"
-                 : "⬇ Install";
+            return RsStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+                 : RsStatus == GameStatus.Installed       ? "↺ 重新安装"
+                 : "⬇ 安装";
         }
     }
 

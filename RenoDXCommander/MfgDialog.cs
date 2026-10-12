@@ -42,7 +42,7 @@ public static class MfgDialog
                        "Minimum driver requirements:\n" +
                        "• MFG (Fixed): Driver 572.16+\n" +
                        "• DMFG (Dynamic): Driver 595.97+\n\n" +
-                       "These settings will have no effect on 40 Series or older hardware.",
+                       "这些设置对 40 系列或更旧的硬件无效。",
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 13,
                 Foreground = UIFactory.Brush(ResourceKeys.AccentAmberBrush),
@@ -50,7 +50,7 @@ public static class MfgDialog
 
             var dontShowCheck = new CheckBox
             {
-                Content = "Don't show this warning again",
+                Content = "不再显示此警告",
                 FontSize = 12,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             };
@@ -58,10 +58,10 @@ public static class MfgDialog
 
             var warningDialog = new ContentDialog
             {
-                Title = "⚠ Hardware Requirement",
+                Title = "⚠ 硬件要求",
                 Content = warningPanel,
                 PrimaryButtonText = "OK",
-                CloseButtonText = "Cancel",
+                CloseButtonText = "取消",
                 XamlRoot = xamlRoot,
                 RequestedTheme = ElementTheme.Dark,
             };
@@ -102,7 +102,7 @@ public static class MfgDialog
         // ── FG Mode ──
         panel.Children.Add(new TextBlock
         {
-            Text = "FG Mode",
+            Text = "帧生成模式",
             FontSize = 11,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -130,7 +130,7 @@ public static class MfgDialog
         // ── Frame Count ──
         panel.Children.Add(new TextBlock
         {
-            Text = "Frame Count",
+            Text = "帧数",
             FontSize = 11,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -144,13 +144,13 @@ public static class MfgDialog
             CornerRadius = new CornerRadius(6),
         };
         ToolTipService.SetToolTip(countCombo,
-            "Fixed: exact frame multiplier (2x-6x). Dynamic: maximum frames the driver may generate (Up to 3x-6x). 50 Series GPUs only for 3x+.");
+            "固定：精确的帧倍率（2x-6x）。动态：驱动可生成的最大帧数（最高 3x-6x）。3x 及以上仅限 50 系列显卡。");
         panel.Children.Add(countCombo);
 
         // ── Target Frame Rate ──
         panel.Children.Add(new TextBlock
         {
-            Text = "Target Frame Rate",
+            Text = "目标帧率",
             FontSize = 11,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -164,13 +164,13 @@ public static class MfgDialog
             CornerRadius = new CornerRadius(6),
         };
         ToolTipService.SetToolTip(fpsCombo,
-            "The target output frame rate for dynamic frame generation. Only active in Dynamic mode.");
+            "动态帧生成的目标输出帧率。仅在动态模式下生效。");
         panel.Children.Add(fpsCombo);
 
         // Inline custom FPS input (shown when "Custom..." is selected)
         var customFpsPanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, Visibility = Visibility.Collapsed };
         var customFpsBox = new TextBox { PlaceholderText = "20-1000", FontSize = 13, MinWidth = 100 };
-        var customFpsBtn = new Button { Content = "Set", FontSize = 12 };
+        var customFpsBtn = new Button { Content = "设置", FontSize = 12 };
         customFpsPanel.Children.Add(customFpsBox);
         customFpsPanel.Children.Add(customFpsBtn);
         panel.Children.Add(customFpsPanel);
@@ -205,11 +205,11 @@ public static class MfgDialog
             }
             else if (selectedModeIndex == 2) // Dynamic
             {
-                countCombo.Items.Add("Up to 2x");
-                countCombo.Items.Add("Up to 3x");
-                countCombo.Items.Add("Up to 4x");
-                countCombo.Items.Add("Up to 5x");
-                countCombo.Items.Add("Up to 6x");
+                countCombo.Items.Add("最高 2x");
+                countCombo.Items.Add("最高 3x");
+                countCombo.Items.Add("最高 4x");
+                countCombo.Items.Add("最高 5x");
+                countCombo.Items.Add("最高 6x");
                 countCombo.IsEnabled = true;
 
                 // Select based on current dynamic max count
@@ -267,8 +267,8 @@ public static class MfgDialog
 
             if (selectedModeIndex == 2) // Dynamic
             {
-                fpsCombo.Items.Add("Off");
-                fpsCombo.Items.Add("Max Refresh Rate");
+                fpsCombo.Items.Add("关");
+                fpsCombo.Items.Add("最大刷新率");
                 foreach (var item in fpsItemsList)
                     fpsCombo.Items.Add(item.Label);
 
@@ -277,7 +277,7 @@ public static class MfgDialog
                     && !vrrFpsSet.Contains(currentTargetFps))
                     fpsCombo.Items.Add($"{currentTargetFps} FPS (Custom)");
 
-                fpsCombo.Items.Add("Custom...");
+                fpsCombo.Items.Add("自定义...");
                 fpsCombo.IsEnabled = true;
 
                 // Select based on current value
@@ -423,7 +423,7 @@ public static class MfgDialog
             var selectedText = fpsCombo.SelectedItem as string ?? "";
 
             // "Custom..." shows inline TextBox for manual entry
-            if (selectedText == "Custom...")
+            if (selectedText == "自定义...")
             {
                 customFpsPanel.Visibility = Visibility.Visible;
                 customFpsBox.Text = "";
@@ -482,9 +482,9 @@ public static class MfgDialog
         // ── Show dialog ──
         var dialog = new ContentDialog
         {
-            Title = "Multi Frame Generation",
+            Title = "多帧生成",
             Content = panel,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = xamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };

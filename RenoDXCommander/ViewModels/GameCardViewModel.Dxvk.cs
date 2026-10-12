@@ -71,11 +71,11 @@ public partial class GameCardViewModel
     /// </summary>
     public string? DxvkToggleTooltip =>
         IsDxvkToggleEnabled ? null
-        : IsDxvkBlacklisted ? "DXVK is blocked for this game due to anti-cheat software."
+        : IsDxvkBlacklisted ? "由于反作弊软件，此游戏已阻止 DXVK。"
         : GraphicsApi == GraphicsApiType.Unknown && !HasDxvkApiOverride
-            ? "DXVK cannot be enabled because the game's DirectX version could not be determined."
+            ? "无法启用 DXVK，因为无法确定游戏的 DirectX 版本。"
         : GraphicsApi is GraphicsApiType.DirectX12 or GraphicsApiType.Vulkan or GraphicsApiType.OpenGL
-            ? $"DXVK does not support {GraphicsApi}. It only translates DirectX 8/9/10/11 to Vulkan."
+            ? $"DXVK 不支持 {GraphicsApi}。它只能将 DirectX 8/9/10/11 转换为 Vulkan。"
         : null;
 
     // ── DXVK computed properties ──────────────────────────────────────────────────
@@ -84,10 +84,10 @@ public partial class GameCardViewModel
     public string DxvkStatusDot => DxvkStatus == GameStatus.UpdateAvailable ? "🟢"
         : DxvkStatus == GameStatus.Installed ? "🟢" : "⚪";
 
-    public string DxvkActionLabel => DxvkIsInstalling ? "Installing..."
-        : DxvkStatus == GameStatus.UpdateAvailable ? "⬆  Update DXVK"
-        : DxvkStatus == GameStatus.Installed ? "↺  Reinstall DXVK"
-        : "⬇  Install DXVK";
+    public string DxvkActionLabel => DxvkIsInstalling ? "正在安装..."
+        : DxvkStatus == GameStatus.UpdateAvailable ? "⬆  更新 DXVK"
+        : DxvkStatus == GameStatus.Installed ? "↺  重新安装 DXVK"
+        : "⬇  安装 DXVK";
 
     public string DxvkBtnBackground  => DxvkStatus == GameStatus.UpdateAvailable ? "#201838" : "#182840";
     public string DxvkBtnForeground  => DxvkStatus == GameStatus.UpdateAvailable ? "#B898E8" : "#7AACDD";
@@ -97,18 +97,18 @@ public partial class GameCardViewModel
     public Visibility DxvkDeleteVisibility   => DxvkStatus == GameStatus.Installed || DxvkStatus == GameStatus.UpdateAvailable
         ? Visibility.Visible : Visibility.Collapsed;
 
-    public string DxvkStatusText => DxvkIsInstalling ? "Installing…"
-        : DxvkStatus == GameStatus.UpdateAvailable ? "Update"
-        : DxvkStatus == GameStatus.Installed ? (DxvkInstalledVersion ?? "Installed")
-        : "Ready";
+    public string DxvkStatusText => DxvkIsInstalling ? "正在安装…"
+        : DxvkStatus == GameStatus.UpdateAvailable ? "更新"
+        : DxvkStatus == GameStatus.Installed ? (DxvkInstalledVersion ?? "已安装")
+        : "就绪";
     public string DxvkStatusColor => DxvkIsInstalling ? "#D4A856"
         : DxvkStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : DxvkStatus == GameStatus.Installed ? "#5ECB7D"
         : "#A0AABB";
     public string DxvkShortAction => DxvkIsInstalling ? "…"
-        : DxvkStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-        : DxvkStatus == GameStatus.Installed ? "↺ Reinstall"
-        : "⬇ Install";
+        : DxvkStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+        : DxvkStatus == GameStatus.Installed ? "↺ 重新安装"
+        : "⬇ 安装";
 
     public bool IsDxvkNotInstalling => !DxvkIsInstalling;
     public bool IsDxvkInstalled => DxvkStatus == GameStatus.Installed || DxvkStatus == GameStatus.UpdateAvailable;

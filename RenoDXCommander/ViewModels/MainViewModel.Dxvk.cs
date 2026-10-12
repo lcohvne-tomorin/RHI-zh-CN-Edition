@@ -30,7 +30,7 @@ public partial class MainViewModel
         {
             var dontShowAgain = new CheckBox
             {
-                Content = "Don't show this warning again",
+                Content = "不再显示此警告",
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 Margin = new Microsoft.UI.Xaml.Thickness(0, 8, 0, 0),
             };
@@ -51,7 +51,7 @@ public partial class MainViewModel
                     + "• Exclusive fullscreen is blocked — use borderless windowed\n"
                     + "• First launch will be slow due to shader compilation (improves on subsequent runs)\n"
                     + "• Some games may crash or have graphical glitches with DXVK\n\n"
-                    + "Do you want to continue?",
+                    + "是否继续？",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
                 FontSize = 13,
@@ -60,10 +60,10 @@ public partial class MainViewModel
 
             var warningDialog = new ContentDialog
             {
-                Title = "⚠ DXVK Warning",
+                Title = "⚠ DXVK 警告",
                 Content = contentPanel,
-                PrimaryButtonText = "Continue",
-                CloseButtonText = "Cancel",
+                PrimaryButtonText = "继续",
+                CloseButtonText = "取消",
                 XamlRoot = xamlRoot,
                 RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
             };
@@ -86,7 +86,7 @@ public partial class MainViewModel
         _dxvkService.LiliumPresetIndex = GetLiliumPreset(card.GameName, card.Source ?? "");
 
         card.DxvkIsInstalling = true;
-        card.DxvkActionMessage = "Installing DXVK...";
+        card.DxvkActionMessage = "正在安装 DXVK...";
         card.DxvkProgress = 0;
         try
         {
@@ -104,7 +104,7 @@ public partial class MainViewModel
                 overlayHotkey: _settingsViewModel.OverlayHotkey,
                 screenshotHotkey: _settingsViewModel.ScreenshotHotkey);
 
-            card.DxvkActionMessage = "✅ DXVK installed!";
+            card.DxvkActionMessage = "✅ DXVK 已安装！";
             card.DxvkEnabled = true; // must be set so RequiresVulkanInstall returns true for DX11
             card.NotifyAll();
             card.FadeMessage(m => card.DxvkActionMessage = m, card.DxvkActionMessage);
@@ -133,8 +133,8 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            card.DxvkActionMessage = $"❌ Install failed: {ex.Message}";
-            _crashReporter.WriteCrashReport("InstallDxvk", ex, note: $"Game: {card.GameName}");
+            card.DxvkActionMessage = $"❌ 安装失败：{ex.Message}";
+            _crashReporter.WriteCrashReport("InstallDxvk", ex, note: $"游戏：{card.GameName}");
         }
         finally
         {
@@ -154,7 +154,7 @@ public partial class MainViewModel
         if (string.IsNullOrEmpty(card.InstallPath)) return;
 
         card.DxvkIsInstalling = true;
-        card.DxvkActionMessage = "Removing DXVK...";
+        card.DxvkActionMessage = "正在移除 DXVK...";
         try
         {
             await _dxvkService.UninstallAsync(card);
@@ -178,7 +178,7 @@ public partial class MainViewModel
                 SaveGameApiCache();
             }
             
-            card.DxvkActionMessage = "✖ DXVK removed.";
+            card.DxvkActionMessage = "✖ DXVK 已移除。";
             card.NotifyAll();
             card.FadeMessage(m => card.DxvkActionMessage = m, card.DxvkActionMessage);
             SaveLibrary();
@@ -192,8 +192,8 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            card.DxvkActionMessage = $"❌ Uninstall failed: {ex.Message}";
-            _crashReporter.WriteCrashReport("UninstallDxvk", ex, note: $"Game: {card.GameName}");
+            card.DxvkActionMessage = $"❌ 卸载失败：{ex.Message}";
+            _crashReporter.WriteCrashReport("UninstallDxvk", ex, note: $"游戏：{card.GameName}");
         }
         finally
         {
@@ -215,7 +215,7 @@ public partial class MainViewModel
         if (string.IsNullOrEmpty(card.InstallPath)) return;
 
         card.DxvkIsInstalling = true;
-        card.DxvkActionMessage = "Updating DXVK...";
+        card.DxvkActionMessage = "正在更新 DXVK...";
         card.DxvkProgress = 0;
         try
         {
@@ -239,7 +239,7 @@ public partial class MainViewModel
 
             _dxvkService.SelectedVariant = savedVariant;
 
-            card.DxvkActionMessage = "✅ DXVK updated!";
+            card.DxvkActionMessage = "✅ DXVK 已更新！";
             card.DxvkStatus = GameStatus.Installed;
             card.NotifyAll();
             card.FadeMessage(m => card.DxvkActionMessage = m, card.DxvkActionMessage);
@@ -252,8 +252,8 @@ public partial class MainViewModel
         }
         catch (Exception ex)
         {
-            card.DxvkActionMessage = $"❌ Update failed: {ex.Message}";
-            _crashReporter.WriteCrashReport("UpdateDxvk", ex, note: $"Game: {card.GameName}");
+            card.DxvkActionMessage = $"❌ 更新失败：{ex.Message}";
+            _crashReporter.WriteCrashReport("UpdateDxvk", ex, note: $"游戏：{card.GameName}");
         }
         finally
         {
@@ -275,7 +275,7 @@ public partial class MainViewModel
             // uses the right Lilium HDR preset content for this specific game.
             _dxvkService.LiliumPresetIndex = GetLiliumPreset(card.GameName, card.Source ?? "");
             _dxvkService.CopyConfToGame(card);
-            card.DxvkActionMessage = "✅ dxvk.conf copied to game folder.";
+            card.DxvkActionMessage = "✅ dxvk.conf 已复制到游戏文件夹。";
             card.FadeMessage(m => card.DxvkActionMessage = m, card.DxvkActionMessage);
         }
         catch (Exception ex)

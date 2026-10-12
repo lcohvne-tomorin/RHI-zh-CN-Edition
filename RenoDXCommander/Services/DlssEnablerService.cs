@@ -144,11 +144,11 @@ public class DlssEnablerService
         catch (Exception ex)
         {
             _crashReporter.Log($"[DlssEnablerService.EnsureStagingAsync] Download failed ({downloadUrl}) — {ex.Message}");
-            progress?.Report(($"DLSS Enabler download failed: {ex.Message}", 0));
+            progress?.Report(($"DLSS Enabler 下载失败：{ex.Message}", 0));
             return;
         }
 
-        progress?.Report(("DLSS Enabler ready", 90));
+        progress?.Report(("DLSS Enabler 就绪", 90));
 
         // ── Auto-deploy to all games where DLSS Enabler is enabled ────────────
         try
@@ -185,7 +185,7 @@ public class DlssEnablerService
             _crashReporter.Log($"[DlssEnablerService.EnsureStagingAsync] Auto-deploy loop failed — {ex.Message}");
         }
 
-        progress?.Report(("DLSS Enabler ready", 100));
+        progress?.Report(("DLSS Enabler 就绪", 100));
     }
 
     // ── Install / Uninstall / Detection ───────────────────────────────────────

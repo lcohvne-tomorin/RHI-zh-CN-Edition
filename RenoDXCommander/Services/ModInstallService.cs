@@ -73,7 +73,7 @@ public class ModInstallService : IModInstallService
         string? store = null)
     {
         if (mod.SnapshotUrl == null)
-            throw new InvalidOperationException($"{mod.Name} has no Snapshot download URL.");
+            throw new InvalidOperationException($"{mod.Name} 没有 Snapshot 下载 URL。");
 
         // Apply URL override before anything else — this ensures the correct CDN is
         // used for both the HEAD size check and the actual download.
@@ -90,7 +90,7 @@ public class ModInstallService : IModInstallService
          && !ext.Equals(".addon32", StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(
-                $"Unsupported file type '{ext}' for {mod.Name}. Only .addon64 and .addon32 files are supported.");
+                $"{mod.Name} 的文件类型 '{ext}' 不受支持。仅支持 .addon64 和 .addon32 文件。");
         }
 
         var destPath  = Path.Combine(GetAddonDeployPath(gameInstallPath), fileName);
@@ -146,7 +146,7 @@ public class ModInstallService : IModInstallService
         // ── Step 3: fresh download if no usable cache ─────────────────────────────
         if (!usedCache)
         {
-            progress?.Report(("Downloading...", 0));
+            progress?.Report(("正在下载...", 0));
             HttpResponseMessage? response = null;
             var tried      = new List<string>();
             var candidates = new List<string> { resolvedUrl };
@@ -215,7 +215,7 @@ public class ModInstallService : IModInstallService
                     await cacheFile.WriteAsync(buffer.AsMemory(0, read));
                     downloaded += read;
                     if (total > 0)
-                        progress?.Report(($"Downloading... {downloaded / 1024} KB",
+                        progress?.Report(($"正在下载... {downloaded / 1024} KB",
                                           (double)downloaded / total * 100));
                 }
                 cacheFile.Flush();

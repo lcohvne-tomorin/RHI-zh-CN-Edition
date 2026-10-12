@@ -130,7 +130,7 @@ public partial class DetailPanelBuilder
             // Clickable when version is vague (no specific number detected) and it's Unreal
             // NOT clickable when: specific version set (e.g. 5.3.2, 4.27.2), or Legacy engine
             bool hasSpecificVersion = System.Text.RegularExpressions.Regex.IsMatch(card.EngineHint, @"Unreal Engine \d");
-            bool isVague = card.EngineHint == "Unreal Engine" || card.EngineHint == "Unreal Engine 5";
+            bool isVague = card.EngineHint == "虚幻引擎" || card.EngineHint == "虚幻引擎 5";
             bool isClickable = card.EngineHint.IndexOf("Unreal", StringComparison.OrdinalIgnoreCase) >= 0
                 && !hasSpecificVersion
                 && !card.EngineHint.Contains("Legacy", StringComparison.OrdinalIgnoreCase)
@@ -138,7 +138,7 @@ public partial class DetailPanelBuilder
             _window.DetailEngineText.TextDecorations = isClickable ? Windows.UI.Text.TextDecorations.Underline : Windows.UI.Text.TextDecorations.None;
             _window.DetailEngineBadge.Tag = isClickable ? card : null;
             if (isClickable)
-                ToolTipService.SetToolTip(_window.DetailEngineBadge, "Click to cycle engine version (affects DOF Fix eligibility)");
+                ToolTipService.SetToolTip(_window.DetailEngineBadge, "点击切换引擎版本（影响景深修复的可用性）");
             else
                 ToolTipService.SetToolTip(_window.DetailEngineBadge, null);
         }
@@ -190,11 +190,11 @@ public partial class DetailPanelBuilder
                     var cursorProp = DetailPanelBuilder.CursorProp;
                     badge.PointerEntered += (s, e) => cursorProp?.SetValue(badge, handCursor);
                     badge.PointerExited += (s, e) => cursorProp?.SetValue(badge, arrowCursor);
-                    ToolTipService.SetToolTip(badge, $"Mod author: {author} — click to open Ko-fi donation page");
+                    ToolTipService.SetToolTip(badge, $"Mod 作者：{author} — 点击打开 Ko-fi 捐赠页面");
                 }
                 else
                 {
-                    ToolTipService.SetToolTip(badge, $"Mod author: {author}");
+                    ToolTipService.SetToolTip(badge, $"Mod 作者：{author}");
                 }
                 _window.DetailAuthorBadgePanel.Children.Add(badge);
             }
@@ -265,32 +265,32 @@ public partial class DetailPanelBuilder
                 if (dbMod != null)
                 {
                     // MapStatus converts "Done"→"✅" and "WIP"→"🚧", so normalise back to text
-                    modStatusText = dbMod.Status == "🚧" ? "WIP" : dbMod.Status == "✅" ? "Done" : null;
+                    modStatusText = dbMod.Status == "🚧" ? "WIP" : dbMod.Status == "✅" ? "完成" : null;
                 }
                 else if (!card.IsGenericMod)
                 {
                     // Fallback: WikiStatus is already correctly resolved for this card (handles
                     // games detected by folder name like "AFOP" whose DB entry uses the full title)
                     modStatusText = card.WikiStatus == "🚧" ? "WIP"
-                                  : card.WikiStatus == "✅" ? "Done"
+                                  : card.WikiStatus == "✅" ? "完成"
                                   : null;
                 }
             }
         }
 
-        if (string.Equals(modStatusText, "Done", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(modStatusText, "完成", StringComparison.OrdinalIgnoreCase))
         {
             _window.DetailModStatusIcon.Text = "✓";
             _window.DetailModStatusIcon.Foreground = UIFactory.Brush(ResourceKeys.AccentGreenBrush);
             _window.DetailModStatusIcon.Visibility = Visibility.Visible;
-            ToolTipService.SetToolTip(_window.DetailModStatusIcon, "HDR mod complete");
+            ToolTipService.SetToolTip(_window.DetailModStatusIcon, "HDR mod 完成");
         }
         else if (string.Equals(modStatusText, "WIP", StringComparison.OrdinalIgnoreCase))
         {
             _window.DetailModStatusIcon.Text = "🔨";
             _window.DetailModStatusIcon.Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush);
             _window.DetailModStatusIcon.Visibility = Visibility.Visible;
-            ToolTipService.SetToolTip(_window.DetailModStatusIcon, "HDR mod in progress");
+            ToolTipService.SetToolTip(_window.DetailModStatusIcon, "HDR mod 处理中");
         }
         else
         {
@@ -299,7 +299,7 @@ public partial class DetailPanelBuilder
 
         // Utility buttons — set Tag for event handlers
         _window.DetailFavBtn.Tag = card;
-        _window.DetailFavIcon.Text = "Favourite";
+        _window.DetailFavIcon.Text = "收藏";
         var favColor = card.IsFavourite
             ? ((SolidColorBrush)Application.Current.Resources[ResourceKeys.AccentAmberBrush]).Color
             : ((SolidColorBrush)Application.Current.Resources[ResourceKeys.ChipTextBrush]).Color;
@@ -309,7 +309,7 @@ public partial class DetailPanelBuilder
             : UIFactory.Brush(ResourceKeys.BorderSubtleBrush);
 
         _window.DetailHideBtn.Tag = card;
-        _window.DetailHideIcon.Text = card.IsHidden ? "Show" : "Hide";
+        _window.DetailHideIcon.Text = card.IsHidden ? "显示" : "隐藏";
         _window.DetailHideBtn.Foreground = UIFactory.Brush(ResourceKeys.ChipTextBrush);
 
         // Folder management buttons
@@ -330,7 +330,7 @@ public partial class DetailPanelBuilder
         var hdrOverride = _gameNameService.HdrToggleOverrides
             .TryGetValue(card.GameName, out var hov) ? hov : null;
         bool hdrActive = hdrOverride != null
-            ? string.Equals(hdrOverride, "On", StringComparison.OrdinalIgnoreCase)
+            ? string.Equals(hdrOverride, "开", StringComparison.OrdinalIgnoreCase)
             : _window.ViewModel.Settings.HdrAutoToggle;
         _window.DetailHdrToggleText.Text = "HDR";
         _window.DetailHdrToggleBtn.Background = hdrActive
@@ -351,7 +351,7 @@ public partial class DetailPanelBuilder
             var resOverride = _gameNameService.ResToggleOverrides
                 .TryGetValue(card.GameName, out var rov) ? rov : null;
             bool resActive = resOverride != null
-                ? string.Equals(resOverride, "On", StringComparison.OrdinalIgnoreCase)
+                ? string.Equals(resOverride, "开", StringComparison.OrdinalIgnoreCase)
                 : _window.ViewModel.Settings.ResolutionAutoToggle;
             _window.DetailResToggleText.Text = "RES";
             _window.DetailResToggleBtn.Background = resActive
@@ -379,7 +379,7 @@ public partial class DetailPanelBuilder
         if (card.HasUwFixUrl)
         {
             var source = card.UwFixSource ?? "creator";
-            ToolTipService.SetToolTip(_window.DetailUwFixBtn, $"Open {source}'s ultrawide fix page");
+            ToolTipService.SetToolTip(_window.DetailUwFixBtn, $"打开 {source} 的超宽屏修复页面");
         }
 
         // Ultra+ link button
@@ -392,7 +392,7 @@ public partial class DetailPanelBuilder
 
         // ── Wire Components section collapse + drag handle ────────────────────
         {
-            const string sectionKey = "Components";
+            const string sectionKey = "组件";
             var settings    = _window.ViewModel.Settings;
             bool collapsed  = settings.CollapsedDetailSections.Contains(sectionKey);
 
@@ -531,14 +531,14 @@ public partial class DetailPanelBuilder
     /// <summary>Maps section key → its container Border in DetailPanel.</summary>
     private Border GetSectionContainer(string key) => key switch
     {
-        "Components"         => _window.DetailComponentSection,
+        "组件"         => _window.DetailComponentSection,
         "GameOverrides"      => _window.OverridesContainer,
         "NeuralRendering"    => _window.NeuralRenderingContainer,
         "NvidiaProfileDlss"  => _window.NvidiaProfileDlssContainer,
         "NvidiaProfileDriver"=> _window.NvidiaProfileDriverContainer,
-        "Management"         => _window.ManagementContainer,
-        "Extras"             => _window.ExtrasContainer,
-        _                    => throw new ArgumentException($"Unknown section key: {key}"),
+        "管理"         => _window.ManagementContainer,
+        "附加"             => _window.ExtrasContainer,
+        _                    => throw new ArgumentException($"未知的区块键：{key}"),
     };
 
     /// <summary>
@@ -749,13 +749,13 @@ public partial class DetailPanelBuilder
         for (int i = 2; i < panel.Children.Count; i++)
         {
             var border = panel.Children[i] as Border;
-            if      (border == _window.DetailComponentSection)     keyOrder.Add("Components");
+            if      (border == _window.DetailComponentSection)     keyOrder.Add("组件");
             else if (border == _window.OverridesContainer)          keyOrder.Add("GameOverrides");
             else if (border == _window.NeuralRenderingContainer)    keyOrder.Add("NeuralRendering");
             else if (border == _window.NvidiaProfileDlssContainer)   keyOrder.Add("NvidiaProfileDlss");
             else if (border == _window.NvidiaProfileDriverContainer) keyOrder.Add("NvidiaProfileDriver");
-            else if (border == _window.ManagementContainer)         keyOrder.Add("Management");
-            else if (border == _window.ExtrasContainer)             keyOrder.Add("Extras");
+            else if (border == _window.ManagementContainer)         keyOrder.Add("管理");
+            else if (border == _window.ExtrasContainer)             keyOrder.Add("附加");
         }
         if (keyOrder.Count > 0)
         {
@@ -772,7 +772,7 @@ public partial class DetailPanelBuilder
 
     private void ComponentsHeader_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        const string sectionKey = "Components";
+        const string sectionKey = "组件";
         var settings   = _window.ViewModel.Settings;
         bool collapsed = _window.DetailComponentsBody.Visibility == Visibility.Visible;
         _window.DetailComponentsBody.Visibility = collapsed ? Visibility.Collapsed : Visibility.Visible;
@@ -908,7 +908,7 @@ public partial class DetailPanelBuilder
         if (card.IsDcInstalled)
             entries.Add(("DC", card.DcInstalledVersion));
         if (card.IsLumaInstalled)
-            entries.Add(("Luma", "On"));
+            entries.Add(("Luma", "开"));
 
         if (entries.Count == 0) return false;
 
@@ -956,7 +956,7 @@ public partial class DetailPanelBuilder
         if (card.IsDcInstalled)
             entries.Add(("DC", card.DcInstalledVersion));
         if (card.IsLumaInstalled)
-            entries.Add(("Luma", "On"));
+            entries.Add(("Luma", "开"));
 
         return MakeSectionSummaryInlines(entries);
     }
@@ -972,7 +972,7 @@ public partial class DetailPanelBuilder
 
         var channel = _window.ViewModel.GetReShadeChannelOverride(card.GameName, card.Source ?? "");
         if (!string.IsNullOrEmpty(channel))
-            entries.Add(("RS Channel:", channel));
+            entries.Add(("RS 渠道：", channel));
 
         var apis = _window.ViewModel.GetApiOverride(card.GameName, card.Source ?? "");
         if (apis is { Count: > 0 })
@@ -980,11 +980,11 @@ public partial class DetailPanelBuilder
 
         // Shaders / Addons — show when set to non-default
         var shaderMode = _window.ViewModel.GetPerGameShaderMode(card.GameName, card.Source ?? "");
-        if (!string.IsNullOrEmpty(shaderMode) && shaderMode != "Global")
+        if (!string.IsNullOrEmpty(shaderMode) && shaderMode != "全局")
             entries.Add(("Shaders:", shaderMode));
 
         var addonMode = _window.ViewModel.GetPerGameAddonMode(card.GameName, card.Source ?? "");
-        if (!string.IsNullOrEmpty(addonMode) && addonMode != "Global")
+        if (!string.IsNullOrEmpty(addonMode) && addonMode != "全局")
             entries.Add(("Addons:", addonMode));
 
         // Update inclusion — show only when any component is excluded
@@ -1009,11 +1009,11 @@ public partial class DetailPanelBuilder
             if (cfg != null)
             {
                 if (!string.IsNullOrEmpty(cfg.ReShadeFileName) && cfg.ReShadeFileName != "--------")
-                    entries.Add(("RS DLL:", cfg.ReShadeFileName));
+                    entries.Add(("RS DLL：", cfg.ReShadeFileName));
                 if (!string.IsNullOrEmpty(cfg.DcFileName) && cfg.DcFileName != "--------")
-                    entries.Add(("DC DLL:", cfg.DcFileName));
+                    entries.Add(("DC DLL：", cfg.DcFileName));
                 if (!string.IsNullOrEmpty(cfg.OsFileName) && cfg.OsFileName != "--------")
-                    entries.Add(("OS DLL:", cfg.OsFileName));
+                    entries.Add(("OS DLL：", cfg.OsFileName));
             }
         }
 

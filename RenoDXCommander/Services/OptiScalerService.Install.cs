@@ -47,7 +47,7 @@ public partial class OptiScalerService
                 FirstTimeWarningAcknowledged = true;
             }
 
-            progress?.Report(("Preparing OptiScaler install...", 5));
+            progress?.Report(("正在准备 OptiScaler 安装...", 5));
 
             // ── 2. Resolve effective staging dir based on variant ────────────
             bool isNightly = variant.Equals("Nightly", StringComparison.OrdinalIgnoreCase);
@@ -96,7 +96,7 @@ public partial class OptiScalerService
                 if (!stagingReady)
                 {
                     CrashReporter.Log($"[OptiScalerService.InstallAsync] {variant} staging still not ready after download attempt — aborting");
-                    progress?.Report(($"OptiScaler {variant} staging not available", 0));
+                    progress?.Report(($"OptiScaler {variant} 暂存不可用", 0));
                     return null;
                 }
                 // Re-resolve nightly build dir — a new build may have been downloaded
@@ -122,7 +122,7 @@ public partial class OptiScalerService
 
             CrashReporter.Log($"[OptiScalerService.InstallAsync] {card.GameName}: effective DLL name = {effectiveDllName}");
 
-            progress?.Report(("Copying OptiScaler files...", 20));
+            progress?.Report(("正在复制 OptiScaler 文件...", 20));
 
             // ── 4. ReShade coexistence — rename RS DLL to ReShade64.dll BEFORE deploying files ──
             // This MUST happen before file deployment because OptiScaler may use the same
@@ -280,7 +280,7 @@ public partial class OptiScalerService
                 }
             }
 
-            progress?.Report(("Configuring OptiScaler INI...", 60));
+            progress?.Report(("正在配置 OptiScaler INI...", 60));
 
             // ── 5. INI seeding and deployment ────────────────────────────────
             Directory.CreateDirectory(AuxInstallService.InisDir);
@@ -392,7 +392,7 @@ public partial class OptiScalerService
                 }
             }
 
-            progress?.Report(("Saving install record...", 80));
+            progress?.Report(("正在保存安装记录...", 80));
 
             // ── 6. Create/update AuxInstalledRecord ──────────────────────────
             var record = new AuxInstalledRecord
@@ -415,7 +415,7 @@ public partial class OptiScalerService
             {
                 try
                 {
-                    progress?.Report(("Downloading OptiPatcher...", 85));
+                    progress?.Report(("正在下载 OptiPatcher...", 85));
                     await EnsureOptiPatcherStagingAsync(progress);
 
                     var stagedAsi = Path.Combine(OptiPatcherStagingDir, OptiPatcherFileName);
@@ -426,7 +426,7 @@ public partial class OptiScalerService
                         var destAsi = Path.Combine(pluginsDir, OptiPatcherFileName);
                         File.Copy(stagedAsi, destAsi, overwrite: true);
                         CrashReporter.Log($"[OptiScalerService.InstallAsync] Deployed OptiPatcher.asi to plugins folder");
-                        progress?.Report(("OptiPatcher deployed", 90));
+                        progress?.Report(("OptiPatcher 已部署", 90));
                     }
                     else
                     {
@@ -562,7 +562,7 @@ public partial class OptiScalerService
                 });
             }
 
-            progress?.Report(("OptiScaler installed!", 100));
+            progress?.Report(("OptiScaler 已安装！", 100));
             CrashReporter.Log($"[OptiScalerService.InstallAsync] Install complete for {card.GameName}");
 
             return record;
@@ -570,7 +570,7 @@ public partial class OptiScalerService
         catch (Exception ex)
         {
             CrashReporter.Log($"[OptiScalerService.InstallAsync] {card.GameName} — {ex.Message}");
-            progress?.Report(($"Install failed: {ex.Message}", 0));
+            progress?.Report(($"安装失败：{ex.Message}", 0));
             return null;
         }
     }
@@ -1023,7 +1023,7 @@ public partial class OptiScalerService
     {
         try
         {
-            progress?.Report(("Preparing OptiScaler update...", 5));
+            progress?.Report(("正在准备 OptiScaler 更新...", 5));
 
             // ── Read variant from tracking record ─────────────────────────
             var record = _auxInstaller.FindRecord(card.GameName, card.InstallPath, AddonType);
@@ -1090,7 +1090,7 @@ public partial class OptiScalerService
                 if (!stagingReady)
                 {
                     CrashReporter.Log($"[OptiScalerService.UpdateAsync] {variant} staging still not ready after download attempt — aborting");
-                    progress?.Report(($"OptiScaler {variant} staging not available", 0));
+                    progress?.Report(($"OptiScaler {variant} 暂存不可用", 0));
                     return;
                 }
             }
@@ -1102,11 +1102,11 @@ public partial class OptiScalerService
             if (string.IsNullOrEmpty(installedDll))
             {
                 CrashReporter.Log($"[OptiScalerService.UpdateAsync] No installed DLL filename found for {card.GameName} — aborting");
-                progress?.Report(("Update failed: no installed DLL found", 0));
+                progress?.Report(("更新失败：未找到已安装的 DLL", 0));
                 return;
             }
 
-            progress?.Report(("Updating OptiScaler files...", 20));
+            progress?.Report(("正在更新 OptiScaler 文件...", 20));
 
             // ── 3. Clean up old deployed files before deploying new ones ────
             // Delete all previously deployed companion files and subdirectories
@@ -1317,7 +1317,7 @@ public partial class OptiScalerService
                 }
             }
 
-            progress?.Report(("Updating tracking record...", 80));
+            progress?.Report(("正在更新跟踪记录...", 80));
 
             // ── 5. Update tracking record with new version ───────────────────
             if (record != null)
@@ -1399,13 +1399,13 @@ public partial class OptiScalerService
                 });
             }
 
-            progress?.Report(("OptiScaler updated!", 100));
+            progress?.Report(("OptiScaler 已更新！", 100));
             CrashReporter.Log($"[OptiScalerService.UpdateAsync] Update complete for {card.GameName}");
         }
         catch (Exception ex)
         {
             CrashReporter.Log($"[OptiScalerService.UpdateAsync] {card.GameName} — {ex.Message}");
-            progress?.Report(($"Update failed: {ex.Message}", 0));
+            progress?.Report(($"更新失败：{ex.Message}", 0));
         }
     }
 

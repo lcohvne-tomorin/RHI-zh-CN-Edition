@@ -48,8 +48,8 @@ public partial class DetailPanelBuilder
 
         var driverVer = _dlssPresetService.DriverVersionString;
         var driverHeaderText = string.IsNullOrEmpty(driverVer)
-            ? "Driver Settings"
-            : $"Driver Settings — Driver {driverVer}";
+            ? "驱动设置"
+            : $"驱动设置 — 驱动 {driverVer}";
 
         var driverArrow = new TextBlock
         {
@@ -106,8 +106,8 @@ public partial class DetailPanelBuilder
             driverBody.Children.Add(new TextBlock
             {
                 Text = elevated
-                    ? "✓ Running as admin — all driver profile settings are writable."
-                    : "⚠ Admin rights required to write driver profile settings. Enable Admin Mode in Settings or restart as admin.",
+                    ? "✓ 正以管理员身份运行 — 所有驱动配置文件设置均可写入。"
+                    : "⚠ 写入驱动配置文件设置需要管理员权限。请在「设置」中启用管理员模式，或以管理员身份重启。",
                 FontSize     = 10,
                 Foreground   = UIFactory.Brush(elevated ? ResourceKeys.TextTertiaryBrush : ResourceKeys.AccentAmberDimBrush),
                 TextWrapping = TextWrapping.Wrap,
@@ -213,15 +213,15 @@ public partial class DetailPanelBuilder
 
                     var vsyncName = DlssPresetService.VSyncModeOptions
                         .FirstOrDefault(o => o.Value == data.VSyncMode).Name ?? "Default";
-                    var smoothName = data.SmoothMotionEnable != 0 ? "On" : null;
+                    var smoothName = data.SmoothMotionEnable != 0 ? "开" : null;
                     // ReBarEnableMode: 0=Off, 1=Auto (default), 2=On
-                    var rebarName = data.ReBarEnableMode == 2 ? "On"
-                                  : data.ReBarEnableMode == 0 ? "Off"
+                    var rebarName = data.ReBarEnableMode == 2 ? "开"
+                                  : data.ReBarEnableMode == 0 ? "关"
                                   : null; // Auto = default, omit from summary
 
                     var summaryEntries = new System.Collections.Generic.List<(string, string?)>
                     {
-                        ("VSync", vsyncName),
+                        ("垂直同步", vsyncName),
                     };
                     if (smoothName != null)
                         summaryEntries.Add(("Smooth", smoothName));
@@ -276,13 +276,13 @@ public partial class DetailPanelBuilder
 
             // ── Column 0: VSync ──
             var vsyncCol = new StackPanel { Spacing = 4 };
-            var vsyncLabel = new TextBlock { Text = "VSync", FontSize = 11, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
-            ToolTipService.SetToolTip(vsyncLabel, "Vertical Sync settings — controls how the driver synchronizes frame rendering with your display's refresh rate.");
+            var vsyncLabel = new TextBlock { Text = "垂直同步", FontSize = 11, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
+            ToolTipService.SetToolTip(vsyncLabel, "垂直同步设置 — 控制驱动如何将帧渲染与显示器刷新率同步。");
             vsyncCol.Children.Add(vsyncLabel);
 
             // VSync Mode
             {
-                vsyncCol.Children.Add(new TextBlock { Text = "Mode", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                vsyncCol.Children.Add(new TextBlock { Text = "模式", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var options = DlssPresetService.VSyncModeOptions;
                 uint current = d.VSyncMode;
                 var globalVSync = d.GlobalVSyncMode;
@@ -290,7 +290,7 @@ public partial class DetailPanelBuilder
                 var itemsList = new List<string>();
                 if (globalVSync.HasValue)
                 {
-                    var globalName = options.FirstOrDefault(o => o.Value == globalVSync.Value).Name ?? "App Controlled";
+                    var globalName = options.FirstOrDefault(o => o.Value == globalVSync.Value).Name ?? "由应用控制";
                     itemsList.Add($"Global ({globalName})");
                 }
                 itemsList.AddRange(options.Select(o => o.Name));
@@ -321,7 +321,7 @@ public partial class DetailPanelBuilder
                 };
                 ToolTipService.SetToolTip(combo, globalVSync.HasValue
                     ? "Global = inherit from global setting. App Controlled: let the game decide. Force Off: disables VSync. Force On: locks to refresh rate. Fast Sync: renders freely, displays latest complete frame."
-                    : "VSync Mode — App Controlled: let the game decide. Force Off: disables VSync entirely. Force On: locks to refresh rate. Fast Sync: renders freely, displays latest complete frame.");
+                    : "垂直同步模式 — 由应用控制：让游戏自行决定。强制关闭：完全禁用垂直同步。强制开启：锁定到刷新率。快速同步：自由渲染，显示最新的完整帧。");
                 var init = true;
                 combo.SelectionChanged += (s, ev) =>
                 {
@@ -329,7 +329,7 @@ public partial class DetailPanelBuilder
                     int i = combo.SelectedIndex;
                     if (i < 0 || i >= items.Length) return;
                     var selected = items[i];
-                    if (selected.StartsWith("Global"))
+                    if (selected.StartsWith("全局"))
                     {
                         // Inherit from global — write the global value
                         var valueToWrite = globalVSync ?? options[0].Value;
@@ -351,7 +351,7 @@ public partial class DetailPanelBuilder
 
             // VSync Tear Control
             {
-                vsyncCol.Children.Add(new TextBlock { Text = "Tear Control", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                vsyncCol.Children.Add(new TextBlock { Text = "撕裂控制", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var options = DlssPresetService.VSyncTearControlOptions;
                 uint current = d.VSyncTearControl;
                 var items = options.Select(o => o.Name).ToArray();
@@ -366,7 +366,7 @@ public partial class DetailPanelBuilder
                     CornerRadius = new CornerRadius(6),
                     MaxDropDownHeight = 300,
                 };
-                ToolTipService.SetToolTip(combo, "VSync Tear Control — Standard: normal VSync behavior. Adaptive: VSync on when FPS ≥ refresh rate, off when below (reduces stuttering at low FPS).");
+                ToolTipService.SetToolTip(combo, "垂直同步撕裂控制 — 标准：常规垂直同步行为。自适应：FPS ≥ 刷新率时开启垂直同步，低于时关闭（可减少低帧率下的卡顿）。");
                 var init = true;
                 combo.SelectionChanged += (s, ev) =>
                 {
@@ -382,7 +382,7 @@ public partial class DetailPanelBuilder
 
             // Low Latency Mode (in VSync column)
             {
-                vsyncCol.Children.Add(new TextBlock { Text = "Low Latency", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                vsyncCol.Children.Add(new TextBlock { Text = "低延迟", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var options = DlssPresetService.LowLatencyModeOptions;
                 uint current = d.LowLatencyMode;
                 var items = options.Select(o => o.Name).ToArray();
@@ -403,8 +403,8 @@ public partial class DetailPanelBuilder
                     Opacity = latencyLocked ? 0.4 : 1.0,
                 };
                 ToolTipService.SetToolTip(combo2, latencyLocked
-                    ? "Low Latency is locked to Ultra while Smooth Motion is enabled. Turn off Smooth Motion to change this setting."
-                    : "Low Latency Mode — Off: game controls frame queue. On: limits pre-rendered frames to 1 (lower latency). Ultra: just-in-time frame submission (lowest latency, may reduce FPS slightly).");
+                    ? "启用平滑运动时，低延迟被锁定为 Ultra。请关闭平滑运动以更改此设置。"
+                    : "低延迟模式 — 关闭：由游戏控制帧队列。开启：将预渲染帧数限制为 1（延迟更低）。Ultra：即时提交帧（延迟最低，可能略微降低 FPS）。");
                 var init2 = true;
                 combo2.SelectionChanged += (s, ev) =>
                 {
@@ -432,7 +432,7 @@ public partial class DetailPanelBuilder
             // Enable
             bool smoothMotionEnabled;
             {
-                smoothCol.Children.Add(new TextBlock { Text = "Enable", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                smoothCol.Children.Add(new TextBlock { Text = "启用", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var options = DlssPresetService.SmoothMotionEnableOptions;
                 uint current = d.SmoothMotionEnable;
                 smoothMotionEnabled = current != 0;
@@ -448,7 +448,7 @@ public partial class DetailPanelBuilder
                     CornerRadius = new CornerRadius(6),
                     MaxDropDownHeight = 300,
                 };
-                ToolTipService.SetToolTip(combo, "Smooth Motion Enable — Off: disabled. On: enables driver-level frame generation (RTX 40 Series+ only).");
+                ToolTipService.SetToolTip(combo, "平滑运动启用 — 关闭：禁用。开启：启用驱动级帧生成（仅 RTX 40 系列及以上）。");
                 var init = true;
                 combo.SelectionChanged += (s, ev) =>
                 {
@@ -493,7 +493,7 @@ public partial class DetailPanelBuilder
 
             // APIs
             {
-                smoothCol.Children.Add(new TextBlock { Text = "Allowed APIs", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                smoothCol.Children.Add(new TextBlock { Text = "允许的 API", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var options = DlssPresetService.SmoothMotionApisOptions;
                 uint current = d.SmoothMotionApis;
                 var items = options.Select(o => o.Name).ToArray();
@@ -510,7 +510,7 @@ public partial class DetailPanelBuilder
                     IsEnabled = smoothMotionEnabled,
                     Opacity = smoothMotionEnabled ? 1.0 : 0.4,
                 };
-                ToolTipService.SetToolTip(combo, "Smooth Motion APIs — which graphics APIs Smooth Motion is allowed to hook. None = disabled for all APIs.");
+                ToolTipService.SetToolTip(combo, "平滑运动 API — 允许平滑运动挂钩的图形 API。无 = 对所有 API 禁用。");
                 var init = true;
                 combo.SelectionChanged += (s, ev) =>
                 {
@@ -543,7 +543,7 @@ public partial class DetailPanelBuilder
                     IsEnabled = smoothMotionEnabled,
                     Opacity = smoothMotionEnabled ? 1.0 : 0.4,
                 };
-                ToolTipService.SetToolTip(combo, "Flip Pacing — Off: prioritize lower latency. On: prioritize smoother frame pacing. Sets both fullscreen and windowed modes together.");
+                ToolTipService.SetToolTip(combo, "Flip Pacing — 关闭：优先降低延迟。开启：优先更平滑的帧节奏。同时设置全屏和窗口化模式。");
                 var init = true;
                 combo.SelectionChanged += (s, ev) =>
                 {
@@ -570,13 +570,13 @@ public partial class DetailPanelBuilder
 
             // ── Column 6: Other (Power, G-Sync, Restore) ──
             var powerCol = new StackPanel { Spacing = 4 };
-            var powerLabel = new TextBlock { Text = "Other", FontSize = 11, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
-            ToolTipService.SetToolTip(powerLabel, "Power management, G-Sync control, and profile reset.");
+            var powerLabel = new TextBlock { Text = "其他", FontSize = 11, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
+            ToolTipService.SetToolTip(powerLabel, "电源管理、G-Sync 控制和配置文件重置。");
             powerCol.Children.Add(powerLabel);
 
             // Power Management Mode
             {
-                powerCol.Children.Add(new TextBlock { Text = "Power Mode", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                powerCol.Children.Add(new TextBlock { Text = "电源模式", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 var options = DlssPresetService.PowerManagementOptions;
                 uint current = d.PowerManagementMode;
                 var items = options.Select(o => o.Name).ToArray();
@@ -591,7 +591,7 @@ public partial class DetailPanelBuilder
                     CornerRadius = new CornerRadius(6),
                     MaxDropDownHeight = 300,
                 };
-                ToolTipService.SetToolTip(combo, "Power Management — Adaptive: GPU clocks down at idle. Maximum: locks GPU to highest clocks. Optimal: balanced (NVIDIA recommended).");
+                ToolTipService.SetToolTip(combo, "电源管理 — 自适应：空闲时降低 GPU 频率。最高性能：将 GPU 锁定在最高频率。最佳：平衡（NVIDIA 推荐）。");
                 var init = true;
                 combo.SelectionChanged += (s, ev) =>
                 {
@@ -611,14 +611,14 @@ public partial class DetailPanelBuilder
                 bool gsyncEnabled = d.PerGameGSyncEnabled;
                 var gsyncCombo = new ComboBox
                 {
-                    ItemsSource = new[] { "Enabled", "Disabled" },
+                    ItemsSource = new[] { "已启用", "已禁用" },
                     SelectedIndex = gsyncEnabled ? 0 : 1,
                     FontSize = 11,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     CornerRadius = new CornerRadius(6),
                     MaxDropDownHeight = 300,
                 };
-                ToolTipService.SetToolTip(gsyncCombo, "Per-game G-Sync control. Disabled forces G-Sync off for this game regardless of global setting.");
+                ToolTipService.SetToolTip(gsyncCombo, "各游戏的 G-Sync 控制。禁用会强制为此游戏关闭 G-Sync，无论全局设置如何。");
                 var gsyncInit = true;
                 gsyncCombo.SelectionChanged += (s, ev) =>
                 {
@@ -634,7 +634,7 @@ public partial class DetailPanelBuilder
             powerCol.Children.Add(new TextBlock { Text = " ", FontSize = 10, Margin = new Thickness(0, 2, 0, 0) });
             var restoreProfileBtn = new Button
             {
-                Content = "Restore Defaults",
+                Content = "恢复默认值",
                 FontSize = 11,
                 Height = 32,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -646,21 +646,21 @@ public partial class DetailPanelBuilder
                 IsEnabled = nvidiaPresetService.IsSupported,
             };
             ToolTipService.SetToolTip(restoreProfileBtn,
-                "Restore this game's NVIDIA driver profile to factory defaults. Removes all custom settings (presets, render scale, MFG, driver overrides). This action is irreversible.");
+                "将此游戏的 NVIDIA 驱动配置文件恢复为出厂默认值。移除所有自定义设置（预设、渲染缩放、MFG、驱动覆盖）。此操作不可撤销。");
             restoreProfileBtn.Click += async (s, ev) =>
             {
                 var xamlRoot = (s as FrameworkElement)?.XamlRoot ?? _window.Content.XamlRoot;
                 var warningDialog = new ContentDialog
                 {
-                    Title = "Restore driver settings?",
+                    Title = "恢复驱动设置？",
                     Content = new TextBlock
                     {
-                        Text = $"This will restore driver settings for {capturedName} back to the factory default and restore DLSS/Streamline DLLs to their original versions. This action is irreversible.",
+                        Text = $"这会将 {capturedName} 的驱动设置恢复为出厂默认值，并将 DLSS/Streamline DLL 恢复为原始版本。此操作不可撤销。",
                         TextWrapping = TextWrapping.Wrap,
                         FontSize = 13,
                     },
-                    PrimaryButtonText = "Restore",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "恢复",
+                    CloseButtonText = "取消",
                     XamlRoot = xamlRoot,
                     RequestedTheme = ElementTheme.Dark,
                 };
@@ -695,7 +695,7 @@ public partial class DetailPanelBuilder
             // ── Column 8: ReBAR ──
             var rebarCol = new StackPanel { Spacing = 4 };
             var rebarLabel = new TextBlock { Text = "ReBAR", FontSize = 11, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) };
-            ToolTipService.SetToolTip(rebarLabel, "Resizable BAR — allows the CPU to access full GPU VRAM at once. Can improve performance by 5-10% in some titles. RTX 30+ and BIOS support required.");
+            ToolTipService.SetToolTip(rebarLabel, "Resizable BAR — 允许 CPU 一次性访问完整的 GPU 显存。在某些游戏中可提升 5-10% 的性能。需要 RTX 30 及以上和 BIOS 支持。");
             rebarCol.Children.Add(rebarLabel);
 
             bool rebarEnabled = false; // set inside Enable block below
@@ -703,7 +703,7 @@ public partial class DetailPanelBuilder
 
             // Enable — Auto (Default) / Off / On using new 0x000BFA21 setting
             {
-                rebarCol.Children.Add(new TextBlock { Text = "Enable", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                rebarCol.Children.Add(new TextBlock { Text = "启用", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
 
                 uint rebarEnableMode = d.ReBarEnableMode;
                 // 0=Off→index 1, 1=Auto→index 0, 2=On→index 2
@@ -711,7 +711,7 @@ public partial class DetailPanelBuilder
 
                 var rebarEnableCombo = new ComboBox
                 {
-                    ItemsSource = new[] { "Auto (Default)", "Off", "On" },
+                    ItemsSource = new[] { "自动（默认）", "关", "开" },
                     SelectedIndex = enableIdx,
                     FontSize = 11,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -739,7 +739,7 @@ public partial class DetailPanelBuilder
 
             // Mode
             {
-                rebarCol.Children.Add(new TextBlock { Text = "Mode", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                rebarCol.Children.Add(new TextBlock { Text = "模式", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
                 uint rebarMode = d.ReBarMode;
                 var modeItems = DlssPresetService.ReBarModes.Select(m => m.Name).ToList();
 
@@ -774,7 +774,7 @@ public partial class DetailPanelBuilder
 
             // Size Limit — always shows actual size values (no Global option)
             {
-                rebarCol.Children.Add(new TextBlock { Text = "Size Limit", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+                rebarCol.Children.Add(new TextBlock { Text = "大小限制", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
 
                 var sizeItems = new List<string>();
                 var sizeValues = new List<ulong>();
@@ -802,7 +802,7 @@ public partial class DetailPanelBuilder
                     IsEnabled = rebarEnabled,
                     Opacity = rebarEnabled ? 1.0 : 0.4,
                 };
-                ToolTipService.SetToolTip(rebarSizeCombo, "1GB is optimal for most games. Decrease to 512MB if experiencing ReBAR-related stutters.");
+                ToolTipService.SetToolTip(rebarSizeCombo, "1GB 对大多数游戏是最佳值。如果遇到 ReBAR 相关的卡顿，请降低到 512MB。");
                 var sizeComboInit = true;
                 rebarSizeCombo.SelectionChanged += (s, ev) =>
                 {
@@ -842,8 +842,8 @@ public partial class DetailPanelBuilder
                     targetPanel.Children.Add(new TextBlock
                     {
                         Text = isElevatedCapture
-                            ? "✓ Running as admin — all driver profile settings are writable."
-                            : "⚠ Admin rights required to write driver profile settings. Enable Admin Mode in Settings or restart as admin.",
+                            ? "✓ 正以管理员身份运行 — 所有驱动配置文件设置均可写入。"
+                            : "⚠ 写入驱动配置文件设置需要管理员权限。请在「设置」中启用管理员模式，或以管理员身份重启。",
                         FontSize = 10,
                         Foreground = UIFactory.Brush(isElevatedCapture ? ResourceKeys.TextTertiaryBrush : ResourceKeys.AccentAmberDimBrush),
                         TextWrapping = TextWrapping.Wrap,
@@ -861,8 +861,8 @@ public partial class DetailPanelBuilder
             (nvBody ?? _window.NvidiaProfileDriverPanel).Children.Add(new TextBlock
             {
                 Text = isElevated
-                    ? "✓ Running as admin — all driver profile settings are writable."
-                    : "⚠ Admin rights required to write driver profile settings. Enable Admin Mode in Settings or restart as admin.",
+                    ? "✓ 正以管理员身份运行 — 所有驱动配置文件设置均可写入。"
+                    : "⚠ 写入驱动配置文件设置需要管理员权限。请在「设置」中启用管理员模式，或以管理员身份重启。",
                 FontSize = 10,
                 Foreground = UIFactory.Brush(isElevated ? ResourceKeys.TextTertiaryBrush : ResourceKeys.AccentAmberDimBrush),
                 TextWrapping = TextWrapping.Wrap,

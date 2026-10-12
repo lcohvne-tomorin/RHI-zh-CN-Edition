@@ -37,7 +37,7 @@ public sealed class AddonFileWatcher : IDisposable
     {
         _crashReporter = crashReporter;
         _watchPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "下载");
     }
 
     public void SetWatchPath(string path)

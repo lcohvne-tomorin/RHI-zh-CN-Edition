@@ -461,7 +461,7 @@ public class GameNameService : IGameNameService
                 // Migration: remove NR addons that moved out of the addon picker
                 list.RemoveAll(a => a.Equals("DLSS5 Tool",           StringComparison.OrdinalIgnoreCase)
                                  || a.Equals("DLSS Tool (ShortFuse)", StringComparison.OrdinalIgnoreCase)
-                                 || a.Equals("MFG Ada Unlock",        StringComparison.OrdinalIgnoreCase)
+                                 || a.Equals("MFG Ada 解锁",        StringComparison.OrdinalIgnoreCase)
                                  || a.Equals("DLSS5 Feeder",          StringComparison.OrdinalIgnoreCase)
                                  || a.Equals("DLSS5 DX11 Bridge",     StringComparison.OrdinalIgnoreCase));
                 if (list.Count == 0) pgasDict.Remove(key);

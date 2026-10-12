@@ -21,7 +21,7 @@ public sealed partial class MainWindow
         // Build the progress dialog
         var statusText = new TextBlock
         {
-            Text = "Preparing...",
+            Text = "正在准备...",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
@@ -39,7 +39,7 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Updating All Components",
+            Title = "正在更新所有组件",
             Content = panel,
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -52,39 +52,39 @@ public sealed partial class MainWindow
         {
             if (!ViewModel.Settings.GlobalSkipRsUpdates)
             {
-                statusText.Text = "Updating ReShade...";
+                statusText.Text = "正在更新 ReShade...";
                 await ViewModel.UpdateAllReShadeAsync();
             }
             if (!ViewModel.Settings.GlobalSkipRdxUpdates)
             {
-                statusText.Text = "Updating RenoDX...";
+                statusText.Text = "正在更新 RenoDX...";
                 await ViewModel.UpdateAllRenoDxAsync();
             }
             if (!ViewModel.Settings.GlobalSkipUlUpdates)
             {
-                statusText.Text = "Updating ReLimiter...";
+                statusText.Text = "正在更新 ReLimiter...";
                 await ViewModel.UpdateAllUlAsync();
             }
             if (!ViewModel.Settings.GlobalSkipDcUpdates)
             {
-                statusText.Text = "Updating Display Commander...";
+                statusText.Text = "正在更新 Display Commander...";
                 await ViewModel.UpdateAllDcAsync();
             }
             if (!ViewModel.Settings.GlobalSkipOsUpdates)
             {
-                statusText.Text = "Updating OptiScaler...";
+                statusText.Text = "正在更新 OptiScaler...";
                 await ViewModel.UpdateAllOsAsync();
             }
             if (!ViewModel.Settings.GlobalSkipRefUpdates)
             {
-                statusText.Text = "Updating RE Framework...";
+                statusText.Text = "正在更新 RE Framework...";
                 await ViewModel.UpdateAllRefAsync();
             }
-            statusText.Text = "Updating DXVK...";
+            statusText.Text = "正在更新 DXVK...";
             await ViewModel.UpdateAllDxvkAsync();
-            statusText.Text = "Updating Luma...";
+            statusText.Text = "正在更新 Luma...";
             await ViewModel.UpdateAllLumaAsync();
-            statusText.Text = "Updating DOF Fix...";
+            statusText.Text = "正在更新景深修复...";
             await ViewModel.UpdateAllDofFixAsync();
         }
         catch (Exception ex)
@@ -137,7 +137,7 @@ public sealed partial class MainWindow
         try
         {
             AuxInstallService.CopyUlIni(card.InstallPath);
-            card.UlActionMessage = "✅ relimiter.ini copied to game folder.";
+            card.UlActionMessage = "✅ relimiter.ini 已复制到游戏文件夹。";
         }
         catch (Exception ex)
         {
@@ -152,7 +152,7 @@ public sealed partial class MainWindow
         try
         {
             AuxInstallService.CopyDcIni(card.InstallPath);
-            card.DcActionMessage = "✅ DisplayCommander.ini copied to game folder.";
+            card.DcActionMessage = "✅ DisplayCommander.ini 已复制到游戏文件夹。";
             card.FadeMessage(m => card.DcActionMessage = m, card.DcActionMessage);
         }
         catch (Exception ex)
@@ -202,7 +202,7 @@ public sealed partial class MainWindow
             + "• Enables HDR output via dxvk.conf\n"
             + "• Borderless fullscreen recommended over exclusive fullscreen\n\n"
             + "⚠ Anti-cheat games may ban players using DXVK.\n"
-            + "⚠ Game overlays (Steam, NVIDIA, RTSS) may conflict.";
+            + "⚠ 游戏覆盖层（Steam、NVIDIA、RTSS）可能会冲突。";
 
         // Append game-specific notes from manifest
         var manifest = ViewModel.Manifest;
@@ -215,7 +215,7 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "ℹ DXVK Info",
+            Title = "ℹ DXVK 信息",
             Content = new TextBlock
             {
                 Text = content,
@@ -308,7 +308,7 @@ public sealed partial class MainWindow
         if (card.DofFixIsInstalling || string.IsNullOrEmpty(card.InstallPath)) return;
 
         card.DofFixIsInstalling = true;
-        card.DofFixActionMessage = "Installing DOF Fix...";
+        card.DofFixActionMessage = "正在安装景深修复...";
         card.DofFixProgress = 0;
         try
         {
@@ -322,13 +322,13 @@ public sealed partial class MainWindow
             {
                 card.DofFixInstalledVersion = _dofFixService.StagedVersion;
                 card.DofFixStatus = Models.GameStatus.Installed;
-                card.DofFixActionMessage = "✅ DOF Fix installed!";
+                card.DofFixActionMessage = "✅ 景深修复已安装！";
                 card.NotifyAll();
                 card.FadeMessage(m => card.DofFixActionMessage = m, card.DofFixActionMessage);
             }
             else
             {
-                card.DofFixActionMessage = "❌ Install failed";
+                card.DofFixActionMessage = "❌ 安装失败";
             }
         }
         catch (Exception ex)
@@ -351,13 +351,13 @@ public sealed partial class MainWindow
         {
             card.DofFixStatus = Models.GameStatus.NotInstalled;
             card.DofFixInstalledVersion = null;
-            card.DofFixActionMessage = "✖ DOF Fix removed.";
+            card.DofFixActionMessage = "✖ 景深修复已移除。";
             card.NotifyAll();
             card.FadeMessage(m => card.DofFixActionMessage = m, card.DofFixActionMessage);
         }
         else
         {
-            card.DofFixActionMessage = "❌ Uninstall failed";
+            card.DofFixActionMessage = "❌ 卸载失败";
         }
     }
 
@@ -374,12 +374,12 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "UE DOF Fix — Release Notes",
+            Title = "UE 景深修复 — 发行说明",
             Content = new ScrollViewer
             {
                 Content = new TextBlock
                 {
-                    Text = notes ?? "No release notes available.",
+                    Text = notes ?? "没有可用的发行说明。",
                     TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                     IsTextSelectionEnabled = true,
                 },
@@ -396,10 +396,10 @@ public sealed partial class MainWindow
     {
         var dialog = new ContentDialog
         {
-            Title = "DOF Fix Settings",
+            Title = "景深修复设置",
             Content = new TextBlock
             {
-                Text = "No configurable settings available for this component.",
+                Text = "此组件没有可配置的设置。",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
             },
             CloseButtonText = "OK",
@@ -489,8 +489,8 @@ public sealed partial class MainWindow
 
         // Games with a specific engine version (from manifest or auto-detection) cannot be toggled.
         // The badge toggle is only for games with vague "Unreal Engine" (no version suffix).
-        if (card.EngineHint != null && card.EngineHint != "Unreal Engine"
-            && card.EngineHint != "Unreal Engine 5"
+        if (card.EngineHint != null && card.EngineHint != "虚幻引擎"
+            && card.EngineHint != "虚幻引擎 5"
             && System.Text.RegularExpressions.Regex.IsMatch(card.EngineHint, @"Unreal Engine \d"))
             return;
 
@@ -499,7 +499,7 @@ public sealed partial class MainWindow
         {
             var dontShowCheck = new CheckBox
             {
-                Content = "Don't show this again",
+                Content = "不再显示",
                 FontSize = 12,
                 Margin = new Thickness(0, 8, 0, 0),
             };
@@ -514,10 +514,10 @@ public sealed partial class MainWindow
 
             var dialog = new ContentDialog
             {
-                Title = "Engine Version Override",
+                Title = "引擎版本覆盖",
                 Content = panel,
-                PrimaryButtonText = "Continue",
-                CloseButtonText = "Cancel",
+                PrimaryButtonText = "继续",
+                CloseButtonText = "取消",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
             };
@@ -533,12 +533,12 @@ public sealed partial class MainWindow
         }
 
         // Toggle between "Unreal Engine" (no DOF Fix) and "Unreal Engine 5" (DOF Fix eligible)
-        var current = card.EngineHint ?? "Unreal Engine";
-        bool isCurrentlyUe5 = current.Contains("Unreal Engine 5", StringComparison.OrdinalIgnoreCase);
-        var next = isCurrentlyUe5 ? "Unreal Engine" : "Unreal Engine 5";
+        var current = card.EngineHint ?? "虚幻引擎";
+        bool isCurrentlyUe5 = current.Contains("虚幻引擎 5", StringComparison.OrdinalIgnoreCase);
+        var next = isCurrentlyUe5 ? "虚幻引擎" : "虚幻引擎 5";
 
         // Store or remove override
-        if (next == "Unreal Engine")
+        if (next == "虚幻引擎")
         {
             _gameNameService.EngineVersionOverrides.Remove(card.GameName);
 
@@ -631,7 +631,7 @@ public sealed partial class MainWindow
             var hdrOverride = _gameNameService.HdrToggleOverrides
                 .TryGetValue(gameName, out var hov) ? hov : null;
             bool shouldToggleHdr = hdrOverride != null
-                ? string.Equals(hdrOverride, "On", StringComparison.OrdinalIgnoreCase)
+                ? string.Equals(hdrOverride, "开", StringComparison.OrdinalIgnoreCase)
                 : ViewModel.Settings.HdrAutoToggle;
 
             bool hdrWasAlreadyOn = false;
@@ -657,7 +657,7 @@ public sealed partial class MainWindow
                 var resOverride = _gameNameService.ResToggleOverrides
                     .TryGetValue(gameName, out var rov) ? rov : null;
                 shouldToggleRes = resOverride != null
-                    ? string.Equals(resOverride, "On", StringComparison.OrdinalIgnoreCase)
+                    ? string.Equals(resOverride, "开", StringComparison.OrdinalIgnoreCase)
                     : ViewModel.Settings.ResolutionAutoToggle;
 
                 if (shouldToggleRes && !string.IsNullOrEmpty(ViewModel.Settings.ResolutionTarget))
@@ -682,7 +682,7 @@ public sealed partial class MainWindow
             // If the user already has Windows HDR on, we note that so we don't disable it on exit.
             bool shouldToggleAutoHdrHdr = _gameNameService.AutoHdrGames.Contains(gameName)
                 && _gameNameService.AutoHdrLaunchToggle.TryGetValue(gameName, out var ahtv)
-                && string.Equals(ahtv, "On", StringComparison.OrdinalIgnoreCase);
+                && string.Equals(ahtv, "开", StringComparison.OrdinalIgnoreCase);
             bool autoHdrHdrWasAlreadyOn = false;
             if (shouldToggleAutoHdrHdr)
             {
@@ -1075,14 +1075,14 @@ public sealed partial class MainWindow
                 var panel = new StackPanel { Spacing = 8 };
                 panel.Children.Add(new TextBlock
                 {
-                    Text = $"Remove {card.GameName} from RHI?",
+                    Text = $"从 RHI 移除 {card.GameName}？",
                     FontSize = 13,
                     FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
                     Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
                 });
                 panel.Children.Add(new TextBlock
                 {
-                    Text = $"The following components are installed: {componentList}.",
+                    Text = $"已安装以下组件：{componentList}。",
                     TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                     FontSize = 12,
                     Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
@@ -1090,7 +1090,7 @@ public sealed partial class MainWindow
 
                 var uninstallCheck = new CheckBox
                 {
-                    Content = "Also uninstall all RHI-managed components from game folder",
+                    Content = "同时从游戏文件夹卸载所有由 RHI 管理的组件",
                     FontSize = 12,
                     IsChecked = false,
                 };
@@ -1098,10 +1098,10 @@ public sealed partial class MainWindow
 
                 var dialog = new ContentDialog
                 {
-                    Title = "Remove Game",
+                    Title = "移除游戏",
                     Content = panel,
-                    PrimaryButtonText = "Remove",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "移除",
+                    CloseButtonText = "取消",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
                 };
@@ -1114,15 +1114,15 @@ public sealed partial class MainWindow
                 // No components installed — simple confirm
                 var dialog = new ContentDialog
                 {
-                    Title = "Remove Game",
+                    Title = "移除游戏",
                     Content = new TextBlock
                     {
-                        Text = $"Remove {card.GameName} from RHI?",
+                        Text = $"从 RHI 移除 {card.GameName}？",
                         FontSize = 12,
                         TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                     },
-                    PrimaryButtonText = "Remove",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "移除",
+                    CloseButtonText = "取消",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
                 };
@@ -1184,14 +1184,14 @@ public sealed partial class MainWindow
         var progressPanel = new StackPanel { Spacing = 8 };
         var progressRow = new StackPanel { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Horizontal, Spacing = 12 };
         var progressRing = new ProgressRing { IsActive = true, Width = 20, Height = 20 };
-        var progressText = new TextBlock { Text = "Clearing caches...", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) };
+        var progressText = new TextBlock { Text = "正在清理缓存...", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) };
         progressRow.Children.Add(progressRing);
         progressRow.Children.Add(progressText);
         progressPanel.Children.Add(progressRow);
 
         var progressDialog = new ContentDialog
         {
-            Title = "Full Refresh",
+            Title = "完整刷新",
             Content = progressPanel,
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,

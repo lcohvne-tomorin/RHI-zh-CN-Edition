@@ -24,10 +24,10 @@ public partial class GameCardViewModel
     public string OsStatusDot => OsStatus == GameStatus.UpdateAvailable ? "🟢"
         : OsStatus == GameStatus.Installed ? "🟢" : "⚪";
 
-    public string OsActionLabel => OsIsInstalling ? "Installing..."
-        : OsStatus == GameStatus.UpdateAvailable ? "⬆  Update OptiScaler"
-        : OsStatus == GameStatus.Installed ? "↺  Reinstall OptiScaler"
-        : "⬇  Install OptiScaler";
+    public string OsActionLabel => OsIsInstalling ? "正在安装..."
+        : OsStatus == GameStatus.UpdateAvailable ? "⬆  更新 OptiScaler"
+        : OsStatus == GameStatus.Installed ? "↺  重新安装 OptiScaler"
+        : "⬇  安装 OptiScaler";
 
     public string OsBtnBackground  => OsStatus == GameStatus.UpdateAvailable ? "#201838" : "#182840";
     public string OsBtnForeground  => OsStatus == GameStatus.UpdateAvailable ? "#B898E8" : "#7AACDD";
@@ -39,18 +39,18 @@ public partial class GameCardViewModel
     public Visibility OsDeleteVisibility   => OsStatus == GameStatus.Installed
         || OsStatus == GameStatus.UpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
 
-    public string OsStatusText => OsIsInstalling ? "Installing…"
-        : OsStatus == GameStatus.UpdateAvailable ? "Update"
-        : OsStatus == GameStatus.Installed ? (OsInstalledVersion ?? "Installed")
-        : "Ready";
+    public string OsStatusText => OsIsInstalling ? "正在安装…"
+        : OsStatus == GameStatus.UpdateAvailable ? "更新"
+        : OsStatus == GameStatus.Installed ? (OsInstalledVersion ?? "已安装")
+        : "就绪";
     public string OsStatusColor => OsIsInstalling ? "#D4A856"
         : OsStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : OsStatus == GameStatus.Installed ? "#5ECB7D"
         : "#A0AABB";
     public string OsShortAction => OsIsInstalling ? "…"
-        : OsStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-        : OsStatus == GameStatus.Installed ? "↺ Reinstall"
-        : "⬇ Install";
+        : OsStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+        : OsStatus == GameStatus.Installed ? "↺ 重新安装"
+        : "⬇ 安装";
 
     public bool IsOsNotInstalling => !OsIsInstalling;
     public bool IsOsInstalled => OsStatus == GameStatus.Installed

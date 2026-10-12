@@ -20,8 +20,8 @@ public class MassDlssDeployDialog
     private readonly Action? _onComplete;
 
     private const string NoneOption = "None";
-    private const string DefaultOption = "Default (Restore)";
-    private const string CustomOption = "Custom";
+    private const string DefaultOption = "默认（恢复）";
+    private const string CustomOption = "自定义";
 
     public MassDlssDeployDialog(MainViewModel viewModel, IDlssStreamlineService dlssService, XamlRoot xamlRoot, Action? onComplete = null)
     {
@@ -43,7 +43,7 @@ public class MassDlssDeployDialog
         {
             var emptyDialog = new ContentDialog
             {
-                Title = "No DLSS/Streamline Games",
+                Title = "没有 DLSS/Streamline 游戏",
                 Content = "No games with DLSS or Streamline DLLs were detected.\nRun a Full Refresh to scan for them.",
                 CloseButtonText = "OK",
                 XamlRoot = _xamlRoot,
@@ -70,14 +70,14 @@ public class MassDlssDeployDialog
                     : Windows.UI.Color.FromArgb(255, 220, 220, 220)),
             };
             if (isV1)
-                ToolTipService.SetToolTip(cb, "Skipped — v1.x DLSS/Streamline not compatible with newer versions");
+                ToolTipService.SetToolTip(cb, "已跳过 — v1.x 的 DLSS/Streamline 与新版本不兼容");
             checkBoxes.Add(cb);
             gameListPanel.Children.Add(cb);
         }
 
         var selectAllBtn = new Button
         {
-            Content = "Select All", FontSize = 11, Padding = new Thickness(8, 4, 8, 4),
+            Content = "全选", FontSize = 11, Padding = new Thickness(8, 4, 8, 4),
             Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 30, 40, 60)),
             Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 180, 190, 220)),
             CornerRadius = new CornerRadius(6),
@@ -86,7 +86,7 @@ public class MassDlssDeployDialog
 
         var deselectAllBtn = new Button
         {
-            Content = "Deselect All", FontSize = 11, Padding = new Thickness(8, 4, 8, 4),
+            Content = "取消全选", FontSize = 11, Padding = new Thickness(8, 4, 8, 4),
             Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 30, 40, 60)),
             Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 180, 190, 220)),
             CornerRadius = new CornerRadius(6),
@@ -126,9 +126,9 @@ public class MassDlssDeployDialog
         var fgPresetCombo = BuildPresetCombo(DlssPresetService.FgPresets, settings.DefaultFgPreset);
 
         var rightPanel = new StackPanel { Spacing = 8, Width = 320 };
-        rightPanel.Children.Add(BuildDropdownSection("DLSS Super Resolution", dlssCombo));
-        rightPanel.Children.Add(BuildDropdownSection("DLSS Ray Reconstruction", dlssdCombo));
-        rightPanel.Children.Add(BuildDropdownSection("DLSS Frame Generation", dlssgCombo));
+        rightPanel.Children.Add(BuildDropdownSection("DLSS 超分辨率", dlssCombo));
+        rightPanel.Children.Add(BuildDropdownSection("DLSS 光线重建", dlssdCombo));
+        rightPanel.Children.Add(BuildDropdownSection("DLSS 帧生成", dlssgCombo));
         rightPanel.Children.Add(BuildDropdownSection("Streamline", slCombo));
 
         // Presets section
@@ -138,9 +138,9 @@ public class MassDlssDeployDialog
             Background = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 60, 70, 90)),
             Margin = new Thickness(0, 4, 0, 4),
         });
-        rightPanel.Children.Add(BuildDropdownSection("SR Preset", srPresetCombo));
-        rightPanel.Children.Add(BuildDropdownSection("RR Preset", rrPresetCombo));
-        rightPanel.Children.Add(BuildDropdownSection("FG Preset", fgPresetCombo));
+        rightPanel.Children.Add(BuildDropdownSection("SR 预设", srPresetCombo));
+        rightPanel.Children.Add(BuildDropdownSection("RR 预设", rrPresetCombo));
+        rightPanel.Children.Add(BuildDropdownSection("帧生成预设", fgPresetCombo));
 
         var rightScroll = new ScrollViewer
         {
@@ -152,7 +152,7 @@ public class MassDlssDeployDialog
         // Auto-create profiles checkbox — lives outside the scroll so it's always visible
         var autoCreateCheck = new CheckBox
         {
-            Content = "Auto-create NVIDIA profiles",
+            Content = "自动创建 NVIDIA 配置文件",
             IsChecked = true,
             FontSize = 11,
             Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 180, 190, 220)),
@@ -196,11 +196,11 @@ public class MassDlssDeployDialog
         // ── Dialog ──
         var dialog = new ContentDialog
         {
-            Title = "Batch DLSS & Streamline Deploy",
+            Title = "批量 DLSS 与 Streamline 部署",
             Content = mainGrid,
-            PrimaryButtonText = "Deploy",
-            SecondaryButtonText = "Restore",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "部署",
+            SecondaryButtonText = "恢复",
+            CloseButtonText = "取消",
             XamlRoot = _xamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -258,7 +258,7 @@ public class MassDlssDeployDialog
         // Show progress
         var progressText = new TextBlock
         {
-            Text = "Deploying to selected games...",
+            Text = "正在部署到选中的游戏...",
             FontSize = 12,
             Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 200, 200, 200)),
             TextWrapping = TextWrapping.Wrap,
@@ -287,7 +287,7 @@ public class MassDlssDeployDialog
 
         var progressDialog = new ContentDialog
         {
-            Title = "Deploying...",
+            Title = "正在部署...",
             Content = progressContainer,
             XamlRoot = _xamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -479,14 +479,14 @@ public class MassDlssDeployDialog
         if (autoCreateProfiles && presetService.ProfilesCreatedCount > 0)
             report.AppendLine($"NVIDIA profiles created: {presetService.ProfilesCreatedCount}");
         if (skippedAlreadyAtVersion > 0) report.AppendLine($"\nSkipped: {skippedAlreadyAtVersion} (already at selected version)");
-        if (skippedNoComponent > 0) report.AppendLine($"Skipped: {skippedNoComponent} (component not present)");
-        if (presetMissedCount > 0) report.AppendLine($"Presets missed: {presetMissedCount} game(s) (no NVIDIA profile found)");
+        if (skippedNoComponent > 0) report.AppendLine($"已跳过：{skippedNoComponent}（组件不存在）");
+        if (presetMissedCount > 0) report.AppendLine($"未应用预设：{presetMissedCount} 个游戏（未找到 NVIDIA 配置文件）");
 
-        if (report.Length == 0) report.Append("No changes made.");
+        if (report.Length == 0) report.Append("未做任何更改。");
 
         var resultDialog = new ContentDialog
         {
-            Title = "Batch Deploy Complete",
+            Title = "批量部署完成",
             Content = new TextBlock { Text = report.ToString().TrimEnd(), TextWrapping = TextWrapping.Wrap, FontSize = 12 },
             CloseButtonText = "OK",
             XamlRoot = _xamlRoot,
@@ -505,7 +505,7 @@ public class MassDlssDeployDialog
         // Show progress
         var progressText = new TextBlock
         {
-            Text = "Restoring selected games...",
+            Text = "正在恢复选中的游戏...",
             FontSize = 12,
             Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 200, 200, 200)),
             TextWrapping = TextWrapping.Wrap,
@@ -526,7 +526,7 @@ public class MassDlssDeployDialog
 
         var progressDialog = new ContentDialog
         {
-            Title = "Restoring...",
+            Title = "正在恢复...",
             Content = progressContainer,
             XamlRoot = _xamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -544,7 +544,7 @@ public class MassDlssDeployDialog
             var detection = card.DlssDetection;
             if (detection == null) continue;
 
-            progressText.Text = $"Restoring {card.GameName}...";
+            progressText.Text = $"正在恢复 {card.GameName}...";
             await Task.Delay(1);
 
             // Restore DLL backups
@@ -569,13 +569,13 @@ public class MassDlssDeployDialog
         await progressSession.DisposeAsync();
 
         var reportText = new System.Text.StringBuilder();
-        if (restoredCount > 0) reportText.AppendLine($"Restored {restoredCount} game(s) to default DLLs.");
-        if (presetsResetCount > 0) reportText.AppendLine($"Reset presets to Default on {presetsResetCount} game(s).");
-        if (restoredCount == 0 && presetsResetCount == 0) reportText.Append("No games had backups to restore or presets to reset.");
+        if (restoredCount > 0) reportText.AppendLine($"已将 {restoredCount} 个游戏恢复为默认 DLL。");
+        if (presetsResetCount > 0) reportText.AppendLine($"已将 {presetsResetCount} 个游戏的预设重置为默认。");
+        if (restoredCount == 0 && presetsResetCount == 0) reportText.Append("没有游戏有可恢复的备份或可重置的预设。");
 
         var resultDialog = new ContentDialog
         {
-            Title = "Restore Complete",
+            Title = "恢复完成",
             Content = new TextBlock
             {
                 Text = reportText.ToString().TrimEnd(),
@@ -680,7 +680,7 @@ public class MassDlssDeployDialog
     /// <summary>Builds the NVIDIA Override combo: None / Enable / Disable.</summary>
     private static ComboBox BuildDriverOverrideCombo(bool savedDefault)
     {
-        var items = new List<string> { NoneOption, "Enable", "Disable" };
+        var items = new List<string> { NoneOption, "启用", "Disable" };
         int selectedIdx = savedDefault ? 1 : 0; // pre-select Enable when default is true
         return new ComboBox
         {

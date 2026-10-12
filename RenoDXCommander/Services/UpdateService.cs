@@ -204,7 +204,7 @@ public class UpdateService : IUpdateService
             using var transfer = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             transfer.CancelAfter(TimeSpan.FromMinutes(10));
             var token = transfer.Token;
-            progress?.Report(("Downloading update...", 0));
+            progress?.Report(("正在下载更新...", 0));
 
             using var request = new HttpRequestMessage(HttpMethod.Get, downloadUrl);
             request.Headers.UserAgent.Add(new ProductInfoHeaderValue("RHI", CurrentVersion.ToString()));
@@ -235,13 +235,13 @@ public class UpdateService : IUpdateService
                 if (totalBytes > 0)
                 {
                     var pct = (double)totalRead / totalBytes * 100;
-                    progress?.Report(($"Downloading update... {pct:F0}%", pct));
+                    progress?.Report(($"正在下载更新... {pct:F0}%", pct));
                 }
             }
 
             if (totalBytes >= 0 && totalRead != totalBytes)
-                throw new IOException($"Incomplete installer download: expected {totalBytes} bytes, received {totalRead}.");
-            progress?.Report(("Download complete.", 100));
+                throw new IOException($"安装程序下载不完整：预期 {totalBytes} 字节，实际收到 {totalRead}。");
+            progress?.Report(("下载完成。", 100));
             CrashReporter.Log($"[UpdateService.DownloadInstallerAsync] Downloaded installer to {tempPath} ({totalRead:N0} bytes)");
             return tempPath;
         }
@@ -253,7 +253,7 @@ public class UpdateService : IUpdateService
                 try { File.Delete(tempPath); }
                 catch (Exception cleanupError) { CrashReporter.Log($"[UpdateService] Partial download cleanup failed — {cleanupError.Message}"); }
             }
-            progress?.Report(($"Download failed: {ex.Message}", 0));
+            progress?.Report(($"下载失败：{ex.Message}", 0));
             return null;
         }
     }

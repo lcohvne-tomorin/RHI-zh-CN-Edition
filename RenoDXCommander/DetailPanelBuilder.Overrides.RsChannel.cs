@@ -25,14 +25,14 @@ public partial class DetailPanelBuilder
 
         var channelLabel = new TextBlock
         {
-            Text = "ReShade Channel",
+            Text = "ReShade 渠道",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
         };
         ToolTipService.SetToolTip(channelLabel,
             "Override the global ReShade build channel for this game.\nVulkan games: changing this affects ALL Vulkan games.");
 
-        var channelItems = new[] { "Stable", "Nightly", "Custom", "No Addons", "Legacy..." };
+        var channelItems = new[] { "Stable", "Nightly", "自定义", "无插件", "Legacy..." };
         // For Vulkan games, show the effective Vulkan-wide override (any Vulkan game's override applies to all)
         var currentChannelOverride = _window.ViewModel.GetReShadeChannelOverride(gameName, card.Source);
         if (currentChannelOverride == null && card.RequiresVulkanInstall)
@@ -48,11 +48,11 @@ public partial class DetailPanelBuilder
         string defaultChannelSelection;
         if (card.UseNormalReShade)
         {
-            defaultChannelSelection = "No Addons";
+            defaultChannelSelection = "无插件";
         }
-        else if (string.Equals(currentChannelOverride, "Custom", StringComparison.OrdinalIgnoreCase))
+        else if (string.Equals(currentChannelOverride, "自定义", StringComparison.OrdinalIgnoreCase))
         {
-            defaultChannelSelection = "Custom";
+            defaultChannelSelection = "自定义";
         }
         else if (MainViewModel.IsLegacyVersion(currentChannelOverride))
         {
@@ -86,12 +86,12 @@ public partial class DetailPanelBuilder
         {
             if (channelComboInitializing) return;
             var current = channelCombo.SelectedItem as string;
-            if (current == "Custom" && string.Equals(_window.ViewModel.GetReShadeChannelOverride(ctx.CapturedName, ctx.Card.Source), "Custom", StringComparison.OrdinalIgnoreCase))
+            if (current == "自定义" && string.Equals(_window.ViewModel.GetReShadeChannelOverride(ctx.CapturedName, ctx.Card.Source), "自定义", StringComparison.OrdinalIgnoreCase))
             {
                 channelComboInitializing = true;
                 channelCombo.SelectedItem = "Stable";
                 channelComboInitializing = false;
-                channelCombo.SelectedItem = "Custom";
+                channelCombo.SelectedItem = "自定义";
             }
         };
 
@@ -128,10 +128,10 @@ public partial class DetailPanelBuilder
 
                 var pickerDialog = new ContentDialog
                 {
-                    Title = "Select Legacy ReShade Version",
+                    Title = "选择旧版 ReShade 版本",
                     Content = new ScrollViewer { Content = pickerContent, MaxHeight = 400 },
-                    PrimaryButtonText = "Confirm",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "确认",
+                    CloseButtonText = "取消",
                     XamlRoot = _window.Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
                 };
@@ -188,15 +188,15 @@ public partial class DetailPanelBuilder
             }
 
             // ── If a legacy version is already selected and user picks it again, do nothing ──
-            if (selected != "Global" && selected != "Stable" && selected != "Nightly"
-                && selected != "No Addons" && selected != "Legacy..." && selected != "Custom"
+            if (selected != "全局" && selected != "Stable" && selected != "Nightly"
+                && selected != "无插件" && selected != "Legacy..." && selected != "自定义"
                 && MainViewModel.IsLegacyVersion(selected))
             {
                 return;
             }
 
             // ── "Custom" — use user-supplied ReShade DLLs ──
-            if (selected == "Custom")
+            if (selected == "自定义")
             {
                 CrashReporter.Log($"[DetailPanelBuilder.RSChannel] '{ctx.CapturedName}' → Custom ReShade");
 
@@ -237,7 +237,7 @@ public partial class DetailPanelBuilder
 
                     var warnDialog = new ContentDialog
                     {
-                        Title = "Custom ReShade Not Found",
+                        Title = "未找到自定义 ReShade",
                         Content = warnContent,
                         CloseButtonText = "OK",
                         XamlRoot = _window.Content.XamlRoot,
@@ -290,9 +290,9 @@ public partial class DetailPanelBuilder
 
                 var pickerDialog = new ContentDialog
                 {
-                    Title = "Select Custom ReShade",
-                    PrimaryButtonText = "Deploy",
-                    CloseButtonText = "Cancel",
+                    Title = "选择自定义 ReShade",
+                    PrimaryButtonText = "部署",
+                    CloseButtonText = "取消",
                     DefaultButton = ContentDialogButton.Primary,
                     XamlRoot = _window.Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
@@ -327,11 +327,11 @@ public partial class DetailPanelBuilder
                 {
                     var vDialog = new ContentDialog
                     {
-                        Title = "Vulkan ReShade Channel Override",
+                        Title = "Vulkan ReShade 渠道覆盖",
                         Content = "Vulkan games share a global ReShade layer.\n\n" +
-                            "Changing the channel for this game will change it for ALL Vulkan games.",
-                        PrimaryButtonText = "Apply to All Vulkan Games",
-                        CloseButtonText = "Cancel",
+                            "更改此游戏的渠道将同时更改所有 Vulkan 游戏的渠道。",
+                        PrimaryButtonText = "应用到所有 Vulkan 游戏",
+                        CloseButtonText = "取消",
                         XamlRoot = _window.Content.XamlRoot,
                         RequestedTheme = ElementTheme.Dark,
                     };
@@ -345,7 +345,7 @@ public partial class DetailPanelBuilder
                     // Apply to ALL Vulkan games
                     foreach (var vCard in _window.ViewModel.AllCards.Where(c => c.RequiresVulkanInstall))
                     {
-                        _window.ViewModel.SetReShadeChannelOverride(vCard.GameName, "Custom", vCard.Source);
+                        _window.ViewModel.SetReShadeChannelOverride(vCard.GameName, "自定义", vCard.Source);
                         var vCardKey = GameKey.FromCard(vCard.GameName, vCard.Source).ToKey();
                         _gameNameService.CustomReShadeSelection[vCardKey] = selectedFilename;
                         if (vCard.UseNormalReShade)
@@ -373,7 +373,7 @@ public partial class DetailPanelBuilder
                 else
                 {
                     // Non-Vulkan: per-game only
-                    _window.ViewModel.SetReShadeChannelOverride(ctx.CapturedName, "Custom", ctx.Card.Source);
+                    _window.ViewModel.SetReShadeChannelOverride(ctx.CapturedName, "自定义", ctx.Card.Source);
                     if (targetCardCustom != null && targetCardCustom.UseNormalReShade)
                         _window.ViewModel.SetUseNormalReShade(targetCardCustom, false);
 
@@ -382,7 +382,7 @@ public partial class DetailPanelBuilder
                         await _window.ViewModel.InstallReShadeCommand.ExecuteAsync(targetCardCustom);
                 }
 
-                defaultChannelSelection = "Custom";
+                defaultChannelSelection = "自定义";
                 _window.ViewModel.NotifyUpdateButtonChanged();
 
                 // Rebuild overrides panel to reflect update inclusion changes
@@ -396,7 +396,7 @@ public partial class DetailPanelBuilder
             }
 
             // ── "No Addons" — switch to normal (non-addon) ReShade ──
-            if (selected == "No Addons")
+            if (selected == "无插件")
             {
                 CrashReporter.Log($"[DetailPanelBuilder.RSChannel] '{ctx.CapturedName}' → No Addons mode");
                 var targetCardNoAddon = _window.ViewModel.AllCards.FirstOrDefault(c =>
@@ -410,7 +410,7 @@ public partial class DetailPanelBuilder
                     if (targetCardNoAddon.RsStatus == GameStatus.NotInstalled || targetCardNoAddon.IsRsInstalled)
                         await _window.ViewModel.InstallReShadeCommand.ExecuteAsync(targetCardNoAddon);
                 }
-                defaultChannelSelection = "No Addons";
+                defaultChannelSelection = "无插件";
                 // Rebuild to grey out addon controls
                 var refreshCardNoAddon = _window.ViewModel.AllCards.FirstOrDefault(c =>
                     c.GameName.Equals(ctx.CapturedName, StringComparison.OrdinalIgnoreCase));
@@ -450,11 +450,11 @@ public partial class DetailPanelBuilder
                     // Setting a specific override on a Vulkan game
                     var dialog = new ContentDialog
                     {
-                        Title = "Vulkan ReShade Channel Override",
+                        Title = "Vulkan ReShade 渠道覆盖",
                         Content = "Vulkan games share a global ReShade layer.\n\n" +
-                            "Changing the channel for this game will change it for ALL Vulkan games.",
-                        PrimaryButtonText = "Apply to All Vulkan Games",
-                        CloseButtonText = "Cancel",
+                            "更改此游戏的渠道将同时更改所有 Vulkan 游戏的渠道。",
+                        PrimaryButtonText = "应用到所有 Vulkan 游戏",
+                        CloseButtonText = "取消",
                         XamlRoot = _window.Content.XamlRoot,
                         RequestedTheme = ElementTheme.Dark,
                     };
@@ -568,7 +568,7 @@ public partial class DetailPanelBuilder
         ctx.UpdateSummaryText = updateSummaryText; // assign for reset action to use
 
         var toggleRow = new StackPanel { Spacing = 0 };
-        ToolTipService.SetToolTip(updateInclusionBtn, "Choose which components are included in Update All for this game.");
+        ToolTipService.SetToolTip(updateInclusionBtn, "选择此游戏的「全部更新」要包含哪些组件。");
         toggleRow.Children.Add(updateInclusionBtn);
         toggleRow.Children.Add(updateSummaryText);
 
@@ -576,7 +576,7 @@ public partial class DetailPanelBuilder
         var globalUpdateColumn = new StackPanel { Spacing = 0 };
         globalUpdateColumn.Children.Add(new TextBlock
         {
-            Text = "Global update inclusion",
+            Text = "全局更新包含",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
             Margin = new Thickness(0, 0, 0, 8),

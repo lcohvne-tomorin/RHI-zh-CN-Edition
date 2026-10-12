@@ -65,7 +65,7 @@ public partial class AuxInstallService
         }
 
         // ── Ensure staged DLLs exist (downloaded from reshade.me) ────────────────
-        progress?.Report(("Preparing ReShade files...", 10));
+        progress?.Report(("正在准备 ReShade 文件...", 10));
         EnsureReShadeStaging();
 
         var effectiveChannel = channel ?? ChannelStable;
@@ -89,7 +89,7 @@ public partial class AuxInstallService
         // If this is a legacy version and not cached, download it on-demand
         if (!File.Exists(rsStagedPath) && !useNormalReShade && IsLegacyVersion(effectiveChannel))
         {
-            progress?.Report(($"Downloading ReShade {effectiveChannel}...", 15));
+            progress?.Report(($"正在下载 ReShade {effectiveChannel}...", 15));
             var downloaded = await DownloadLegacyReShadeAsync(effectiveChannel, _http, progress);
             if (downloaded)
                 rsStagedPath = GetStagedPathForChannel(effectiveChannel, use32Bit);
@@ -107,21 +107,21 @@ public partial class AuxInstallService
             throw new FileNotFoundException(
                 $"ReShade DLLs not found in staging directory.\n" +
                 $"Expected: {rsStagedPath}\n" +
-                $"Please restart RHI to download ReShade from reshade.me.");
+                $"请重启 RHI 以从 reshade.me 下载 ReShade。");
         }
 
         // ── Back up foreign DLL at destination ──────────────────────────────────
         BackupForeignDll(destPath);
 
         // ── Copy staged DLL to game folder ────────────────────────────────────────
-        progress?.Report(("Installing ReShade...", 80));
+        progress?.Report(("正在安装 ReShade...", 80));
         File.Copy(rsStagedPath, destPath, overwrite: true);
 
         // Deploy reshade.ini alongside the DLL (skip if caller has locked ini updates for this game).
         if (mergeIni && File.Exists(RsIniPath))
             MergeRsIni(installPath, screenshotSavePath, overlayHotkey, screenshotHotkey, gameName);
 
-        progress?.Report(("ReShade installed!", 100));
+        progress?.Report(("ReShade 已安装！", 100));
 
         // ── Shader deployment ─────────────────────────────────────────────────────
         // Build exclusions off the calling thread to avoid blocking the UI thread

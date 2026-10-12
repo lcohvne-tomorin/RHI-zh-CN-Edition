@@ -93,7 +93,7 @@ public partial class DxvkService
         {
             CrashReporter.Log($"[DxvkService.SaveRecord] Failed to save record for '{record.GameName}' — {ex.Message}");
             CrashReporter.WriteCrashReport("DxvkService.SaveRecord", ex,
-                note: $"Game: {record.GameName}, Path: {record.InstallPath}");
+                note: $"游戏：{record.GameName}，路径：{record.InstallPath}");
         }
     }
 
@@ -128,7 +128,7 @@ public partial class DxvkService
         {
             CrashReporter.Log($"[DxvkService.RemoveRecord] Failed to remove record for '{gameName}' — {ex.Message}");
             CrashReporter.WriteCrashReport("DxvkService.RemoveRecord", ex,
-                note: $"Game: {gameName}, Path: {installPath}");
+                note: $"游戏：{gameName}，路径：{installPath}");
         }
     }
 }

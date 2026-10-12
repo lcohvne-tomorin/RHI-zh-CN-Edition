@@ -318,7 +318,7 @@ public static class HdrToggleService
             nameInfo.header.size = (uint)Marshal.SizeOf<DISPLAYCONFIG_TARGET_DEVICE_NAME>();
             nameInfo.header.adapterId = adapterId;
             nameInfo.header.id = targetId;
-            string name = $"Display {i + 1}";
+            string name = $"显示器 {i + 1}";
             if (DisplayConfigGetTargetDeviceName(ref nameInfo) == 0 && nameInfo.monitorFriendlyDeviceName != null)
             {
                 var trimmed = nameInfo.monitorFriendlyDeviceName.TrimEnd('\0').Trim();

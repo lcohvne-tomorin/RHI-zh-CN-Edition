@@ -72,7 +72,7 @@ public class REFrameworkService : IREFrameworkService
         try
         {
             // ── Download game-specific ZIP ────────────────────────────────────
-            progress?.Report(("Downloading RE Framework...", 10));
+            progress?.Report(("正在下载 RE Framework...", 10));
             CrashReporter.Log($"[REFrameworkService.InstallAsync] Downloading {downloadUrl}");
 
             using var response = await _http.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
@@ -83,7 +83,7 @@ public class REFrameworkService : IREFrameworkService
                 await response.Content.CopyToAsync(fs);
             }
 
-            progress?.Report(("Extracting dinput8.dll...", 50));
+            progress?.Report(("正在解压 dinput8.dll...", 50));
 
             // ── Extract dinput8.dll from ZIP ──────────────────────────────────
             ExtractDllFromZip(zipPath, cachedDll);
@@ -96,14 +96,14 @@ public class REFrameworkService : IREFrameworkService
             }
 
             // ── Copy cached DLL to game directory ─────────────────────────────
-            progress?.Report(("Installing dinput8.dll...", 80));
+            progress?.Report(("正在安装 dinput8.dll...", 80));
             AuxInstallService.SentinelBackup(destPath);
             File.Copy(cachedDll, destPath, overwrite: true);
 
             // ── Fetch version tag ─────────────────────────────────────────────
             var version = await GetLatestVersionAsync() ?? "unknown";
 
-            progress?.Report(("RE Framework installed!", 100));
+            progress?.Report(("RE Framework 已安装！", 100));
 
             // ── Persist install record ────────────────────────────────────────
             var record = new REFrameworkInstalledRecord
@@ -141,7 +141,7 @@ public class REFrameworkService : IREFrameworkService
             e.Name.Equals(DllFileName, StringComparison.OrdinalIgnoreCase));
 
         if (entry == null)
-            throw new FileNotFoundException($"{DllFileName} not found inside {Path.GetFileName(zipPath)}");
+            throw new FileNotFoundException($"{Path.GetFileName(zipPath)} 中未找到 {DllFileName}");
 
         // Extract to destination, overwriting any existing cached copy
         entry.ExtractToFile(destDllPath, overwrite: true);
@@ -269,7 +269,7 @@ public class REFrameworkService : IREFrameworkService
             Directory.CreateDirectory(tempDir);
 
             // ── Download outer ZIP from nightly.link ──────────────────────────
-            progress?.Report(("Downloading PD-Upscaler REFramework...", 10));
+            progress?.Report(("正在下载 PD-Upscaler REFramework...", 10));
             CrashReporter.Log($"[REFrameworkService.InstallPdUpscalerAsync] Downloading {downloadUrl}");
 
             var outerZipPath = Path.Combine(tempDir, $"{artifactName}_outer.zip");
@@ -280,7 +280,7 @@ public class REFrameworkService : IREFrameworkService
                 await response.Content.CopyToAsync(fs);
             }
 
-            progress?.Report(("Extracting PD-Upscaler REFramework...", 40));
+            progress?.Report(("正在解压 PD-Upscaler REFramework...", 40));
 
             // ── Extract outer ZIP → inner {artifactName}.zip ──────────────────
             var outerExtractDir = Path.Combine(tempDir, "outer");
@@ -292,7 +292,7 @@ public class REFrameworkService : IREFrameworkService
                 // Fallback: look for any .zip inside the outer archive
                 innerZipPath = Directory.GetFiles(outerExtractDir, "*.zip").FirstOrDefault()
                     ?? throw new FileNotFoundException(
-                        $"Inner ZIP not found in pd-upscaler download for {artifactName}");
+                        $"在 pd-upscaler 的 {artifactName} 下载中未找到内部 ZIP");
             }
 
             // ── Extract inner ZIP → dinput8.dll ───────────────────────────────
@@ -304,7 +304,7 @@ public class REFrameworkService : IREFrameworkService
                 throw new FileNotFoundException(
                     $"{DllFileName} not found inside pd-upscaler inner ZIP for {artifactName}");
 
-            progress?.Report(("Backing up standard REFramework...", 60));
+            progress?.Report(("正在备份标准 REFramework...", 60));
 
             // ── Back up existing standard dinput8.dll ─────────────────────────
             if (File.Exists(destDll) && !File.Exists(backupPath))
@@ -340,7 +340,7 @@ public class REFrameworkService : IREFrameworkService
                 });
             }
 
-            progress?.Report(("PD-Upscaler REFramework installed!", 100));
+            progress?.Report(("PD-Upscaler REFramework 已安装！", 100));
             CrashReporter.Log($"[REFrameworkService.InstallPdUpscalerAsync] PD-Upscaler installed for '{gameName}'");
         }
         catch (Exception ex)

@@ -50,12 +50,12 @@ public class ReShadeNightlyService
             && new FileInfo(AuxInstallService.RsNightlyStagedPath32).Length > AuxInstallService.MinReShadeSize)
         {
             CrashReporter.Log($"[ReShadeNightlyService.EnsureLatestAsync] Remote zip size unchanged ({remote64Size} bytes) — skipping");
-            progress?.Report(("ReShade nightly is current", 100));
+            progress?.Report(("ReShade 每夜版已是最新", 100));
             return false;
         }
 
         // Download 64-bit artifact
-        progress?.Report(("Downloading ReShade nightly (64-bit)...", 15));
+        progress?.Report(("正在下载 ReShade 每夜版（64 位）...", 15));
         var (success64, downloadedZipSize) = await DownloadAndExtractAsync(Nightly64Url, AuxInstallService.RsNightlyStagedPath64, "ReShade64.dll");
         if (!success64)
         {
@@ -64,7 +64,7 @@ public class ReShadeNightlyService
         }
 
         // Download 32-bit artifact
-        progress?.Report(("Downloading ReShade nightly (32-bit)...", 55));
+        progress?.Report(("正在下载 ReShade 每夜版（32 位）...", 55));
         var (success32, _) = await DownloadAndExtractAsync(Nightly32Url, AuxInstallService.RsNightlyStagedPath32, "ReShade32.dll");
         if (!success32)
         {

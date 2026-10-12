@@ -753,7 +753,7 @@ public partial class AuxInstallService
 
         // Try %LocalAppData%\{ProjectName}\Saved\Config\ first
         var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var configBase = Path.Combine(localAppData, projectName, "Saved", "Config");
+        var configBase = Path.Combine(localAppData, projectName, "Saved", "配置");
 
         var result = FindPlatformConfigDir(configBase);
         if (result != null) return result;
@@ -762,7 +762,7 @@ public partial class AuxInstallService
         if (!string.IsNullOrEmpty(gameName))
         {
             var docs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var myGamesConfig = Path.Combine(docs, "My Games", gameName, "Saved", "Config");
+            var myGamesConfig = Path.Combine(docs, "My Games", gameName, "Saved", "配置");
             result = FindPlatformConfigDir(myGamesConfig);
             if (result != null) return result;
 
@@ -770,7 +770,7 @@ public partial class AuxInstallService
             var stripped = gameName.Replace("®", "").Replace("™", "").Replace("©", "").Trim();
             if (stripped != gameName)
             {
-                myGamesConfig = Path.Combine(docs, "My Games", stripped, "Saved", "Config");
+                myGamesConfig = Path.Combine(docs, "My Games", stripped, "Saved", "配置");
                 result = FindPlatformConfigDir(myGamesConfig);
                 if (result != null) return result;
             }
@@ -788,7 +788,7 @@ public partial class AuxInstallService
                 {
                     // The project folder is immediately above Binaries
                     var projectDir = string.Join('\\', pathParts.Take(i));
-                    var inGameConfig = Path.Combine(projectDir, "Saved", "Config");
+                    var inGameConfig = Path.Combine(projectDir, "Saved", "配置");
                     result = FindPlatformConfigDir(inGameConfig);
                     if (result != null) return result;
 
@@ -801,7 +801,7 @@ public partial class AuxInstallService
                         {
                             foreach (var subDir in Directory.EnumerateDirectories(gameRoot))
                             {
-                                var subConfig = Path.Combine(subDir, "Saved", "Config");
+                                var subConfig = Path.Combine(subDir, "Saved", "配置");
                                 result = FindPlatformConfigDir(subConfig);
                                 if (result != null) return result;
                             }

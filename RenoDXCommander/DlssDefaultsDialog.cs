@@ -29,15 +29,15 @@ public static class DlssDefaultsDialog
         var srCol = new StackPanel { Spacing = 4 };
         srCol.Children.Add(new TextBlock { Text = "DLSS", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
 
-        srCol.Children.Add(new TextBlock { Text = "Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        srCol.Children.Add(new TextBlock { Text = "版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var srVersionCombo = BuildCombo(dlssService.DlssVersions, settings.DefaultDlssVersion, includeDriverOverride: true, currentDriverOverride: settings.DefaultSrDriverOverride);
         srCol.Children.Add(srVersionCombo);
 
-        srCol.Children.Add(new TextBlock { Text = "Preset", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        srCol.Children.Add(new TextBlock { Text = "预设", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var srPresetCombo = BuildPresetComboBox(DlssPresetService.SrPresets, settings.DefaultSrPreset);
         srCol.Children.Add(srPresetCombo);
 
-        srCol.Children.Add(new TextBlock { Text = "Render Scale", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        srCol.Children.Add(new TextBlock { Text = "渲染缩放", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var srScaleCombo = BuildRenderScaleComboBox(settings.DefaultSrRenderScale);
         srCol.Children.Add(srScaleCombo);
 
@@ -49,17 +49,17 @@ public static class DlssDefaultsDialog
 
         // ── RR Column ──
         var rrCol = new StackPanel { Spacing = 4 };
-        rrCol.Children.Add(new TextBlock { Text = "Ray Reconstruction", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
+        rrCol.Children.Add(new TextBlock { Text = "光线重建", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
 
-        rrCol.Children.Add(new TextBlock { Text = "Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        rrCol.Children.Add(new TextBlock { Text = "版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var rrVersionCombo = BuildCombo(dlssService.DlssdVersions, settings.DefaultDlssdVersion, includeDriverOverride: true, currentDriverOverride: settings.DefaultRrDriverOverride);
         rrCol.Children.Add(rrVersionCombo);
 
-        rrCol.Children.Add(new TextBlock { Text = "Preset", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        rrCol.Children.Add(new TextBlock { Text = "预设", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var rrPresetCombo = BuildPresetComboBox(DlssPresetService.RrPresets, settings.DefaultRrPreset);
         rrCol.Children.Add(rrPresetCombo);
 
-        rrCol.Children.Add(new TextBlock { Text = "Render Scale", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        rrCol.Children.Add(new TextBlock { Text = "渲染缩放", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var rrScaleCombo = BuildRenderScaleComboBox(settings.DefaultRrRenderScale);
         rrCol.Children.Add(rrScaleCombo);
 
@@ -71,13 +71,13 @@ public static class DlssDefaultsDialog
 
         // ── FG Column ──
         var fgCol = new StackPanel { Spacing = 4 };
-        fgCol.Children.Add(new TextBlock { Text = "Frame Generation", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
+        fgCol.Children.Add(new TextBlock { Text = "帧生成", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
 
-        fgCol.Children.Add(new TextBlock { Text = "Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        fgCol.Children.Add(new TextBlock { Text = "版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var fgVersionCombo = BuildCombo(dlssService.DlssgVersions, settings.DefaultDlssgVersion, includeDriverOverride: true, currentDriverOverride: settings.DefaultFgDriverOverride);
         fgCol.Children.Add(fgVersionCombo);
 
-        fgCol.Children.Add(new TextBlock { Text = "Preset", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        fgCol.Children.Add(new TextBlock { Text = "预设", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var fgPresetCombo = BuildPresetComboBox(DlssPresetService.FgPresets, settings.DefaultFgPreset);
         fgCol.Children.Add(fgPresetCombo);
 
@@ -97,13 +97,13 @@ public static class DlssDefaultsDialog
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             var nrCol = new StackPanel { Spacing = 4 };
-            nrCol.Children.Add(new TextBlock { Text = "Neural Rendering", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
+            nrCol.Children.Add(new TextBlock { Text = "神经网络渲染", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
 
-            nrCol.Children.Add(new TextBlock { Text = "Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+            nrCol.Children.Add(new TextBlock { Text = "版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
             nrVersionCombo = BuildCombo(dlssService.DlssnrVersions, settings.DefaultDlssnrVersion);
             nrCol.Children.Add(nrVersionCombo);
 
-            nrCol.Children.Add(new TextBlock { Text = "Preset", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+            nrCol.Children.Add(new TextBlock { Text = "预设", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
             nrPresetCombo = BuildPresetComboBox(DlssPresetService.NrPresets, settings.DefaultNrPreset);
             nrCol.Children.Add(nrPresetCombo);
 
@@ -119,7 +119,7 @@ public static class DlssDefaultsDialog
         var slCol = new StackPanel { Spacing = 4 };
         slCol.Children.Add(new TextBlock { Text = "Streamline", FontSize = 11, FontWeight = Microsoft.UI.Text.FontWeights.SemiBold, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush) });
 
-        slCol.Children.Add(new TextBlock { Text = "Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
+        slCol.Children.Add(new TextBlock { Text = "版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Microsoft.UI.Xaml.Thickness(0, 2, 0, 0) });
         var slVersionCombo = BuildCombo(dlssService.StreamlineVersions, settings.DefaultStreamlineVersion);
         slCol.Children.Add(slVersionCombo);
 
@@ -128,10 +128,10 @@ public static class DlssDefaultsDialog
 
         var dialog = new ContentDialog
         {
-            Title = "DLSS & Streamline Defaults",
+            Title = "DLSS 与 Streamline 默认值",
             Content = grid,
-            PrimaryButtonText = "Save",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "保存",
+            CloseButtonText = "取消",
             XamlRoot = xamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -186,7 +186,7 @@ public static class DlssDefaultsDialog
     {
         var items = new List<string> { "Default" };
         items.AddRange(versions);
-        items.Add("Custom");
+        items.Add("自定义");
         if (includeDriverOverride)
             items.Add("NVIDIA Override");
 
@@ -278,7 +278,7 @@ public static class DlssDefaultsDialog
 
         combo.SelectionChanged += (s, e) =>
         {
-            customBox.Visibility = combo.SelectedItem as string == "Custom"
+            customBox.Visibility = combo.SelectedItem as string == "自定义"
                 ? Microsoft.UI.Xaml.Visibility.Visible
                 : Microsoft.UI.Xaml.Visibility.Collapsed;
         };
@@ -298,7 +298,7 @@ public static class DlssDefaultsDialog
         var options = DlssPresetService.RenderScaleOptions;
         var selected = combo.SelectedItem as string;
 
-        if (selected == "Custom")
+        if (selected == "自定义")
         {
             if (textBox != null && uint.TryParse(textBox.Text, out var val) && val >= 33 && val <= 100)
                 return val;

@@ -17,28 +17,28 @@ public class AddonInfoResolver
     // ── Generic fallback text constants (Tier 3) ──────────────────────────────────
 
     public const string FallbackREFramework =
-        "RE Framework is a modding framework for RE Engine games. It enables ReShade injection and other mods by hooking into the game's rendering pipeline.";
+        "RE Framework 是 RE Engine 游戏的 Mod 框架。它通过挂钩游戏的渲染管线来启用 ReShade 注入和其他 mod。";
 
     public const string FallbackReShade =
-        "ReShade is a post-processing injector that adds visual effects to games. It is required by RenoDX to apply HDR tone mapping and color grading.";
+        "ReShade 是一个为游戏添加视觉效果的后处理注入器。RenoDX 需要它来应用 HDR 色调映射和调色。";
 
     public const string FallbackRenoDX =
-        "RenoDX is an HDR mod framework that upgrades SDR games to HDR using ReShade. It provides per-game tone mapping and color space conversion.";
+        "RenoDX 是一个使用 ReShade 将 SDR 游戏升级为 HDR 的 HDR mod 框架。它提供各游戏的色调映射和色彩空间转换。";
 
     public const string FallbackNativeHdr =
-        "This game is set to use UE-Extended. It is automatically configured to use native HDR and an Engine.ini will be automatically deployed upon installation. If there is an ingame HDR option then enable that too.";
+        "此游戏已设为使用 UE-Extended。它会自动配置为使用原生 HDR，安装时会自动部署 Engine.ini。如果游戏内有 HDR 选项，也请一并启用。";
 
     public const string FallbackReLimiter =
-        "ReLimiter is a frame limiter that works alongside ReShade to reduce input lag and improve frame pacing in games.";
+        "ReLimiter 是一款与 ReShade 配合使用的帧率限制器，可在游戏中减少输入延迟并改善帧节奏。";
 
     public const string FallbackDisplayCommander =
-        "Display Commander is a frame limiter that works alongside ReShade to reduce input lag and improve frame pacing.";
+        "Display Commander 是一款与 ReShade 配合使用的帧率限制器，可减少输入延迟并改善帧节奏。";
 
     public const string FallbackOptiScaler =
-        "OptiScaler is an upscaling compatibility layer that enables FSR, XeSS, or DLSS across different GPU vendors, allowing you to use any upscaler regardless of your hardware.";
+        "OptiScaler 是一个超分兼容层，可让 FSR、XeSS 或 DLSS 跨不同显卡厂商使用，从而不受硬件限制地使用任意超分方案。";
 
     public const string FallbackLuma =
-        "Luma is an alternative HDR mod framework that provides native HDR output for supported games, bypassing the need for ReShade-based injection.";
+        "Luma 是一个替代性的 HDR mod 框架，为受支持的游戏提供原生 HDR 输出，无需基于 ReShade 的注入。";
 
     /// <summary>
     /// Returns the generic fallback text for the given addon type.
@@ -84,7 +84,7 @@ public class AddonInfoResolver
                 if (addon == AddonType.RenoDX && !string.IsNullOrWhiteSpace(card.Notes))
                 {
                     var dbNote = card.Notes
-                        .Replace("⚠ In-game HDR must be turned ON for UE-Extended to work correctly in this title.", "")
+                        .Replace("⚠ 本作必须开启游戏内 HDR，UE-Extended 才能正常工作。", "")
                         .Trim();
                     if (!string.IsNullOrWhiteSpace(dbNote))
                         wikiResult = new AddonInfoResult
@@ -131,7 +131,7 @@ public class AddonInfoResolver
         if (addon == AddonType.RenoDX && !string.IsNullOrWhiteSpace(card.Notes))
         {
             var notesWithoutWarning = card.Notes
-                .Replace("⚠ In-game HDR must be turned ON for UE-Extended to work correctly in this title.", "")
+                .Replace("⚠ 本作必须开启游戏内 HDR，UE-Extended 才能正常工作。", "")
                 .Trim();
             if (!string.IsNullOrWhiteSpace(notesWithoutWarning))
                 fallbackText = fallbackText + "\n\n" + notesWithoutWarning;
@@ -169,10 +169,10 @@ public class AddonInfoResolver
         var source = GetSourceType(card, addon, manifest, osWikiData, hdrDatabase);
         return source switch
         {
-            InfoSourceType.Manifest => "Per-game notes available",
-            InfoSourceType.Wiki     => "Wiki info available",
-            InfoSourceType.Fallback => "General addon info",
-            _ => "General addon info"
+            InfoSourceType.Manifest => "有各游戏的说明",
+            InfoSourceType.Wiki     => "有可用的 Wiki 信息",
+            InfoSourceType.Fallback => "插件常规信息",
+            _ => "插件常规信息"
         };
     }
 
@@ -324,7 +324,7 @@ public class AddonInfoResolver
         {
             Content = content,
             Url = card.NameUrl,
-            UrlLabel = !string.IsNullOrEmpty(card.NameUrl) ? "View wiki page" : null,
+            UrlLabel = !string.IsNullOrEmpty(card.NameUrl) ? "查看 Wiki 页面" : null,
             Source = InfoSourceType.Wiki,
             WikiStatusLabel = card.WikiStatusLabel,
             WikiStatusBadgeBg = card.WikiStatusBadgeBackground,
@@ -367,7 +367,7 @@ public class AddonInfoResolver
         {
             Content = content,
             Url = url,
-            UrlLabel = url != null ? "View wiki page" : null,
+            UrlLabel = url != null ? "查看 Wiki 页面" : null,
             Source = InfoSourceType.Wiki,
             OptiScalerCompat = stdEntry,
             OptiScalerFsr4Compat = fsr4Entry
@@ -405,7 +405,7 @@ public class AddonInfoResolver
         {
             var upscalers = stdEntry.Upscalers.Count > 0
                 ? string.Join(", ", stdEntry.Upscalers)
-                : "None listed";
+                : "无";
             parts.Add($"OptiScaler Compatibility: {stdEntry.Status}\nUpscalers: {upscalers}");
             if (!string.IsNullOrWhiteSpace(stdEntry.Notes))
                 parts.Add(stdEntry.Notes);
@@ -415,7 +415,7 @@ public class AddonInfoResolver
         {
             var upscalers = fsr4Entry.Upscalers.Count > 0
                 ? string.Join(", ", fsr4Entry.Upscalers)
-                : "None listed";
+                : "无";
             parts.Add($"FSR4 Compatibility: {fsr4Entry.Status}\nUpscalers: {upscalers}");
             if (!string.IsNullOrWhiteSpace(fsr4Entry.Notes))
                 parts.Add(fsr4Entry.Notes);

@@ -729,8 +729,8 @@ public partial class MainViewModel
 
         // Map known engine strings to EngineType for mod/fallback logic
         overrideEngine = label.Equals("Unreal", StringComparison.OrdinalIgnoreCase)            ? EngineType.Unreal
-                       : label.Equals("Unreal Engine", StringComparison.OrdinalIgnoreCase)     ? EngineType.Unreal
-                       : label.StartsWith("Unreal (Legacy)", StringComparison.OrdinalIgnoreCase) ? EngineType.UnrealLegacy
+                       : label.Equals("虚幻引擎", StringComparison.OrdinalIgnoreCase)     ? EngineType.Unreal
+                       : label.StartsWith("虚幻（旧版）", StringComparison.OrdinalIgnoreCase) ? EngineType.UnrealLegacy
                        : label.Equals("Unity", StringComparison.OrdinalIgnoreCase)              ? EngineType.Unity
                        : label.Equals("RE Engine", StringComparison.OrdinalIgnoreCase)          ? EngineType.REEngine
                        : EngineType.Unknown;

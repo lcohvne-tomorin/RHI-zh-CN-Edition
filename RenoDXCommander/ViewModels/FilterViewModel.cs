@@ -13,10 +13,10 @@ namespace RenoDXCommander.ViewModels;
 public partial class FilterViewModel : ObservableObject
 {
     private static readonly HashSet<string> ExclusiveFilters = new(StringComparer.OrdinalIgnoreCase)
-        { "Detected", "Favourites", "Hidden", "Installed" };
+        { "Detected", "收藏", "已隐藏", "已安装" };
 
     private static readonly HashSet<string> CombinableFilters = new(StringComparer.OrdinalIgnoreCase)
-        { "Unreal", "Unity", "Other", "RenoDX", "Luma" };
+        { "Unreal", "Unity", "其他", "RenoDX", "Luma" };
 
     private readonly HashSet<string> _activeFilters = new(StringComparer.OrdinalIgnoreCase) { "Detected" };
 
@@ -277,11 +277,11 @@ public partial class FilterViewModel : ObservableObject
             || (card.LumaMod?.Name?.Contains(query, StringComparison.OrdinalIgnoreCase) == true)
             || (card.LumaMod?.Author?.Contains(query, StringComparison.OrdinalIgnoreCase) == true)
             || card.VulkanRenderingPath.Contains(query, StringComparison.OrdinalIgnoreCase)
-            || (card.HasUwFixUrl && "UW Fix".Contains(query, StringComparison.OrdinalIgnoreCase))
+            || (card.HasUwFixUrl && "超宽屏修复".Contains(query, StringComparison.OrdinalIgnoreCase))
             || (card.HasUltraPlusUrl && "Ultra+".Contains(query, StringComparison.OrdinalIgnoreCase))
             || (card.HasDlss && "DLSS".Contains(query, StringComparison.OrdinalIgnoreCase))
-            || (card.HasDlssd && "Ray Reconstruction".Contains(query, StringComparison.OrdinalIgnoreCase))
-            || (card.HasDlssg && "Frame Generation".Contains(query, StringComparison.OrdinalIgnoreCase))
+            || (card.HasDlssd && "光线重建".Contains(query, StringComparison.OrdinalIgnoreCase))
+            || (card.HasDlssg && "帧生成".Contains(query, StringComparison.OrdinalIgnoreCase))
             || (card.HasStreamline && "Streamline".Contains(query, StringComparison.OrdinalIgnoreCase))
             || (card.HasAnyDlssStreamline && "DLSS".Contains(query, StringComparison.OrdinalIgnoreCase));
     }
@@ -319,13 +319,13 @@ public partial class FilterViewModel : ObservableObject
             }
 
             // Hidden tab always shows hidden games regardless of the ShowHidden toggle
-            if (filters.Contains("Hidden")) return c.IsHidden;
+            if (filters.Contains("已隐藏")) return c.IsHidden;
 
             // Favourites tab: show favourited games (even if hidden)
-            if (filters.Contains("Favourites")) return c.IsFavourite;
+            if (filters.Contains("收藏")) return c.IsFavourite;
 
             // Installed tab: show games with ReShade installed
-            if (filters.Contains("Installed"))
+            if (filters.Contains("已安装"))
             {
                 bool rsInstalled = c.RsStatus == GameStatus.Installed || c.RsStatus == GameStatus.UpdateAvailable;
                 return rsInstalled && !c.IsHidden;
@@ -353,7 +353,7 @@ public partial class FilterViewModel : ObservableObject
                               || (c.Mod?.IsGenericUnreal == true);
                 if (isUnreal) matched = true;
             }
-            if (filters.Contains("Other"))
+            if (filters.Contains("其他"))
             {
                 var isUnity = (!string.IsNullOrEmpty(c.EngineHint) && c.EngineHint.IndexOf("Unity", StringComparison.OrdinalIgnoreCase) >= 0)
                               || (c.Mod?.IsGenericUnity == true);

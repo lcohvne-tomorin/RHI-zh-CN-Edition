@@ -28,18 +28,18 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Full Refresh",
+            Title = "完整刷新",
             Content = "This will clear all caches and re-scan everything from scratch:\n\n" +
                       "• Re-detects all games from every storefront\n" +
                       "• Re-scans DLSS/Streamline DLL paths\n" +
                       "• Re-detects graphics APIs and engine types\n" +
                       "• Rebuilds shader and addon deployment state\n\n" +
-                      "Try a normal Refresh first — it handles most issues without the full rescan. " +
+                      "请先尝试普通「刷新」— 它无需完整重扫即可解决大多数问题。 " +
                       "Use Full Refresh as a last resort if games are missing, paths have changed, DLSS has been added to a game, or the DLSS section is missing from a game card.\n\n" +
                       "The next couple of restarts may take a few seconds longer while caches are rebuilt.\n\n" +
-                      "Do not close RHI while the refresh is in progress — closing early will result in a missing library and the scan will need to be repeated.",
-            PrimaryButtonText = "Continue",
-            CloseButtonText = "Cancel",
+                      "刷新过程中请勿关闭 RHI — 提前关闭会导致库缺失，需要重新扫描。",
+            PrimaryButtonText = "继续",
+            CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Primary,
             XamlRoot = Content.XamlRoot,
             RequestedTheme  = ElementTheme.Dark,
@@ -59,14 +59,14 @@ public sealed partial class MainWindow
         var progressPanel = new StackPanel { Spacing = 8 };
         var progressRow = new StackPanel { Orientation = Microsoft.UI.Xaml.Controls.Orientation.Horizontal, Spacing = 12 };
         var progressRing = new ProgressRing { IsActive = true, Width = 20, Height = 20 };
-        var progressText = new TextBlock { Text = "Fetching manifest...", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) };
+        var progressText = new TextBlock { Text = "正在获取 manifest...", FontSize = 13, Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush) };
         progressRow.Children.Add(progressRing);
         progressRow.Children.Add(progressText);
         progressPanel.Children.Add(progressRow);
 
         var progressDialog = new ContentDialog
         {
-            Title = "Checking for updates...",
+            Title = "正在检查更新...",
             Content = progressPanel,
             XamlRoot = Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -81,14 +81,14 @@ public sealed partial class MainWindow
             ViewModel.ForceNextUpdateCheck();
 
             // Trigger a Refresh (which fetches manifests + wiki + runs update checks)
-            DispatcherQueue?.TryEnqueue(() => progressText.Text = "Checking components...");
+            DispatcherQueue?.TryEnqueue(() => progressText.Text = "正在检查组件...");
             await ViewModel.RefreshAsync();
 
             // Trigger silent auto-install of any updates found
             ViewModel.TriggerAutoUpdate();
 
             // Check app update
-            DispatcherQueue?.TryEnqueue(() => progressText.Text = "Checking app version...");
+            DispatcherQueue?.TryEnqueue(() => progressText.Text = "正在检查应用版本...");
             // The update prompt needs the same modal slot; close progress first.
             await progressSession.DisposeAsync();
             await _dialogService.CheckForAppUpdateAsync();
@@ -124,7 +124,7 @@ public sealed partial class MainWindow
     {
         AddonWatchFolderBox.Text = "";
         ViewModel.Settings.AddonWatchFolder = "";
-        var defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+        var defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "下载");
         _addonFileWatcher.SetWatchPath(defaultPath);
         ViewModel.SaveSettingsPublic();
         _crashReporter.Log("[MainWindow] Addon watch folder reset to default Downloads");
@@ -169,7 +169,7 @@ public sealed partial class MainWindow
             if (requiresVulkan)
                 ViewModel.DeployShadersForCard(gameName);
 
-            card.RsActionMessage = "✅ reshade.ini merged into game folder.";
+            card.RsActionMessage = "✅ reshade.ini 已合并到游戏文件夹。";
         }
         catch (Exception ex)
         {
@@ -189,7 +189,7 @@ public sealed partial class MainWindow
         {
             content.Children.Add(new TextBlock
             {
-                Text = "Engine.ini Settings",
+                Text = "Engine.ini 设置",
                 FontSize = 13,
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
                 Margin = new Thickness(0, 0, 0, 4),
@@ -204,7 +204,7 @@ public sealed partial class MainWindow
             // ── HDR on First Boot ──────────────────────────────────────────────
             var hdrLabel = new TextBlock
             {
-                Text = "HDR on First Boot",
+                Text = "首次启动时启用 HDR",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -214,13 +214,13 @@ public sealed partial class MainWindow
 
             var hdrCombo = new ComboBox { FontSize = 11, MinWidth = 100, HorizontalAlignment = HorizontalAlignment.Stretch };
             hdrCombo.Items.Add("Default");
-            hdrCombo.Items.Add("Off");
-            hdrCombo.Items.Add("On");
+            hdrCombo.Items.Add("关");
+            hdrCombo.Items.Add("开");
             ToolTipService.SetToolTip(hdrCombo,
                 "Controls EnableHDR and DisplayMode in the [Luma] section of reshade.ini.\n" +
                 "Default: leaves both keys as-is (Luma controls them).\n" +
                 "Off: sets EnableHDR=0 and DisplayMode=0.\n" +
-                "On: sets EnableHDR=1 and DisplayMode=1.");
+                "开启：设置 EnableHDR=1 和 DisplayMode=1。");
 
             var currentHdr = AuxInstallService.GetLumaReshadeIniValue(card.InstallPath, "EnableHDR");
             // Default = key absent or never set by RHI; Off = "0"; On = "1"
@@ -234,14 +234,14 @@ public sealed partial class MainWindow
                 {
                     AuxInstallService.RemoveLumaReshadeIniValue(card.InstallPath, "EnableHDR");
                     AuxInstallService.RemoveLumaReshadeIniValue(card.InstallPath, "DisplayMode");
-                    card.LumaActionMessage = "✅ HDR reset to Luma default.";
+                    card.LumaActionMessage = "✅ HDR 已重置为 Luma 默认值。";
                 }
                 else
                 {
                     bool hdrOn = hdrCombo.SelectedIndex == 2;
                     AuxInstallService.SetLumaReshadeIniValue(card.InstallPath, "EnableHDR", hdrOn ? "1" : "0");
                     AuxInstallService.SetLumaReshadeIniValue(card.InstallPath, "DisplayMode", hdrOn ? "1" : "0");
-                    card.LumaActionMessage = hdrOn ? "✅ HDR enabled in reshade.ini." : "✅ HDR disabled in reshade.ini.";
+                    card.LumaActionMessage = hdrOn ? "✅ 已在 reshade.ini 中启用 HDR。" : "✅ HDR disabled in reshade.ini.";
                 }
                 card.FadeMessage(m => card.LumaActionMessage = m, card.LumaActionMessage);
             };
@@ -251,7 +251,7 @@ public sealed partial class MainWindow
             // ── TAA Settings ───────────────────────────────────────────────────
             var taaLabel = new TextBlock
             {
-                Text = "TAA Settings",
+                Text = "TAA 设置",
                 FontSize = 11,
                 Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                 VerticalAlignment = VerticalAlignment.Center,
@@ -260,8 +260,8 @@ public sealed partial class MainWindow
             cogGrid.Children.Add(taaLabel);
 
             var taaCombo = new ComboBox { FontSize = 11, MinWidth = 100, HorizontalAlignment = HorizontalAlignment.Stretch };
-            taaCombo.Items.Add("Off");
-            taaCombo.Items.Add("On");
+            taaCombo.Items.Add("关");
+            taaCombo.Items.Add("开");
             ToolTipService.SetToolTip(taaCombo,
                 "Writes r.DefaultFeature.AntiAliasing=2 and r.PostProcessAAQuality=4 to Engine.ini.\n" +
                 "Forces TAA with high quality for Luma HDR compatibility.");
@@ -284,7 +284,7 @@ public sealed partial class MainWindow
                     AuxInstallService.ApplyEngineIniCustomKeys(
                         card.InstallPath, taaKeys, card.EngineIniProjectOverride, card.GameName, card.Source);
                     ViewModel.SetLumaTaaEnabled(card.GameName, true);
-                    card.LumaActionMessage = "✅ TAA settings written to Engine.ini.";
+                    card.LumaActionMessage = "✅ TAA 设置已写入 Engine.ini。";
                 }
                 else
                 {
@@ -293,7 +293,7 @@ public sealed partial class MainWindow
                         taaKeys.Select(k => k.Key),
                         card.EngineIniProjectOverride, card.GameName, card.Source);
                     ViewModel.SetLumaTaaEnabled(card.GameName, false);
-                    card.LumaActionMessage = "✅ TAA settings removed from Engine.ini.";
+                    card.LumaActionMessage = "✅ TAA 设置已从 Engine.ini 中移除。";
                 }
                 card.FadeMessage(m => card.LumaActionMessage = m, card.LumaActionMessage);
             };
@@ -305,9 +305,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Luma Settings",
+            Title = "Luma 设置",
             Content = content,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             DefaultButton = ContentDialogButton.Close,
             XamlRoot = this.Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -368,9 +368,9 @@ public sealed partial class MainWindow
         {
             await DialogService.ShowSafeAsync(new ContentDialog
             {
-                Title = "Support the Mod Authors",
-                Content = "No donation links available.",
-                CloseButtonText = "Close",
+                Title = "支持 Mod 作者",
+                Content = "没有可用的捐赠链接。",
+                CloseButtonText = "关闭",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
             });
@@ -382,7 +382,7 @@ public sealed partial class MainWindow
 
         var intro = new TextBlock
         {
-            Text = "These are the people who make the mods RHI manages. If you enjoy their work, consider supporting them.",
+            Text = "这些人制作了 RHI 所管理的 mod。如果您喜欢他们的作品，请考虑支持他们。",
             FontSize = 12,
             Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
             TextWrapping = TextWrapping.Wrap,
@@ -392,7 +392,7 @@ public sealed partial class MainWindow
 
         var warning = new TextBlock
         {
-            Text = "⚠ Important: To receive early access to RenoDX mods, you MUST link your Discord account to Ko-fi BEFORE donating. Donations made without linking first cannot be retroactively credited.",
+            Text = "⚠ 重要：要获得 RenoDX mod 的抢先体验，您必须在捐赠前先将 Discord 账号关联到 Ko-fi。未事先关联的捐赠无法追溯认定。",
             FontSize = 12,
             Foreground = UIFactory.GetBrush("#F0A500"),
             TextWrapping = TextWrapping.Wrap,
@@ -477,9 +477,9 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "❤ Support the Mod Authors",
+            Title = "❤ 支持 Mod 作者",
             Content = scroll,
-            CloseButtonText = "Close",
+            CloseButtonText = "关闭",
             XamlRoot = Content.XamlRoot,
             Background = UIFactory.Brush(ResourceKeys.SurfaceToolbarBrush),
             RequestedTheme = ElementTheme.Dark,
@@ -599,7 +599,7 @@ public sealed partial class MainWindow
             if (requiresVulkan)
                 ViewModel.DeployShadersForCard(gameName);
 
-            card.RsActionMessage = "✅ reshade.ini merged into game folder.";
+            card.RsActionMessage = "✅ reshade.ini 已合并到游戏文件夹。";
         }
         catch (Exception ex)
         {
@@ -615,7 +615,7 @@ public sealed partial class MainWindow
         {
             var installPath = card.InstallPath;
             await Task.Run(() => AuxInstallService.CopyUlIni(installPath));
-            card.UlActionMessage = "✅ relimiter.ini copied to game folder.";
+            card.UlActionMessage = "✅ relimiter.ini 已复制到游戏文件夹。";
         }
         catch (Exception ex)
         {
@@ -631,7 +631,7 @@ public sealed partial class MainWindow
         {
             var installPath = card.InstallPath;
             await Task.Run(() => AuxInstallService.CopyDcIni(installPath));
-            card.DcActionMessage = "✅ DisplayCommander.ini copied to game folder.";
+            card.DcActionMessage = "✅ DisplayCommander.ini 已复制到游戏文件夹。";
             card.FadeMessage(m => card.DcActionMessage = m, card.DcActionMessage);
         }
         catch (Exception ex)
@@ -659,7 +659,7 @@ public sealed partial class MainWindow
                 File.Copy(sourceIni, destIni, overwrite: true);
                 Services.OptiScalerService.EnforceLoadReshade(destIni);
             });
-            card.OsActionMessage = "✅ OptiScaler.ini copied to game folder.";
+            card.OsActionMessage = "✅ OptiScaler.ini 已复制到游戏文件夹。";
             card.FadeMessage(m => card.OsActionMessage = m, card.OsActionMessage);
         }
         catch (Exception ex)
@@ -700,7 +700,7 @@ public sealed partial class MainWindow
         // Also refresh the detail panel icon if this is the selected game
         if (card == ViewModel.SelectedGame)
         {
-            DetailFavIcon.Text = "Favourite";
+            DetailFavIcon.Text = "收藏";
             var favColor = card.IsFavourite
                 ? ((SolidColorBrush)Application.Current.Resources[ResourceKeys.AccentAmberBrush]).Color
                 : ((SolidColorBrush)Application.Current.Resources[ResourceKeys.ChipTextBrush]).Color;
@@ -740,7 +740,7 @@ public sealed partial class MainWindow
         // ── Open Folder ──
         var openFolderItem = new MenuFlyoutItem
         {
-            Text = "Open Folder",
+            Text = "打开文件夹",
             Tag = card,
         };
         openFolderItem.Click += CardOpenFolder_Click;
@@ -749,7 +749,7 @@ public sealed partial class MainWindow
         // ── Favourite ──
         var favItem = new MenuFlyoutItem
         {
-            Text = card.IsFavourite ? "Unfavourite" : "Favourite",
+            Text = card.IsFavourite ? "取消收藏" : "收藏",
             Tag  = card,
         };
         favItem.Click += (s, ev) => ViewModel.ToggleFavouriteCommand.Execute(card);
@@ -758,7 +758,7 @@ public sealed partial class MainWindow
         // ── Hide / Show ──
         var hideItem = new MenuFlyoutItem
         {
-            Text = card.IsHidden ? "Show" : "Hide",
+            Text = card.IsHidden ? "显示" : "隐藏",
             Tag = card,
         };
         hideItem.Click += (s, ev) => ViewModel.ToggleHideGameCommand.Execute(card);
@@ -771,7 +771,7 @@ public sealed partial class MainWindow
         {
             var discussionItem = new MenuFlyoutItem
             {
-                Text = "Discussion / Instructions",
+                Text = "讨论 / 说明",
                 Tag = card,
             };
             discussionItem.Click += async (s, ev) =>
@@ -787,7 +787,7 @@ public sealed partial class MainWindow
         {
             var notesItem = new MenuFlyoutItem
             {
-                Text = "View Notes",
+                Text = "查看说明",
                 Tag = card,
             };
             notesItem.Click += async (s, ev) =>
@@ -804,7 +804,7 @@ public sealed partial class MainWindow
         menu.Items.Add(new MenuFlyoutSeparator());
         var shortcutItem = new MenuFlyoutItem
         {
-            Text = "Create Desktop Shortcut",
+            Text = "创建桌面快捷方式",
             Tag  = card,
         };
         shortcutItem.Click += async (s, ev) => await CreateDesktopShortcutAsync(card);
@@ -823,8 +823,8 @@ public sealed partial class MainWindow
                 card.GameName, card, _gameNameService, ViewModel.Manifest, http, pcgw);
 
             var msg = lnkPath != null
-                ? $"Shortcut created on Desktop for {card.GameName}"
-                : $"Failed to create shortcut for {card.GameName}";
+                ? $"已为 {card.GameName} 在桌面创建快捷方式"
+                : $"为 {card.GameName} 创建快捷方式失败";
             StatusBarText.Text = msg;
             _ = Task.Delay(8000).ContinueWith(_ =>
                 DispatcherQueue?.TryEnqueue(() =>
@@ -1008,7 +1008,7 @@ public sealed partial class MainWindow
         var currentQuery = SearchBox.Text?.Trim() ?? "";
         if (string.IsNullOrEmpty(currentQuery)) return;
 
-        var nameBox = new TextBox { PlaceholderText = "Filter name", Text = currentQuery, Width = 350 };
+        var nameBox = new TextBox { PlaceholderText = "筛选名称", Text = currentQuery, Width = 350 };
         var errorText = new TextBlock
         {
             Text = "",
@@ -1020,7 +1020,7 @@ public sealed partial class MainWindow
 
         var dialog = new ContentDialog
         {
-            Title = "Save Custom Filter",
+            Title = "保存自定义筛选",
             Content = new StackPanel
             {
                 Spacing = 8,
@@ -1028,7 +1028,7 @@ public sealed partial class MainWindow
                 {
                     new TextBlock
                     {
-                        Text = $"Save the current search \"{currentQuery}\" as a custom filter:",
+                        Text = $"将当前搜索 \"{currentQuery}\" 保存为自定义筛选：",
                         TextWrapping = TextWrapping.Wrap,
                         Foreground = Brush(ResourceKeys.TextSecondaryBrush),
                     },
@@ -1036,8 +1036,8 @@ public sealed partial class MainWindow
                     errorText,
                 }
             },
-            PrimaryButtonText = "Save",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "保存",
+            CloseButtonText = "取消",
             XamlRoot = Content.XamlRoot,
             Background = Brush(ResourceKeys.SurfaceToolbarBrush),
             RequestedTheme = ElementTheme.Dark,
@@ -1049,14 +1049,14 @@ public sealed partial class MainWindow
             var name = nameBox.Text?.Trim() ?? "";
             if (string.IsNullOrEmpty(name))
             {
-                errorText.Text = "Please enter a filter name.";
+                errorText.Text = "请输入筛选名称。";
                 errorText.Visibility = Visibility.Visible;
                 args.Cancel = true;
                 return;
             }
             if (ViewModel.Filter.CustomFilterNameExists(name))
             {
-                errorText.Text = $"A filter named \"{name}\" already exists.";
+                errorText.Text = $"已存在名为 \"{name}\" 的筛选。";
                 errorText.Visibility = Visibility.Visible;
                 args.Cancel = true;
                 return;
@@ -1111,7 +1111,7 @@ public sealed partial class MainWindow
 
             // Right-click context menu with "Delete" option (Req 5.1–5.5)
             var flyout = new MenuFlyout();
-            var deleteItem = new MenuFlyoutItem { Text = "Delete" };
+            var deleteItem = new MenuFlyoutItem { Text = "删除" };
             deleteItem.Click += (s, args) =>
             {
                 ViewModel.Filter.RemoveCustomFilter(chipName);
@@ -1154,7 +1154,7 @@ public sealed partial class MainWindow
                 ofn.filter = "Executables (*.exe)\0*.exe\0All Files (*.*)\0*.*\0";
                 ofn.file = new string(new char[260]);
                 ofn.maxFile = ofn.file.Length;
-                ofn.title = "Select Game Executable";
+                ofn.title = "选择游戏可执行文件";
                 ofn.flags = 0x00080000 | 0x00001000; // OFN_EXPLORER | OFN_FILEMUSTEXIST
 
                 return NativeInterop.GetOpenFileName(ref ofn) ? ofn.file.TrimEnd('\0') : null;
@@ -1181,19 +1181,19 @@ public sealed partial class MainWindow
         nameBox.SelectAll();
         var nameDialog = new ContentDialog
         {
-            Title           = "Name This Game",
+            Title           = "命名此游戏",
             Content         = new StackPanel
             {
                 Spacing = 10,
                 Children =
                 {
-                    new TextBlock { Text = $"Selected: {filePath}", TextWrapping = TextWrapping.Wrap, Foreground = Brush(ResourceKeys.TextSecondaryBrush), FontSize = 11 },
-                    new TextBlock { Text = "Enter the game name:", TextWrapping = TextWrapping.Wrap, Foreground = Brush(ResourceKeys.TextSecondaryBrush) },
+                    new TextBlock { Text = $"已选择：{filePath}", TextWrapping = TextWrapping.Wrap, Foreground = Brush(ResourceKeys.TextSecondaryBrush), FontSize = 11 },
+                    new TextBlock { Text = "输入游戏名称：", TextWrapping = TextWrapping.Wrap, Foreground = Brush(ResourceKeys.TextSecondaryBrush) },
                     nameBox
                 }
             },
-            PrimaryButtonText   = "Add Game",
-            CloseButtonText     = "Cancel",
+            PrimaryButtonText   = "添加游戏",
+            CloseButtonText     = "取消",
             XamlRoot            = Content.XamlRoot,
             Background          = Brush(ResourceKeys.SurfaceToolbarBrush),
             RequestedTheme      = ElementTheme.Dark,
@@ -1227,7 +1227,7 @@ public sealed partial class MainWindow
         ViewModel.ToggleFavouriteCommand.Execute(card);
 
         // Refresh the detail panel icon to reflect the new state
-        DetailFavIcon.Text = "Favourite";
+        DetailFavIcon.Text = "收藏";
         var favColor = card.IsFavourite
             ? ((SolidColorBrush)Application.Current.Resources[ResourceKeys.AccentAmberBrush]).Color
             : ((SolidColorBrush)Application.Current.Resources[ResourceKeys.ChipTextBrush]).Color;
@@ -1281,17 +1281,17 @@ public sealed partial class MainWindow
             {
                 var warningDialog = new ContentDialog
                 {
-                    Title = "⚠ ReShade Addons",
+                    Title = "⚠ ReShade 插件",
                     Content = new TextBlock
                     {
                         Text = "ReShade addons are advanced features intended for experienced users who understand what they are.\n\n" +
-                               "Addons can modify game rendering behaviour and may cause instability. " +
-                               "Only proceed if you are comfortable managing ReShade addons.",
+                               "插件可能修改游戏渲染行为并可能导致不稳定。 " +
+                               "仅在您能熟练管理 ReShade 插件时才继续。",
                         TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                         MaxWidth = 450,
                     },
-                    PrimaryButtonText = "Continue",
-                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "继续",
+                    CloseButtonText = "取消",
                     XamlRoot = Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,
                 };

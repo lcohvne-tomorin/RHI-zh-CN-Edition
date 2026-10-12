@@ -26,18 +26,18 @@ public static class GameReportEncoder
         // Gatekeep: ask user to correct overrides first
         var gateDlg = new ContentDialog
         {
-            Title = "Before you submit",
+            Title = "提交前",
             Content = new TextBlock
             {
-                Text = "Please use the overrides on this panel to correct any wrong values " +
-                       "(bitness, graphics API, game name, etc.) before generating a report. " +
+                Text = "请使用此面板上的覆盖项修正任何错误的值 " +
+                       "（位数、图形 API、游戏名称等）后再生成报告。 " +
                        "This helps us update the manifest faster.\n\n" +
                        "Have you corrected everything you can?",
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 12,
             },
-            PrimaryButtonText = "Yes, continue",
-            CloseButtonText = "Go back",
+            PrimaryButtonText = "是，继续",
+            CloseButtonText = "返回",
             XamlRoot = xamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -48,7 +48,7 @@ public static class GameReportEncoder
         // Show dialog with optional note
         var noteBox = new TextBox
         {
-            PlaceholderText = "Describe the issue (optional)",
+            PlaceholderText = "描述问题（可选）",
             AcceptsReturn = true,
             TextWrapping = TextWrapping.Wrap,
             MinHeight = 80,
@@ -57,7 +57,7 @@ public static class GameReportEncoder
 
         var dlg = new ContentDialog
         {
-            Title = "Copy Game Report",
+            Title = "复制游戏报告",
             Content = new StackPanel
             {
                 Spacing = 8,
@@ -65,8 +65,8 @@ public static class GameReportEncoder
                 {
                     new TextBlock
                     {
-                        Text = "This saves a report file and copies it to your clipboard. " +
-                               "Paste it directly into Discord or attach it to a GitHub issue.",
+                        Text = "这会保存一份报告文件并将其复制到剪贴板。 " +
+                               "直接粘贴到 Discord，或作为附件提交到 GitHub issue。",
                         TextWrapping = TextWrapping.Wrap,
                         FontSize = 12,
                         Opacity = 0.7,
@@ -74,8 +74,8 @@ public static class GameReportEncoder
                     noteBox,
                 },
             },
-            PrimaryButtonText = "Copy to Clipboard",
-            CloseButtonText = "Cancel",
+            PrimaryButtonText = "复制到剪贴板",
+            CloseButtonText = "取消",
             XamlRoot = xamlRoot,
             RequestedTheme = ElementTheme.Dark,
         };
@@ -116,9 +116,9 @@ public static class GameReportEncoder
             sb.AppendLine($"- **Original Store Name:** {osn}");
         sb.AppendLine();
 
-        sb.AppendLine("## Game Info");
+        sb.AppendLine("## 游戏信息");
         sb.AppendLine();
-        sb.AppendLine($"| Field | Value |");
+        sb.AppendLine($"| 字段 | 值 |");
         sb.AppendLine($"|-------|-------|");
         sb.AppendLine($"| Install Path | `{r["installPath"]}` |");
         sb.AppendLine($"| Engine | {r["engine"]} |");
@@ -141,7 +141,7 @@ public static class GameReportEncoder
             if ($"{det["graphicsApi"]}" != $"{cor["graphicsApi"]}") diffs.Add($"API: {det["graphicsApi"]} → {cor["graphicsApi"]}");
             if (diffs.Count > 0)
             {
-                sb.AppendLine("## Corrections (Detected → Overridden)");
+                sb.AppendLine("## 修正（检测值 → 覆盖值）");
                 sb.AppendLine();
                 foreach (var d in diffs) sb.AppendLine($"- {d}");
                 sb.AppendLine();
@@ -151,7 +151,7 @@ public static class GameReportEncoder
         // Components
         if (r["components"] is List<Dictionary<string, string?>> comps)
         {
-            sb.AppendLine("## Components");
+            sb.AppendLine("## 组件");
             sb.AppendLine();
             sb.AppendLine("| Component | Status | Version | Filename |");
             sb.AppendLine("|-----------|--------|---------|----------|");
@@ -164,17 +164,17 @@ public static class GameReportEncoder
         if (r["overrides"] is Dictionary<string, object?> ov)
         {
             var ovLines = new List<string>();
-            if (ov["bitnessOverride"] is string bov && bov != "Auto") ovLines.Add($"Bitness: {bov}");
-            if (ov["apiOverride"] is string aov && aov != "Auto") ovLines.Add($"API: {aov}");
-            if (ov["reShadeChannelOverride"] is string rcov && rcov != "Global") ovLines.Add($"RS Channel: {rcov}");
-            if (ov["folderOverride"] is string fov && !string.IsNullOrEmpty(fov)) ovLines.Add($"Folder: `{fov}`");
-            if (ov["dllOverride"] is string dov && !string.IsNullOrEmpty(dov)) ovLines.Add($"ReShade DLL: {dov}");
-            if (ov["dcDllOverride"] is string dcov && !string.IsNullOrEmpty(dcov)) ovLines.Add($"DC DLL: {dcov}");
-            if (ov["wikiNameOverride"] is string wnov && !string.IsNullOrEmpty(wnov)) ovLines.Add($"Wiki Name: {wnov}");
-            if ((bool?)ov["wikiExcluded"] == true) ovLines.Add("Wiki Excluded: Yes");
-            if (ov["shaderMode"] is string sm && !string.IsNullOrEmpty(sm)) ovLines.Add($"Shader Mode: {sm}");
-            if (ov["addonMode"] is string am && !string.IsNullOrEmpty(am)) ovLines.Add($"Addon Mode: {am}");
-            if (ov["launchExe"] is string le && !string.IsNullOrEmpty(le)) ovLines.Add($"Launch Exe: `{le}`");
+            if (ov["bitnessOverride"] is string bov && bov != "自动") ovLines.Add($"位数：{bov}");
+            if (ov["apiOverride"] is string aov && aov != "自动") ovLines.Add($"API: {aov}");
+            if (ov["reShadeChannelOverride"] is string rcov && rcov != "全局") ovLines.Add($"RS 渠道：{rcov}");
+            if (ov["folderOverride"] is string fov && !string.IsNullOrEmpty(fov)) ovLines.Add($"文件夹：`{fov}`");
+            if (ov["dllOverride"] is string dov && !string.IsNullOrEmpty(dov)) ovLines.Add($"ReShade DLL：{dov}");
+            if (ov["dcDllOverride"] is string dcov && !string.IsNullOrEmpty(dcov)) ovLines.Add($"DC DLL：{dcov}");
+            if (ov["wikiNameOverride"] is string wnov && !string.IsNullOrEmpty(wnov)) ovLines.Add($"Wiki 名称：{wnov}");
+            if ((bool?)ov["wikiExcluded"] == true) ovLines.Add("已从 Wiki 排除：是");
+            if (ov["shaderMode"] is string sm && !string.IsNullOrEmpty(sm)) ovLines.Add($"着色器模式：{sm}");
+            if (ov["addonMode"] is string am && !string.IsNullOrEmpty(am)) ovLines.Add($"插件模式：{am}");
+            if (ov["launchExe"] is string le && !string.IsNullOrEmpty(le)) ovLines.Add($"启动 Exe：`{le}`");
 
             // Update exclusions
             var excluded = new List<string>();
@@ -187,7 +187,7 @@ public static class GameReportEncoder
 
             if (ovLines.Count > 0)
             {
-                sb.AppendLine("## Overrides");
+                sb.AppendLine("## 覆盖项");
                 sb.AppendLine();
                 foreach (var l in ovLines) sb.AppendLine($"- {l}");
                 sb.AppendLine();
@@ -198,7 +198,7 @@ public static class GameReportEncoder
         if (r["addons"] is Dictionary<string, object?> addons)
         {
             var addonLines = new List<string>();
-            if (addons["mode"] is string mode && mode != "Global") addonLines.Add($"Mode: {mode}");
+            if (addons["mode"] is string mode && mode != "全局") addonLines.Add($"Mode: {mode}");
             if (addons["enabled"] is List<string> enabled && enabled.Count > 0)
                 addonLines.Add($"Enabled: {string.Join(", ", enabled)}");
             if (addons["perGameSelection"] is List<string> perGame && perGame.Count > 0)
@@ -206,7 +206,7 @@ public static class GameReportEncoder
 
             if (addonLines.Count > 0)
             {
-                sb.AppendLine("## Addons");
+                sb.AppendLine("## 插件");
                 sb.AppendLine();
                 foreach (var l in addonLines) sb.AppendLine($"- {l}");
                 sb.AppendLine();
@@ -216,7 +216,7 @@ public static class GameReportEncoder
         // User note
         if (r["userNote"] is string note && !string.IsNullOrEmpty(note))
         {
-            sb.AppendLine("## User Note");
+            sb.AppendLine("## 用户备注");
             sb.AppendLine();
             sb.AppendLine(note);
             sb.AppendLine();
@@ -301,10 +301,10 @@ public static class GameReportEncoder
 
         // Corrected (user override) values — use composite key for per-store overrides
         var storeKey = Models.GameKey.From(gameName, card.Source ?? "").ToKey();
-        var bitnessOv = gns.BitnessOverrides.TryGetValue(storeKey, out var bv) ? bv : "Auto";
-        var apiOv = gns.ApiOverrides.TryGetValue(storeKey, out var av) ? string.Join(", ", av) : "Auto";
-        var channelOv = gns.ReShadeChannelOverrides.TryGetValue(storeKey, out var chv) ? chv : "Global";
-        var dxvkVariantOv = gns.DxvkVariantOverrides.TryGetValue(storeKey, out var dvv) ? dvv : "Global";
+        var bitnessOv = gns.BitnessOverrides.TryGetValue(storeKey, out var bv) ? bv : "自动";
+        var apiOv = gns.ApiOverrides.TryGetValue(storeKey, out var av) ? string.Join(", ", av) : "自动";
+        var channelOv = gns.ReShadeChannelOverrides.TryGetValue(storeKey, out var chv) ? chv : "全局";
+        var dxvkVariantOv = gns.DxvkVariantOverrides.TryGetValue(storeKey, out var dvv) ? dvv : "全局";
         var folderOv = gns.FolderOverrides.TryGetValue(storeKey, out var fv) ? fv : "";
         var wikiOv = vm.GetNameMapping(gameName);
         var dllOv = card.DllOverrideEnabled ? (card.RsInstalledFile ?? "") : "";

@@ -78,14 +78,14 @@ public partial class DragDropHandler
         if (e.DataView.Contains(Windows.ApplicationModel.DataTransfer.StandardDataFormats.StorageItems))
         {
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
-            e.DragUIOverride.Caption = "Drop to add game, install addon, install preset, or extract archive";
+            e.DragUIOverride.Caption = "拖放以添加游戏、安装插件、安装预设或解压压缩包";
             e.DragUIOverride.IsCaptionVisible = true;
             e.DragUIOverride.IsGlyphVisible = true;
         }
         else if (e.DataView.Contains(Windows.ApplicationModel.DataTransfer.StandardDataFormats.Text))
         {
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
-            e.DragUIOverride.Caption = "Drop URL to download addon";
+            e.DragUIOverride.Caption = "拖入 URL 以下载插件";
             e.DragUIOverride.IsCaptionVisible = true;
             e.DragUIOverride.IsGlyphVisible = true;
         }
@@ -213,18 +213,18 @@ public partial class DragDropHandler
                                 };
                                 var pickerDialog = new Microsoft.UI.Xaml.Controls.ContentDialog
                                 {
-                                    Title = "🌙 Install Luma Addon",
+                                    Title = "🌙 安装 Luma 插件",
                                     Content = new Microsoft.UI.Xaml.Controls.StackPanel
                                     {
                                         Spacing = 8,
                                         Children =
                                         {
-                                            new Microsoft.UI.Xaml.Controls.TextBlock { Text = $"Install {addonName} to:", TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap, FontSize = 12 },
+                                            new Microsoft.UI.Xaml.Controls.TextBlock { Text = $"将 {addonName} 安装到：", TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap, FontSize = 12 },
                                             combo,
                                         }
                                     },
-                                    PrimaryButtonText = "Install",
-                                    CloseButtonText = "Cancel",
+                                    PrimaryButtonText = "安装",
+                                    CloseButtonText = "取消",
                                     XamlRoot = _window.Content.XamlRoot,
                                     RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
                                 };
@@ -283,7 +283,7 @@ public partial class DragDropHandler
                                 };
                                 var pickerDialog = new Microsoft.UI.Xaml.Controls.ContentDialog
                                 {
-                                    Title = "Install Luma Mod",
+                                    Title = "安装 Luma Mod",
                                     Content = new Microsoft.UI.Xaml.Controls.StackPanel
                                     {
                                         Spacing = 8,
@@ -293,8 +293,8 @@ public partial class DragDropHandler
                                             combo,
                                         }
                                     },
-                                    PrimaryButtonText = "Install",
-                                    CloseButtonText = "Cancel",
+                                    PrimaryButtonText = "安装",
+                                    CloseButtonText = "取消",
                                     XamlRoot = _window.Content.XamlRoot,
                                     RequestedTheme = Microsoft.UI.Xaml.ElementTheme.Dark,
                                 };

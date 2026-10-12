@@ -65,7 +65,7 @@ public partial class SettingsViewModel : ObservableObject
 
     // ── Background Update Checks ──────────────────────────────────────────────
     /// <summary>"On" = full background checks including Nexus (default). "Minimal" = manifest fetches only; Nexus calls only on explicit user action.</summary>
-    [ObservableProperty] private string _backgroundUpdateChecks = "On";
+    [ObservableProperty] private string _backgroundUpdateChecks = "开";
 
     // ── DLSS/Streamline Auto-Update ───────────────────────────────────────────
     [ObservableProperty] private bool _autoUpdateDlss;
@@ -118,7 +118,7 @@ public partial class SettingsViewModel : ObservableObject
     /// Absent or incomplete = use default order.
     /// </summary>
     public static readonly IReadOnlyList<string> DefaultSectionOrder = new[]
-        { "Components", "GameOverrides", "NeuralRendering", "NvidiaProfileDlss", "NvidiaProfileDriver", "Management", "Extras" };
+        { "组件", "GameOverrides", "NeuralRendering", "NvidiaProfileDlss", "NvidiaProfileDriver", "管理", "附加" };
 
     public List<string> DetailSectionOrder { get; set; } = new(DefaultSectionOrder);
 
@@ -304,7 +304,7 @@ public partial class SettingsViewModel : ObservableObject
                 // Migration: remove NR addons that moved out of the addon picker
                 addons.RemoveAll(a => a.Equals("DLSS5 Tool",           StringComparison.OrdinalIgnoreCase)
                                    || a.Equals("DLSS Tool (ShortFuse)", StringComparison.OrdinalIgnoreCase)
-                                   || a.Equals("MFG Ada Unlock",        StringComparison.OrdinalIgnoreCase)
+                                   || a.Equals("MFG Ada 解锁",        StringComparison.OrdinalIgnoreCase)
                                    || a.Equals("DLSS5 Feeder",          StringComparison.OrdinalIgnoreCase)
                                    || a.Equals("DLSS5 DX11 Bridge",     StringComparison.OrdinalIgnoreCase));
                 EnabledGlobalAddons = addons;
@@ -464,7 +464,7 @@ public partial class SettingsViewModel : ObservableObject
         s["BetaOptIn"]         = BetaOptIn ? "true" : "false";
         s["VerboseLogging"]    = VerboseLogging ? "true" : "false";
         s["LastSeenVersion"]   = LastSeenVersion;
-        s["ShaderDeployMode"]  = SelectedShaderPacks.Count > 0 ? "Select" : "Off";
+        s["ShaderDeployMode"]  = SelectedShaderPacks.Count > 0 ? "Select" : "关";
         s["SelectedShaderPacks"] = JsonSerializer.Serialize(SelectedShaderPacks);
         s["UseCustomShaders"]  = UseCustomShaders ? "true" : "false";
         s["GlobalShadersOff"]  = GlobalShadersOff ? "true" : "false";
@@ -508,7 +508,7 @@ public partial class SettingsViewModel : ObservableObject
         else
             s.Remove("PeakNitsPresets"); // All 3 checked = default — remove stale non-default value
         if (AutoUpdateComponents) s["AutoUpdateComponents"] = "true"; else s.Remove("AutoUpdateComponents");
-        if (BackgroundUpdateChecks != "On") s["BackgroundUpdateChecks"] = BackgroundUpdateChecks; else s.Remove("BackgroundUpdateChecks"); // "On" is default — omit to keep file clean
+        if (BackgroundUpdateChecks != "开") s["BackgroundUpdateChecks"] = BackgroundUpdateChecks; else s.Remove("BackgroundUpdateChecks"); // "On" is default — omit to keep file clean
         if (AutoUpdateDlss) s["AutoUpdateDlss"] = "true"; else s.Remove("AutoUpdateDlss");
         if (AutoUpdateStreamline) s["AutoUpdateStreamline"] = "true"; else s.Remove("AutoUpdateStreamline");
         if (!string.IsNullOrEmpty(LastKnownNewestDlss)) s["LastKnownNewestDlss"] = LastKnownNewestDlss;

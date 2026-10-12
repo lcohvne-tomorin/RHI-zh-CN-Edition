@@ -113,11 +113,11 @@ public partial class GameDetectionService
                     catch (Exception ex)
                     {
                         CrashReporter.Log($"[GameDetectionService.FindXboxGames] Package '{package.Id?.Name}' — DisplayName inaccessible — {ex.Message}");
-                        displayName = package.Id?.Name ?? "Unknown";
+                        displayName = package.Id?.Name ?? "未知";
                     }
 
                     if (string.IsNullOrEmpty(displayName))
-                        displayName = package.Id?.Name ?? "Unknown";
+                        displayName = package.Id?.Name ?? "未知";
 
                     // Resolve the actual game root for GDK games
                     var gameRoot = ResolveXboxGameRoot(installLocation);

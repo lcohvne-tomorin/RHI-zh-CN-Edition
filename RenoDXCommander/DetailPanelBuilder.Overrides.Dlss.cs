@@ -32,7 +32,7 @@ public partial class DetailPanelBuilder
         });
 
         // Version ComboBox
-        var versionLabel = new TextBlock { Text = "Version", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) };
+        var versionLabel = new TextBlock { Text = "版本", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) };
         col.Children.Add(versionLabel);
 
         // Build items list with (Default) marker on the game's original/default version
@@ -51,7 +51,7 @@ public partial class DetailPanelBuilder
 
             foreach (var ver in availableVersions)
                 items.Add(ver);
-            items.Add("Custom");
+            items.Add("自定义");
 
             // Add a "Default (x.x.x)" entry at the top so the user can restore the original
             if (formattedOriginal != null)
@@ -78,7 +78,7 @@ public partial class DetailPanelBuilder
         }
         else if (installedVersion != null && (isPresent || onDriverOverrideToggled != null))
         {
-            if (installedVersion.Equals("Custom", StringComparison.OrdinalIgnoreCase))
+            if (installedVersion.Equals("自定义", StringComparison.OrdinalIgnoreCase))
             {
                 // "Custom" is second-to-last (before "NVIDIA Override" if present)
                 selectedIndex = onDriverOverrideToggled != null ? items.Count - 2 : items.Count - 1;
@@ -167,7 +167,7 @@ public partial class DetailPanelBuilder
         // Preset ComboBox (only for SR, RR, FG)
         if (presets != null && isPresent)
         {
-            col.Children.Add(new TextBlock { Text = "Preset", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+            col.Children.Add(new TextBlock { Text = "预设", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
 
             var presetItems = presets.Select(p => p.Name).ToList();
             int presetIdx = 0;
@@ -189,9 +189,9 @@ public partial class DetailPanelBuilder
             // Add tooltip explaining presets
             string presetTooltip = label switch
             {
-                "DLSS Super Resolution" => "Override the DLSS upscaling model. J/K use the 1st-gen transformer (DLSS 4.0). L/M use the 2nd-gen transformer (DLSS 4.5) with better temporal stability. NVIDIA Recommended uses NVIDIA's per-resolution preset selection.",
-                "Ray Reconstruction" => "Override the Ray Reconstruction denoising model. Higher presets are newer model iterations. NVIDIA Recommended uses NVIDIA's per-resolution preset selection.",
-                "Frame Generation" => "Override the Frame Generation interpolation model. Higher presets are newer model iterations. NVIDIA Recommended uses NVIDIA's per-resolution preset selection.",
+                "DLSS 超分辨率" => "覆盖 DLSS 超分模型。J/K 使用第一代 transformer（DLSS 4.0）。L/M 使用第二代 transformer（DLSS 4.5），时间稳定性更好。「NVIDIA 推荐」使用 NVIDIA 按分辨率选择的预设。",
+                "光线重建" => "覆盖光线重建降噪模型。更高的预设对应更新的模型迭代。「NVIDIA 推荐」使用 NVIDIA 按分辨率选择的预设。",
+                "帧生成" => "覆盖帧生成插帧模型。更高的预设对应更新的模型迭代。「NVIDIA 推荐」使用 NVIDIA 按分辨率选择的预设。",
                 _ => ""
             };
             if (!string.IsNullOrEmpty(presetTooltip))
@@ -212,7 +212,7 @@ public partial class DetailPanelBuilder
         // Render Scale ComboBox (only for SR and RR)
         if (onRenderScaleSelected != null && isPresent)
         {
-            col.Children.Add(new TextBlock { Text = "Render Scale", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
+            col.Children.Add(new TextBlock { Text = "渲染缩放", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0) });
             var rsOptions = DlssPresetService.RenderScaleOptions;
             var rsItems = rsOptions.Select(o => o.Name).ToList();
 
@@ -251,7 +251,7 @@ public partial class DetailPanelBuilder
                 var idx = rsCombo.SelectedIndex;
                 if (idx < 0 || idx >= rsOptions.Length) return;
 
-                if (rsOptions[idx].Name == "Custom")
+                if (rsOptions[idx].Name == "自定义")
                 {
                     // Show a TextBox inline — replace the combo temporarily
                     var parent = rsCombo.Parent as StackPanel;

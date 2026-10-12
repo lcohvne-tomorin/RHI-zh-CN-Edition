@@ -13,7 +13,7 @@ internal static class UiDispatch
             try { completion.TrySetResult(action()); }
             catch (Exception ex) { completion.TrySetException(ex); }
         }))
-            completion.TrySetException(new InvalidOperationException("The UI dispatcher is shutting down."));
+            completion.TrySetException(new InvalidOperationException("UI 调度程序正在关闭。"));
         return await completion.Task.ConfigureAwait(false);
     }
 }

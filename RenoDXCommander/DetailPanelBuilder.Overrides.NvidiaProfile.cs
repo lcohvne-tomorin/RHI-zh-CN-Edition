@@ -232,7 +232,7 @@ public partial class DetailPanelBuilder
             // Disable for DLSS 1.x (not compatible with 2.x+ versions in manifest)
             bool srEnabled = hasDlss && !(card.DlssInstalledVersion?.StartsWith("1.") == true);
             bool srDriverOverride = dlssData?.SrDriverOverride == true;
-            var srCol = BuildDlssColumn("DLSS Super Resolution", srEnabled, dlssService.DlssVersions,
+            var srCol = BuildDlssColumn("DLSS 超分辨率", srEnabled, dlssService.DlssVersions,
                 card.DlssInstalledVersion, DlssPresetService.SrPresets,
                 presetService.IsSupported && srEnabled ? (dlssData?.SrPreset ?? 0u) : 0u,
                 async (version) =>
@@ -240,7 +240,7 @@ public partial class DetailPanelBuilder
                     var tc = _window.ViewModel.AllCards.FirstOrDefault(c => c.GameName.Equals(capturedName, StringComparison.OrdinalIgnoreCase));
                     if (tc?.DlssDetection?.DlssPath == null) return;
                     if (version.StartsWith("Default", StringComparison.OrdinalIgnoreCase)) dlssService.Restore(tc.DlssDetection.DlssPath);
-                    else if (version == "Custom") await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssPath);
+                    else if (version == "自定义") await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssPath);
                     else await dlssService.SwapDlssAsync(tc.DlssDetection.DlssPath, version);
                     await Task.Run(() => tc.RefreshDlssVersions(dlssService)); // sync disk I/O — keep off UI thread
                     _window.DispatcherQueue?.TryEnqueue(() => BuildNvidiaProfileSection(tc, tc.GameName));
@@ -259,7 +259,7 @@ public partial class DetailPanelBuilder
 
             // RR column
             bool rrDriverOverride = dlssData?.RrDriverOverride == true;
-            var rrCol = BuildDlssColumn("Ray Reconstruction", hasDlssd, dlssService.DlssdVersions,
+            var rrCol = BuildDlssColumn("光线重建", hasDlssd, dlssService.DlssdVersions,
                 card.DlssdInstalledVersion, DlssPresetService.RrPresets,
                 presetService.IsSupported && hasDlssd ? (dlssData?.RrPreset ?? 0u) : 0u,
                 async (version) =>
@@ -267,7 +267,7 @@ public partial class DetailPanelBuilder
                     var tc = _window.ViewModel.AllCards.FirstOrDefault(c => c.GameName.Equals(capturedName, StringComparison.OrdinalIgnoreCase));
                     if (tc?.DlssDetection?.DlssdPath == null) return;
                     if (version.StartsWith("Default", StringComparison.OrdinalIgnoreCase)) dlssService.Restore(tc.DlssDetection.DlssdPath);
-                    else if (version == "Custom") await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssdPath);
+                    else if (version == "自定义") await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssdPath);
                     else await dlssService.SwapDlssdAsync(tc.DlssDetection.DlssdPath, version);
                     await Task.Run(() => tc.RefreshDlssVersions(dlssService)); // sync disk I/O — keep off UI thread
                     _window.DispatcherQueue?.TryEnqueue(() => BuildNvidiaProfileSection(tc, tc.GameName));
@@ -287,7 +287,7 @@ public partial class DetailPanelBuilder
             // FG column — no v1.x guard (FG can be updated from v1.0.0 to newer versions)
             bool fgEnabled = hasDlssg;
             bool fgDriverOverride = dlssData?.FgDriverOverride == true;
-            var fgCol = BuildDlssColumn("Frame Generation", fgEnabled, dlssService.DlssgVersions,
+            var fgCol = BuildDlssColumn("帧生成", fgEnabled, dlssService.DlssgVersions,
                 card.DlssgInstalledVersion, DlssPresetService.FgPresets,
                 presetService.IsSupported && fgEnabled ? (dlssData?.FgPreset ?? 0u) : 0u,
                 async (version) =>
@@ -295,7 +295,7 @@ public partial class DetailPanelBuilder
                     var tc = _window.ViewModel.AllCards.FirstOrDefault(c => c.GameName.Equals(capturedName, StringComparison.OrdinalIgnoreCase));
                     if (tc?.DlssDetection?.DlssgPath == null) return;
                     if (version.StartsWith("Default", StringComparison.OrdinalIgnoreCase)) dlssService.Restore(tc.DlssDetection.DlssgPath);
-                    else if (version == "Custom") await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssgPath);
+                    else if (version == "自定义") await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssgPath);
                     else await dlssService.SwapDlssgAsync(tc.DlssDetection.DlssgPath, version);
                     await Task.Run(() => tc.RefreshDlssVersions(dlssService)); // sync disk I/O — keep off UI thread
                     _window.DispatcherQueue?.TryEnqueue(() => BuildNvidiaProfileSection(tc, tc.GameName));
@@ -311,7 +311,7 @@ public partial class DetailPanelBuilder
             fgCol.Children.Add(new TextBlock { Text = " ", FontSize = 10, Margin = new Thickness(0, 2, 0, 0) });
             var mfgBtn = new Button
             {
-                Content = "Multi Frame Gen",
+                Content = "多帧生成",
                 FontSize = 11,
                 Height = 32,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -323,7 +323,7 @@ public partial class DetailPanelBuilder
                 IsEnabled = fgEnabled && presetService.IsSupported,
                 Opacity = (fgEnabled && presetService.IsSupported) ? 1.0 : 0.4,
             };
-            ToolTipService.SetToolTip(mfgBtn, "Configure NVIDIA Multi Frame Generation: mode, frame count multiplier, and dynamic target frame rate. Requires 50 Series GPU.");
+            ToolTipService.SetToolTip(mfgBtn, "配置 NVIDIA 多帧生成：模式、帧数倍率和动态目标帧率。需要 50 系列显卡。");
             mfgBtn.Click += async (s, ev) =>
             {
                 var xamlRoot = (s as FrameworkElement)?.XamlRoot ?? _window.Content.XamlRoot;
@@ -369,19 +369,19 @@ public partial class DetailPanelBuilder
                 if (hasDlssnr && nrDllPath != null && File.Exists(nrDllPath))
                 {
                     nrInstalledVersion = (card.DlssnrIsCustom)
-                        ? "Custom"
+                        ? "自定义"
                         : DlssStreamlineService.FormatVersion(dlssService.GetFileVersion(nrDllPath));
                 }
                 else
                 {
-                    nrInstalledVersion = (hasDlssnr && card.DlssnrIsCustom) ? "Custom" : card.DlssnrInstalledVersion;
+                    nrInstalledVersion = (hasDlssnr && card.DlssnrIsCustom) ? "自定义" : card.DlssnrInstalledVersion;
                 }
 
                 // Track the version currently selected in the NR combo so Deploy DLL can use it
                 string nrSelectedVersion = nrInstalledVersion ?? "";
 
                 bool nrDriverOverride = dlssData?.NrDriverOverride == true;
-                var nrCol = BuildDlssColumn("Neural Rendering", hasDlssnr, dlssService.DlssnrVersions,
+                var nrCol = BuildDlssColumn("神经网络渲染", hasDlssnr, dlssService.DlssnrVersions,
                     nrInstalledVersion, DlssPresetService.NrPresets,
                     presetService.IsSupported && hasDlssnr ? (dlssData?.NrPreset ?? 0u) : 0u,
                     async (version) =>
@@ -395,7 +395,7 @@ public partial class DetailPanelBuilder
                             // Clean up custom marker on restore
                             try { File.Delete(tc.DlssDetection.DlssnrPath + ".rhi_custom"); } catch { }
                         }
-                        else if (version == "Custom")
+                        else if (version == "自定义")
                             await dlssService.SwapDlssCustomAsync(tc.DlssDetection.DlssnrPath);
                         else
                         {
@@ -424,7 +424,7 @@ public partial class DetailPanelBuilder
                 // When NR is not installed the placeholder is invisible but still takes space.
                 if (!hasDlssnr)
                 {
-                    var presetPlaceholderLabel = new TextBlock { Text = "Preset", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0), Opacity = 0 };
+                    var presetPlaceholderLabel = new TextBlock { Text = "预设", FontSize = 10, Foreground = UIFactory.Brush(ResourceKeys.TextTertiaryBrush), Margin = new Thickness(0, 2, 0, 0), Opacity = 0 };
                     var presetPlaceholderCombo = new ComboBox { ItemsSource = new[] { "Default" }, SelectedIndex = 0, FontSize = 11, HorizontalAlignment = HorizontalAlignment.Stretch, IsEnabled = false, Opacity = 0, MaxDropDownHeight = 300 };
                     nrCol.Children.Add(presetPlaceholderLabel);
                     nrCol.Children.Add(presetPlaceholderCombo);
@@ -436,7 +436,7 @@ public partial class DetailPanelBuilder
 
                 var deployNrBtn = new Button
                 {
-                    Content = "Deploy DLL",
+                    Content = "部署 DLL",
                     FontSize = 11,
                     Height = 32,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -446,7 +446,7 @@ public partial class DetailPanelBuilder
                     BorderThickness = new Thickness(1),
                     CornerRadius = new CornerRadius(8),
                 };
-                ToolTipService.SetToolTip(deployNrBtn, "Download and copy nvngx_dlssnr.dll to the game folder. Supports RTX 40 and 50 Series GPUs. Can also be deployed automatically via the RenoDX DLSS5 addon in the Addons picker.");
+                ToolTipService.SetToolTip(deployNrBtn, "下载并将 nvngx_dlssnr.dll 复制到游戏文件夹。支持 RTX 40 和 50 系列显卡。也可通过「插件」选择器中的 RenoDX DLSS5 插件自动部署。");
 
                 var deleteNrBtn = new Button
                 {
@@ -463,7 +463,7 @@ public partial class DetailPanelBuilder
                     IsHitTestVisible = hasDlssnr,
                     Content = new TextBlock { Text = "✕", FontSize = 12, HorizontalAlignment = HorizontalAlignment.Center, Foreground = UIFactory.Brush(ResourceKeys.AccentRedBrush) },
                 };
-                ToolTipService.SetToolTip(deleteNrBtn, "Delete nvngx_dlssnr.dll from the game folder.");
+                ToolTipService.SetToolTip(deleteNrBtn, "从游戏文件夹中删除 nvngx_dlssnr.dll。");
 
                 deployNrBtn.Click += async (s, ev) =>
                 {
@@ -471,12 +471,12 @@ public partial class DetailPanelBuilder
                     if (tc == null || string.IsNullOrEmpty(tc.InstallPath)) return;
 
                     deployNrBtn.IsEnabled = false;
-                    deployNrBtn.Content = "Downloading...";
+                    deployNrBtn.Content = "正在下载...";
 
                     try
                     {
                         var destPath = tc.DlssDetection?.DlssnrPath ?? Path.Combine(tc.InstallPath, "nvngx_dlssnr.dll");
-                        var isCustom = nrSelectedVersion == "Custom";
+                        var isCustom = nrSelectedVersion == "自定义";
                         var isDefault = nrSelectedVersion.StartsWith("Default", StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(nrSelectedVersion);
 
                         if (isCustom)
@@ -493,10 +493,10 @@ public partial class DetailPanelBuilder
                                 // Fresh install — deploy custom file to game root
                                 var customSrc = Path.Combine(
                                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                    "RHI", "Custom", "DLSS", "nvngx_dlssnr.dll");
+                                    "RHI", "自定义", "DLSS", "nvngx_dlssnr.dll");
                                 if (!File.Exists(customSrc))
                                 {
-                                    _window.DispatcherQueue?.TryEnqueue(() => { deployNrBtn.Content = "Not in Custom/DLSS"; deployNrBtn.IsEnabled = true; });
+                                    _window.DispatcherQueue?.TryEnqueue(() => { deployNrBtn.Content = "不在 Custom/DLSS 中"; deployNrBtn.IsEnabled = true; });
                                     return;
                                 }
                                 File.Copy(customSrc, destPath, overwrite: true);
@@ -527,7 +527,7 @@ public partial class DetailPanelBuilder
                             }
                             else if (cachedPath == null)
                             {
-                                _window.DispatcherQueue?.TryEnqueue(() => { deployNrBtn.Content = "Not available"; deployNrBtn.IsEnabled = true; });
+                                _window.DispatcherQueue?.TryEnqueue(() => { deployNrBtn.Content = "不可用"; deployNrBtn.IsEnabled = true; });
                                 return;
                             }
                             else if (isDefault)
@@ -578,7 +578,7 @@ public partial class DetailPanelBuilder
                     catch (Exception ex)
                     {
                         CrashReporter.Log($"[NrDeployBtn] Failed — {ex.Message}");
-                        _window.DispatcherQueue?.TryEnqueue(() => { deployNrBtn.Content = "Deploy DLL"; deployNrBtn.IsEnabled = true; });
+                        _window.DispatcherQueue?.TryEnqueue(() => { deployNrBtn.Content = "部署 DLL"; deployNrBtn.IsEnabled = true; });
                     }
                 };
 
@@ -641,8 +641,8 @@ public partial class DetailPanelBuilder
             // Only show "Custom" if we can't read a real version from the DLL
             var slVersionFromDll = card.StreamlineInstalledVersion;
             var slInstalledVersion = (hasStreamline && card.StreamlineIsCustom
-                && (string.IsNullOrEmpty(slVersionFromDll) || slVersionFromDll == "Unknown"))
-                ? "Custom"
+                && (string.IsNullOrEmpty(slVersionFromDll) || slVersionFromDll == "未知"))
+                ? "自定义"
                 : slVersionFromDll;
             var slCol = BuildDlssColumn("Streamline", slEnabled, dlssService.StreamlineVersions,
                 slInstalledVersion, null, 0,
@@ -651,7 +651,7 @@ public partial class DetailPanelBuilder
                     var tc = _window.ViewModel.AllCards.FirstOrDefault(c => c.GameName.Equals(capturedName, StringComparison.OrdinalIgnoreCase));
                     if (tc?.DlssDetection?.StreamlineFolder == null) return;
                     if (version.StartsWith("Default", StringComparison.OrdinalIgnoreCase)) dlssService.RestoreStreamline(tc.DlssDetection.StreamlineFolder);
-                    else if (version == "Custom") await dlssService.SwapStreamlineCustomAsync(tc.DlssDetection.StreamlineFolder);
+                    else if (version == "自定义") await dlssService.SwapStreamlineCustomAsync(tc.DlssDetection.StreamlineFolder);
                     else await dlssService.SwapStreamlineAsync(tc.DlssDetection.StreamlineFolder, version);
                     await Task.Run(() => tc.RefreshDlssVersions(dlssService)); // sync disk I/O — keep off UI thread
                     _window.DispatcherQueue?.TryEnqueue(() => BuildNvidiaProfileSection(tc, tc.GameName));
@@ -674,7 +674,7 @@ public partial class DetailPanelBuilder
             bool restoreEnabled = card.HasAnyDlssBackup || hasNonDefaultPreset;
             var dlssRestoreBtn = new Button
             {
-                Content = "Restore DLSS/SL",
+                Content = "恢复 DLSS/SL",
                 FontSize = 11,
                 Height = 32,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -737,7 +737,7 @@ public partial class DetailPanelBuilder
 
             var applyBtn = new Button
             {
-                Content = "Quick Apply",
+                Content = "快速应用",
                 FontSize = 11,
                 Height = 32,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -748,7 +748,7 @@ public partial class DetailPanelBuilder
                 CornerRadius = new CornerRadius(8),
                 IsEnabled = hasDefaults && card.HasAnyDlssStreamline,
             };
-            ToolTipService.SetToolTip(applyBtn, "Apply your configured DLSS/Streamline default versions, presets, and render scales to this game. Downloads versions on-demand if not cached.");
+            ToolTipService.SetToolTip(applyBtn, "将您配置的 DLSS/Streamline 默认版本、预设和渲染缩放应用到此游戏。若未缓存则按需下载版本。");
             applyBtn.Click += async (s, ev) =>
             {
                 var targetCard = _window.ViewModel.AllCards.FirstOrDefault(c =>
@@ -789,7 +789,7 @@ public partial class DetailPanelBuilder
                 if (!string.IsNullOrEmpty(settings.DefaultDlssVersion) && targetCard.HasDlss && targetCard.DlssDetection.DlssPath != null
                     && !(targetCard.DlssInstalledVersion?.StartsWith("1.") == true) && !srOverride)
                 {
-                    if (settings.DefaultDlssVersion.Equals("Custom", StringComparison.OrdinalIgnoreCase))
+                    if (settings.DefaultDlssVersion.Equals("自定义", StringComparison.OrdinalIgnoreCase))
                         await svc.SwapDlssCustomAsync(targetCard.DlssDetection.DlssPath);
                     else
                         await svc.SwapDlssAsync(targetCard.DlssDetection.DlssPath, settings.DefaultDlssVersion);
@@ -797,7 +797,7 @@ public partial class DetailPanelBuilder
                 if (!string.IsNullOrEmpty(settings.DefaultDlssdVersion) && targetCard.HasDlssd && targetCard.DlssDetection.DlssdPath != null
                     && !(targetCard.DlssdInstalledVersion?.StartsWith("1.") == true) && !rrOverride)
                 {
-                    if (settings.DefaultDlssdVersion.Equals("Custom", StringComparison.OrdinalIgnoreCase))
+                    if (settings.DefaultDlssdVersion.Equals("自定义", StringComparison.OrdinalIgnoreCase))
                         await svc.SwapDlssCustomAsync(targetCard.DlssDetection.DlssdPath);
                     else
                         await svc.SwapDlssdAsync(targetCard.DlssDetection.DlssdPath, settings.DefaultDlssdVersion);
@@ -805,7 +805,7 @@ public partial class DetailPanelBuilder
                 if (!string.IsNullOrEmpty(settings.DefaultDlssgVersion) && targetCard.HasDlssg && targetCard.DlssDetection.DlssgPath != null
                     && !fgOverride)
                 {
-                    if (settings.DefaultDlssgVersion.Equals("Custom", StringComparison.OrdinalIgnoreCase))
+                    if (settings.DefaultDlssgVersion.Equals("自定义", StringComparison.OrdinalIgnoreCase))
                         await svc.SwapDlssCustomAsync(targetCard.DlssDetection.DlssgPath);
                     else
                         await svc.SwapDlssgAsync(targetCard.DlssDetection.DlssgPath, settings.DefaultDlssgVersion);
@@ -813,7 +813,7 @@ public partial class DetailPanelBuilder
                 if (!string.IsNullOrEmpty(settings.DefaultStreamlineVersion) && targetCard.HasStreamline && targetCard.DlssDetection.StreamlineFolder != null
                     && !(targetCard.StreamlineInstalledVersion?.StartsWith("1.") == true))
                 {
-                    if (settings.DefaultStreamlineVersion.Equals("Custom", StringComparison.OrdinalIgnoreCase))
+                    if (settings.DefaultStreamlineVersion.Equals("自定义", StringComparison.OrdinalIgnoreCase))
                         await svc.SwapStreamlineCustomAsync(targetCard.DlssDetection.StreamlineFolder);
                     else
                         await svc.SwapStreamlineAsync(targetCard.DlssDetection.StreamlineFolder, settings.DefaultStreamlineVersion);
@@ -860,7 +860,7 @@ public partial class DetailPanelBuilder
                         child.Opacity = 0.4;
                 }
             }
-            ToolTipService.SetToolTip(dlssRestoreBtn, "Restore all DLSS and Streamline DLLs to their original game versions and reset presets to Default.");
+            ToolTipService.SetToolTip(dlssRestoreBtn, "将所有 DLSS 和 Streamline DLL 恢复为游戏原始版本，并将预设重置为默认。");
 
             Grid.SetColumn(slCol, slColumn);
             dlssRowGrid.Children.Add(slCol);
@@ -901,25 +901,25 @@ public partial class DetailPanelBuilder
 
             if (card.HasDlss)
             {
-                var val = card.CachedSrDriverOverride ? "NV Override"
+                var val = card.CachedSrDriverOverride ? "NV 覆盖"
                     : FormatDlssEntry(card.DlssInstalledVersion, dlssData?.SrPreset ?? 0u, DlssPresetService.SrPresets, dlssData?.SrRenderScale ?? 0u);
                 nvSummaryEntries.Add(("SR", val));
             }
             if (card.HasDlssd)
             {
-                var val = card.CachedRrDriverOverride ? "NV Override"
+                var val = card.CachedRrDriverOverride ? "NV 覆盖"
                     : FormatDlssEntry(card.DlssdInstalledVersion, dlssData?.RrPreset ?? 0u, DlssPresetService.RrPresets, dlssData?.RrRenderScale ?? 0u);
                 nvSummaryEntries.Add(("RR", val));
             }
             if (card.HasDlssg)
             {
-                var val = card.CachedFgDriverOverride ? "NV Override"
+                var val = card.CachedFgDriverOverride ? "NV 覆盖"
                     : FormatDlssEntry(card.DlssgInstalledVersion, dlssData?.FgPreset ?? 0u, DlssPresetService.FgPresets, 0u);
                 nvSummaryEntries.Add(("FG", val));
             }
             if (FeatureFlags.DlssNr && card.HasDlssnr)
             {
-                var val = card.CachedNrDriverOverride ? "NV Override"
+                var val = card.CachedNrDriverOverride ? "NV 覆盖"
                     : FormatDlssEntry(card.DlssnrInstalledVersion, dlssData?.NrPreset ?? 0u, DlssPresetService.NrPresets, 0u);
                 nvSummaryEntries.Add(("NR", val));
             }

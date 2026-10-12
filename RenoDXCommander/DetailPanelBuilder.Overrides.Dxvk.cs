@@ -23,7 +23,7 @@ public partial class DetailPanelBuilder
         _window.ManagementPanel.Children.Clear();
 
         // Collapsible header
-        const string mgmtSectionKey = "Management";
+        const string mgmtSectionKey = "管理";
         var mgmtSettings   = _window.ViewModel.Settings;
         bool mgmtCollapsed = mgmtSettings.CollapsedDetailSections.Contains(mgmtSectionKey);
 
@@ -37,7 +37,7 @@ public partial class DetailPanelBuilder
         };
         var mgmtTitle = new TextBlock
         {
-            Text       = "Management",
+            Text       = "管理",
             FontSize   = 13,
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
@@ -81,7 +81,7 @@ public partial class DetailPanelBuilder
 
         var changeFolderBtn = new Button
         {
-            Content = "Change install folder",
+            Content = "更改安装文件夹",
             FontSize = 11,
             Height = 32,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -93,7 +93,7 @@ public partial class DetailPanelBuilder
             Tag = card,
         };
         changeFolderBtn.Click += (s, ev) => _window.BrowseFolder_Click(s, ev);
-        ToolTipService.SetToolTip(changeFolderBtn, "Change the install folder for this game. Use when auto-detection picked the wrong directory.");
+        ToolTipService.SetToolTip(changeFolderBtn, "更改此游戏的安装文件夹。当自动检测选错目录时使用。");
         Grid.SetColumn(changeFolderBtn, 0);
         mgmtRow.Children.Add(changeFolderBtn);
 
@@ -103,7 +103,7 @@ public partial class DetailPanelBuilder
 
         var removeGameBtn = new Button
         {
-            Content = "Reset / Remove game",
+            Content = "重置 / 移除游戏",
             FontSize = 11,
             Height = 32,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -115,7 +115,7 @@ public partial class DetailPanelBuilder
             Tag = card,
         };
         removeGameBtn.Click += (s, ev) => _window.RemoveManualGame_Click(s, ev);
-        ToolTipService.SetToolTip(removeGameBtn, "Reset the install folder to auto-detected, or remove a manually added game entirely.");
+        ToolTipService.SetToolTip(removeGameBtn, "将安装文件夹重置为自动检测，或完全移除手动添加的游戏。");
         Grid.SetColumn(removeGameBtn, 2);
         mgmtRow.Children.Add(removeGameBtn);
 
@@ -125,7 +125,7 @@ public partial class DetailPanelBuilder
 
         var mgmtResetOverridesBtn = new Button
         {
-            Content = "Reset Overrides",
+            Content = "重置覆盖项",
             FontSize = 11,
             Height = 32,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -141,7 +141,7 @@ public partial class DetailPanelBuilder
             ctx.ResetAction?.Invoke();
         };
         Grid.SetColumn(mgmtResetOverridesBtn, 4);
-        ToolTipService.SetToolTip(mgmtResetOverridesBtn, "Reset all per-game overrides back to defaults (DLL names, channels, shaders, addons, launch settings, update inclusion).");
+        ToolTipService.SetToolTip(mgmtResetOverridesBtn, "将所有各游戏的覆盖项重置为默认值（DLL 名称、渠道、着色器、插件、启动设置、更新包含项）。");
         mgmtRow.Children.Add(mgmtResetOverridesBtn);
 
         var sep3 = new Border { Width = 1, Background = UIFactory.Brush(ResourceKeys.BorderDefaultBrush), Margin = new Thickness(8, 4, 8, 4) };
@@ -150,7 +150,7 @@ public partial class DetailPanelBuilder
 
         var reportBtn = new Button
         {
-            Content = "Copy Report",
+            Content = "复制报告",
             FontSize = 11,
             Height = 32,
             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -168,7 +168,7 @@ public partial class DetailPanelBuilder
                 await GameReportEncoder.ShowAndCopyAsync(_window.Content.XamlRoot, targetCard, _window.ViewModel);
         };
         Grid.SetColumn(reportBtn, 6);
-        ToolTipService.SetToolTip(reportBtn, "Copy a diagnostic report for this game to the clipboard. Useful for Discord or GitHub support.");
+        ToolTipService.SetToolTip(reportBtn, "复制此游戏的诊断报告到剪贴板。便于在 Discord 或 GitHub 上寻求支持。");
         mgmtRow.Children.Add(reportBtn);
 
         mgmtBody.Children.Add(mgmtRow);

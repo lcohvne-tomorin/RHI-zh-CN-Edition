@@ -135,12 +135,12 @@ public sealed class GitHubAuthService
                     switch (error)
                     {
                         case "authorization_pending":
-                            statusProgress?.Report("Waiting for you to authorise in your browser...");
+                            statusProgress?.Report("正在等待您在浏览器中授权...");
                             break;
                         case "slow_down":
                             // GitHub asks us to back off — add 5 seconds
                             interval += TimeSpan.FromSeconds(5);
-                            statusProgress?.Report("Waiting for you to authorise in your browser...");
+                            statusProgress?.Report("正在等待您在浏览器中授权...");
                             break;
                         case "expired_token":
                             CrashReporter.Log("[GitHubAuthService.PollForTokenAsync] Device code expired");

@@ -311,7 +311,7 @@ public partial class GameDetectionService : IGameDetectionService
             if (Directory.Exists(Path.Combine(root, "TAGame"))) return true;
 
             // Classic UE3 marker: Engine\Config\BaseEngine.ini
-            var baseEnginePath = Path.Combine(root, "Engine", "Config", "BaseEngine.ini");
+            var baseEnginePath = Path.Combine(root, "Engine", "配置", "BaseEngine.ini");
             bool hasBaseEngine = File.Exists(baseEnginePath);
 
             if (hasBaseEngine)

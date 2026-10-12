@@ -203,13 +203,13 @@ public class NexusDownloadService
     {
         try
         {
-            progress?.Report(("Starting download...", 0));
+            progress?.Report(("开始下载...", 0));
 
             using var response = await _http.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
             {
                 CrashReporter.Log($"[NexusDownloadService.DownloadToTempAsync] HTTP {(int)response.StatusCode}");
-                progress?.Report(($"Download failed: HTTP {(int)response.StatusCode}", 0));
+                progress?.Report(($"下载失败：HTTP {(int)response.StatusCode}", 0));
                 return null;
             }
 
@@ -237,23 +237,23 @@ public class NexusDownloadService
                 {
                     var pct = (double)downloaded / totalBytes.Value * 100;
                     var mb = downloaded / 1_048_576.0;
-                    progress?.Report(($"Downloading... {mb:F1} MB", pct));
+                    progress?.Report(($"正在下载... {mb:F1} MB", pct));
                 }
                 else
                 {
                     var mb = downloaded / 1_048_576.0;
-                    progress?.Report(($"Downloading... {mb:F1} MB", 50));
+                    progress?.Report(($"正在下载... {mb:F1} MB", 50));
                 }
             }
 
             CrashReporter.Log($"[NexusDownloadService.DownloadToTempAsync] Downloaded {downloaded:N0} bytes to {tempPath}");
-            progress?.Report(("Download complete", 100));
+            progress?.Report(("下载完成", 100));
             return tempPath;
         }
         catch (Exception ex)
         {
             CrashReporter.Log($"[NexusDownloadService.DownloadToTempAsync] Failed — {ex.Message}");
-            progress?.Report(($"Download failed: {ex.Message}", 0));
+            progress?.Report(($"下载失败：{ex.Message}", 0));
             return null;
         }
     }

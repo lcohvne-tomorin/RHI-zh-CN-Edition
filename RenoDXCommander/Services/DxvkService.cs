@@ -219,7 +219,7 @@ public partial class DxvkService : IDxvkService
         d3d9.upgradeSwapChainColorSpaceTo         = scRGB
         d3d9.enforceWindowModeInternally          = disabled
         """),
-        ("2nd Safest", """
+        ("次安全", """
         dxvk.enableAsync                          = true
         dxvk.gplAsyncCache                        = true
         d3d9.enableBackBufferUpgrade              = true
@@ -229,7 +229,7 @@ public partial class DxvkService : IDxvkService
         d3d9.upgradeSwapChainColorSpaceTo         = scRGB
         d3d9.enforceWindowModeInternally          = disabled
         """),
-        ("Slightly Unsafe", """
+        ("略微不安全", """
         dxvk.enableAsync                          = true
         dxvk.gplAsyncCache                        = true
         d3d9.enableSwapChainUpgrade               = true
@@ -262,7 +262,7 @@ public partial class DxvkService : IDxvkService
         d3d9.upgradeSwapChainColorSpaceTo         = scRGB
         d3d9.enforceWindowModeInternally          = disabled
         """),
-        ("Even Unsafer", """
+        ("更不安全", """
         dxvk.enableAsync                          = true
         dxvk.gplAsyncCache                        = true
         d3d9.enableRenderTargetUpgrades           = true
@@ -346,7 +346,7 @@ public partial class DxvkService : IDxvkService
         d3d11.upgradeSwapChainFormatTo                = rgba16_sfloat
         d3d11.upgradeSwapChainColorSpaceTo            = scRGB
         """),
-        ("2nd Safest", """
+        ("次安全", """
         dxvk.enableAsync                              = true
         dxvk.gplAsyncCache                            = true
         d3d11.enableBackBufferUpgrade                 = true
@@ -355,7 +355,7 @@ public partial class DxvkService : IDxvkService
         d3d11.upgradeSwapChainFormatTo                = rgba16_sfloat
         d3d11.upgradeSwapChainColorSpaceTo            = scRGB
         """),
-        ("Slightly Unsafe", """
+        ("略微不安全", """
         dxvk.enableAsync                              = true
         dxvk.gplAsyncCache                            = true
         d3d11.enableBackBufferUpgrade                 = true
@@ -385,7 +385,7 @@ public partial class DxvkService : IDxvkService
         d3d11.upgradeSwapChainFormatTo                = rgba16_sfloat
         d3d11.upgradeSwapChainColorSpaceTo            = scRGB
         """),
-        ("Even Unsafer", """
+        ("更不安全", """
         dxvk.enableAsync                              = true
         dxvk.gplAsyncCache                            = true
         d3d11.enableRenderTargetUpgrades              = true
@@ -406,7 +406,7 @@ public partial class DxvkService : IDxvkService
         d3d11.upgradeSwapChainFormatTo                = rgba16_sfloat
         d3d11.upgradeSwapChainColorSpaceTo            = scRGB
         """),
-        ("Slightly Experimental", """
+        ("略微实验性", """
         dxvk.enableAsync                              = true
         dxvk.gplAsyncCache                            = true
         d3d11.enableRenderTargetUpgrades              = true
@@ -427,7 +427,7 @@ public partial class DxvkService : IDxvkService
         d3d11.upgradeSwapChainFormatTo                = rgba16_sfloat
         d3d11.upgradeSwapChainColorSpaceTo            = scRGB
         """),
-        ("Fully Experimental", """
+        ("完全实验性", """
         dxvk.enableAsync                              = true
         dxvk.gplAsyncCache                            = true
         d3d11.enableRenderTargetUpgrades              = true

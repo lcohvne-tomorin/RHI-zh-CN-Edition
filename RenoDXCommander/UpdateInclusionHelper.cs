@@ -49,7 +49,7 @@ public static class UpdateInclusionHelper
             });
             summaryTb.Inlines.Add(new Microsoft.UI.Xaml.Documents.Run
             {
-                Text = isOn ? "On" : "Off",
+                Text = isOn ? "开" : "关",
                 Foreground = UIFactory.Brush(isOn ? ResourceKeys.AccentGreenBrush : ResourceKeys.AccentRedBrush),
             });
             if (i < items.Count - 1)
@@ -87,7 +87,7 @@ public static class UpdateInclusionHelper
 
         var button = new Button
         {
-            Content = "Update Inclusion",
+            Content = "更新包含项",
             Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush),
             Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush),
             BorderBrush = UIFactory.Brush(ResourceKeys.AccentBlueBorderBrush),
@@ -121,7 +121,7 @@ public static class UpdateInclusionHelper
                 : null;
 
             var checkPanel = new StackPanel { Spacing = 0 };
-            checkPanel.Children.Add(new TextBlock { Text = "Include this game in Update All for:", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 0, 0, 8) });
+            checkPanel.Children.Add(new TextBlock { Text = "将此游戏纳入「全部更新」的范围：", FontSize = 12, Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush), Margin = new Thickness(0, 0, 0, 8) });
             checkPanel.Children.Add(rsCheck);
             checkPanel.Children.Add(rdxCheck);
             checkPanel.Children.Add(ulCheck);
@@ -132,10 +132,10 @@ public static class UpdateInclusionHelper
 
             var dialog = new ContentDialog
             {
-                Title = "Global Update Inclusion",
+                Title = "全局更新包含",
                 Content = checkPanel,
-                PrimaryButtonText = "Save",
-                CloseButtonText = "Cancel",
+                PrimaryButtonText = "保存",
+                CloseButtonText = "取消",
                 XamlRoot = effectiveRoot,
                 RequestedTheme = ElementTheme.Dark,
             };

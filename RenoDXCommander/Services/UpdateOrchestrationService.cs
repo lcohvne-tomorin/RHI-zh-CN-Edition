@@ -92,7 +92,7 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                 // UE4: Set_Path=1 (SDR upgrade path), UE5: Set_Path=0 (native HDR path)
                 if (card.UseUeExtended)
                 {
-                    bool isUe4 = card.EngineHint?.Contains("Unreal Engine 4") == true;
+                    bool isUe4 = card.EngineHint?.Contains("虚幻引擎 4") == true;
                     AuxInstallService.ApplyRenoDxNativeHdrSettings(card.InstallPath, usesSdrPath: isUe4);
                 }
 
@@ -122,7 +122,7 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
 
                 // Deploy Engine.ini HDR settings for UE-Extended games
                 // Priority: ueExtendedCompatibility entry > UE4 detection > default (deploy for UE5)
-                bool isUe4Update = card.EngineHint?.Contains("Unreal Engine 4") == true;
+                bool isUe4Update = card.EngineHint?.Contains("虚幻引擎 4") == true;
                 var compatUpdate = AuxInstallService.GlobalManifest?.UeExtendedCompatibility
                     ?.TryGetValue(card.GameName, out var ceu) == true ? ceu : null;
                 bool deployHdrUpdate = compatUpdate?.Hdr ?? !isUe4Update;
@@ -147,14 +147,14 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                     card.InstalledAddonFileName = record.AddonFileName;
                     card.RdxInstalledVersion    = AuxInstallService.ReadInstalledVersion(record.InstallPath, record.AddonFileName);
                     card.Status                 = GameStatus.Installed;
-                    card.ActionMessage          = "✅ Updated!";
+                    card.ActionMessage          = "✅ 已更新！";
                     card.NotifyAll();
                     card.FadeMessage(m => card.ActionMessage = m, card.ActionMessage);
                 });
             }
             catch (Exception ex)
             {
-                card.ActionMessage = $"❌ Failed: {ex.Message}";
+                card.ActionMessage = $"❌ 失败：{ex.Message}";
             }
             finally
             {
@@ -207,7 +207,7 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                         _crashReporter.Log($"[UpdateOrchestrationService.UpdateAllReShade] Skipping {card.GameName} — foreign dxgi.dll detected");
                         dispatcherQueue?.TryEnqueue(() =>
                         {
-                            card.RsActionMessage = "⚠ Skipped — unknown dxgi.dll";
+                            card.RsActionMessage = "⚠ 已跳过 — 未知的 dxgi.dll";
                         });
                         continue;
                     }
@@ -251,15 +251,15 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                     card.RsInstalledFile    = record.InstalledAs;
                     card.RsInstalledVersion = _auxFileService.ReadInstalledVersion(record.InstallPath, record.InstalledAs);
                     card.RsStatus           = GameStatus.Installed;
-                    card.RsActionMessage    = "✅ Updated!";
+                    card.RsActionMessage    = "✅ 已更新！";
                     card.NotifyAll();
                     card.FadeMessage(m => card.RsActionMessage = m, card.RsActionMessage);
                 });
             }
             catch (Exception ex)
             {
-                card.RsActionMessage = $"❌ Failed: {ex.Message}";
-                _crashReporter.WriteCrashReport("UpdateAllReShade", ex, note: $"Game: {card.GameName}");
+                card.RsActionMessage = $"❌ 失败：{ex.Message}";
+                _crashReporter.WriteCrashReport("UpdateAllReShade", ex, note: $"游戏：{card.GameName}");
             }
             finally { dispatcherQueue?.TryEnqueue(() => card.RsIsInstalling = false); }
         }
@@ -395,7 +395,7 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
             foreach (var vCard in vulkanTargets)
             {
                 vCard.RsIsInstalling = true;
-                vCard.RsActionMessage = "Updating Vulkan ReShade...";
+                vCard.RsActionMessage = "正在更新 Vulkan ReShade...";
                 try
                 {
                     if (keepRsIniUpdatedResolver == null || keepRsIniUpdatedResolver(vCard.GameName, vCard.Source ?? ""))
@@ -407,15 +407,15 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                     {
                         vCard.RsInstalledVersion = vulkanVersion;
                         vCard.RsStatus = GameStatus.Installed;
-                        vCard.RsActionMessage = layerUpdated ? "✅ Updated!" : "✅ Up to date";
+                        vCard.RsActionMessage = layerUpdated ? "✅ 已更新！" : "✅ 已是最新";
                         vCard.NotifyAll();
                         vCard.FadeMessage(m => vCard.RsActionMessage = m, vCard.RsActionMessage);
                     });
                 }
                 catch (Exception ex)
                 {
-                    vCard.RsActionMessage = $"❌ Failed: {ex.Message}";
-                    _crashReporter.WriteCrashReport("UpdateAllReShade.Vulkan", ex, note: $"Game: {vCard.GameName}");
+                    vCard.RsActionMessage = $"❌ 失败：{ex.Message}";
+                    _crashReporter.WriteCrashReport("UpdateAllReShade.Vulkan", ex, note: $"游戏：{vCard.GameName}");
                 }
                 finally { dispatcherQueue?.TryEnqueue(() => vCard.RsIsInstalling = false); }
             }
@@ -449,10 +449,10 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
         catch (OperationCanceledException)
         {
             proc.Kill();
-            throw new IOException("Elevated copy timed out after 10 seconds");
+            throw new IOException("提权复制在 10 秒后超时");
         }
         if (proc.ExitCode != 0)
-            throw new IOException($"Elevated copy exited with code {proc.ExitCode}");
+            throw new IOException($"提权复制退出，代码 {proc.ExitCode}");
     }
 
     public async Task UpdateAllREFrameworkAsync(
@@ -483,15 +483,15 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                     card.RefRecord = record;
                     card.RefInstalledVersion = record.InstalledVersion;
                     card.RefStatus = GameStatus.Installed;
-                    card.RefActionMessage = "✅ Updated!";
+                    card.RefActionMessage = "✅ 已更新！";
                     card.NotifyAll();
                     card.FadeMessage(m => card.RefActionMessage = m, card.RefActionMessage);
                 });
             }
             catch (Exception ex)
             {
-                card.RefActionMessage = $"❌ Failed: {ex.Message}";
-                _crashReporter.WriteCrashReport("UpdateAllREFramework", ex, note: $"Game: {card.GameName}");
+                card.RefActionMessage = $"❌ 失败：{ex.Message}";
+                _crashReporter.WriteCrashReport("UpdateAllREFramework", ex, note: $"游戏：{card.GameName}");
             }
             finally { dispatcherQueue?.TryEnqueue(() => card.RefIsInstalling = false); }
         }
@@ -529,20 +529,20 @@ public class UpdateOrchestrationService : IUpdateOrchestrationService
                     {
                         card.DofFixInstalledVersion = dofFixService.StagedVersion;
                         card.DofFixStatus = GameStatus.Installed;
-                        card.DofFixActionMessage = "✅ Updated!";
+                        card.DofFixActionMessage = "✅ 已更新！";
                         card.NotifyAll();
                         card.FadeMessage(m => card.DofFixActionMessage = m, card.DofFixActionMessage);
                     }
                     else
                     {
-                        card.DofFixActionMessage = "❌ Update failed";
+                        card.DofFixActionMessage = "❌ 更新失败";
                     }
                 });
             }
             catch (Exception ex)
             {
-                card.DofFixActionMessage = $"❌ Failed: {ex.Message}";
-                _crashReporter.WriteCrashReport("UpdateAllDofFix", ex, note: $"Game: {card.GameName}");
+                card.DofFixActionMessage = $"❌ 失败：{ex.Message}";
+                _crashReporter.WriteCrashReport("UpdateAllDofFix", ex, note: $"游戏：{card.GameName}");
             }
             finally { dispatcherQueue?.TryEnqueue(() => card.DofFixIsInstalling = false); }
         }

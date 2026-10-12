@@ -314,7 +314,7 @@ public class GameInitializationService : IGameInitializationService
                     card.Mod.SnapshotUrl = null;
                 card.IsExternalOnly = true;
                 card.ExternalUrl    = ext.Url ?? "https://discord.gg/gF4GRJWZ2A";
-                card.ExternalLabel  = ext.Label ?? "Download from Discord";
+                card.ExternalLabel  = ext.Label ?? "从 Discord 下载";
                 // Set WikiStatus based on the actual download source
                 bool isNexus = ext.Url != null && ext.Url.Contains("nexusmods", StringComparison.OrdinalIgnoreCase);
                 card.WikiStatus     = isNexus ? "🌐" : "💬";
@@ -379,7 +379,7 @@ public class GameInitializationService : IGameInitializationService
             ["Dishonored"] = new CardOverride(
                 Notes: "ℹ️ This game has both 32-bit and 64-bit RenoDX builds.\n\n" +
                        "• 64-bit (default) — for the Microsoft Store and Epic Games Store versions.\n" +
-                       "• 32-bit — for the Steam version. Enable 32-bit mode in 🎯 Overrides to use this.",
+                       "• 32 位 — 适用于 Steam 版本。请在 🎯 覆盖项中启用 32 位模式以使用。",
                 DiscordUrl: null, ForceDiscord: false),
         };
 
@@ -393,7 +393,7 @@ public class GameInitializationService : IGameInitializationService
                     card.Mod.SnapshotUrl = null;
                 card.IsExternalOnly  = true;
                 card.ExternalUrl     = ov.DiscordUrl ?? "https://discord.gg/gF4GRJWZ2A";
-                card.ExternalLabel   = "Download from Discord";
+                card.ExternalLabel   = "从 Discord 下载";
                 card.DiscordUrl      = ov.DiscordUrl ?? "https://discord.gg/gF4GRJWZ2A";
                 card.WikiStatus      = "💬";
             }

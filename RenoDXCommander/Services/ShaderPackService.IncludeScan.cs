@@ -142,7 +142,7 @@ public partial class ShaderPackService
                 foreach (var rel in files)
                 {
                     // Only entries under Shaders\
-                    if (!rel.StartsWith("Shaders" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+                    if (!rel.StartsWith("着色器" + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
                         continue;
                     var ext = Path.GetExtension(rel);
                     if (!ext.Equals(".fx", StringComparison.OrdinalIgnoreCase))

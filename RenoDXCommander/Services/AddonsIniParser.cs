@@ -188,7 +188,7 @@ public static class AddonsIniParser
         if (!fields.TryGetValue("PackageName", out var packageName) ||
             string.IsNullOrWhiteSpace(packageName))
         {
-            logWarning?.Invoke($"Section [{sectionId}] skipped: missing or empty PackageName.");
+            logWarning?.Invoke($"已跳过区块 [{sectionId}]：PackageName 缺失或为空。");
             return;
         }
 

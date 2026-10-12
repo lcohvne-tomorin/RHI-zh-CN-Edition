@@ -91,7 +91,7 @@ public class ManifestService : IManifestService
             }
             CrashReporter.Log($"[ManifestService.FetchAsync] Fetched: v{manifest?.Version}, " +
                 $"{manifest?.WikiNameOverrides?.Count ?? 0} name overrides, " +
-                $"{manifest?.GameNotes?.Count ?? 0} game notes");
+                $"{manifest?.GameNotes?.Count ?? 0} 条游戏说明");
             return manifest;
         }
         catch (Exception ex)
@@ -109,13 +109,13 @@ public class ManifestService : IManifestService
     {
         var apiJson = await _etagCache.GetWithETagAsync(_http, GitHubApiUrl).ConfigureAwait(false);
         if (apiJson == null)
-            throw new HttpRequestException("GitHub API returned error for manifest");
+            throw new HttpRequestException("GitHub API 获取 manifest 时返回错误");
 
         using var doc = JsonDocument.Parse(apiJson);
         var root = doc.RootElement;
 
         var contentBase64 = root.GetProperty("content").GetString()
-            ?? throw new InvalidOperationException("GitHub API response missing 'content' field");
+            ?? throw new InvalidOperationException("GitHub API 响应缺少 'content' 字段");
 
         // GitHub returns base64 with embedded newlines — strip them before decoding
         contentBase64 = contentBase64.Replace("\n", "").Replace("\r", "");

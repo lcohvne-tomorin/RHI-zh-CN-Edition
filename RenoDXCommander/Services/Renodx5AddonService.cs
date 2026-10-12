@@ -644,7 +644,7 @@ public class Renodx5AddonService
             App.Services.GetRequiredService<IUpdateLogService>().Record(new Models.UpdateLogEntry
             {
                 Timestamp     = DateTime.UtcNow,
-                Category      = displayName.Contains("ShortFuse") ? "DLSS Tool" : "RenoDX DLSS5",
+                Category      = displayName.Contains("ShortFuse") ? "DLSS 工具" : "RenoDX DLSS5",
                 ComponentName = displayName,
                 NewVersion    = version,
             });
@@ -652,13 +652,13 @@ public class Renodx5AddonService
         catch (Exception ex)
         {
             _crashReporter.Log($"[Renodx5AddonService.DownloadAndStageAsync] Download failed for '{tagPrefix}' — {ex.Message}");
-            progress?.Report(($"{displayName} download failed: {ex.Message}", 0));
+            progress?.Report(($"{displayName} 下载失败：{ex.Message}", 0));
             return;
         }
 
-        progress?.Report(($"{displayName} ready", 90));
+        progress?.Report(($"{displayName} 就绪", 90));
         await autoRedeploy().ConfigureAwait(false);
-        progress?.Report(($"{displayName} ready", 100));
+        progress?.Report(($"{displayName} 就绪", 100));
     }
 
     private async Task<(string? version, string? downloadUrl)> FetchLatestReleaseInfoAsync(
@@ -1184,7 +1184,7 @@ public class Renodx5AddonService
             App.Services.GetRequiredService<IUpdateLogService>().Record(new Models.UpdateLogEntry
             {
                 Timestamp     = DateTime.UtcNow,
-                Category      = addonType == "dlsstool" ? "DLSS Tool" : "RenoDX DLSS5",
+                Category      = addonType == "dlsstool" ? "DLSS 工具" : "RenoDX DLSS5",
                 ComponentName = addonType == "dlsstool" ? "DLSS Tool (ShortFuse)" : "RenoDX DLSS5",
                 NewVersion    = version,
             });

@@ -110,7 +110,7 @@ public class DofFixService : IDofFixService
             _crashReporter.Log($"[DofFixService.EnsureStagingAsync] Download failed ({downloadUrl}) — {ex.Message}");
         }
 
-        progress?.Report(("DOF Fix ready", 100));
+        progress?.Report(("景深修复就绪", 100));
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public class DofFixService : IDofFixService
         await EnsureStagingAsync(progress).ConfigureAwait(false);
         if (!IsStagingReady) return false;
 
-        progress?.Report(("Deploying DOF Fix...", 70));
+        progress?.Report(("正在部署景深修复...", 70));
 
         var src = Path.Combine(_stagingDir, AddonFileName);
         var dest = Path.Combine(installPath, AddonFileName);
@@ -150,7 +150,7 @@ public class DofFixService : IDofFixService
         {
             File.Copy(src, dest, overwrite: true);
             _crashReporter.Log($"[DofFixService.InstallAsync] Deployed to {installPath}");
-            progress?.Report(("DOF Fix installed!", 100));
+            progress?.Report(("景深修复已安装！", 100));
             return true;
         }
         catch (Exception ex)
@@ -216,7 +216,7 @@ public class DofFixService : IDofFixService
             return true;
 
         if (string.IsNullOrEmpty(engineHint)) return false;
-        if (!engineHint.Contains("Unreal Engine 5")) return false;
+        if (!engineHint.Contains("虚幻引擎 5")) return false;
 
         // Check skip list
         if (!string.IsNullOrEmpty(gameName) && _skipGames != null
@@ -244,7 +244,7 @@ public class DofFixService : IDofFixService
     {
         if (is32Bit) return false;
         if (string.IsNullOrEmpty(engineHint)) return false;
-        if (!engineHint.Contains("Unreal Engine 5")) return false;
+        if (!engineHint.Contains("虚幻引擎 5")) return false;
         var idx = engineHint.IndexOf("5.", StringComparison.Ordinal);
         if (idx < 0) return true; // Just "Unreal Engine 5" with no minor version — assume eligible
         var afterFive = engineHint.Substring(idx + 2);

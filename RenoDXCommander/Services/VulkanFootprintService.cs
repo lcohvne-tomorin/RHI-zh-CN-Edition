@@ -11,7 +11,7 @@ public static class VulkanFootprintService
     public const string FootprintFileName = "RDXC_VULKAN_FOOTPRINT";
     public const string FootprintContent =
         "Managed by RHI — Vulkan ReShade footprint.\n"
-      + "Do not delete this file while Vulkan ReShade is in use.";
+      + "Vulkan ReShade 使用期间请勿删除此文件。";
 
     /// <summary>
     /// Creates the footprint file in the game directory.

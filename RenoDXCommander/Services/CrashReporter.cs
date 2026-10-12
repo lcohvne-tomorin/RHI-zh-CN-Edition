@@ -145,7 +145,7 @@ public static class CrashReporter
         {
             _verboseLogging = value;
             if (value)
-                Log("Verbose logging enabled");
+                Log("详细日志已启用");
         }
     }
 
@@ -326,14 +326,14 @@ public static class CrashReporter
             var ex = e.ExceptionObject as Exception;
             WriteCrashReport("AppDomain.UnhandledException", ex,
                 isTerminating: e.IsTerminating,
-                note: e.IsTerminating ? "Process is terminating." : null);
+                note: e.IsTerminating ? "进程正在终止。" : null);
         };
 
         // 2. Unobserved Task exceptions (async void, fire-and-forget Tasks)
         TaskScheduler.UnobservedTaskException += (_, e) =>
         {
             WriteCrashReport("TaskScheduler.UnobservedTaskException", e.Exception,
-                note: "Task exception was unobserved. Marking as observed to prevent crash.");
+                note: "任务异常未被观察。标记为已观察以防止崩溃。");
             e.SetObserved(); // Prevent the process from being killed
         };
 
@@ -345,11 +345,11 @@ public static class CrashReporter
             // e.Handled = true and continue running with a potentially dead dispatcher.
             LogSync($"[CrashReporter] app.UnhandledException at {DateTime.Now:HH:mm:ss.fff}: {e.Exception?.GetType().Name}: {e.Exception?.Message}");
             WriteCrashReport("Microsoft.UI.Xaml.Application.UnhandledException", e.Exception,
-                note: $"WinUI exception. Handled = true (app will attempt to continue). Message: {e.Message}");
+                note: $"WinUI 异常。已处理 = true（应用将尝试继续）。消息：{e.Message}");
             e.Handled = true; // Try to keep the app alive
         };
 
-        Log("CrashReporter registered.");
+        Log("CrashReporter 已注册。");
     }
 
     // ── Report writer ─────────────────────────────────────────────────────────────
@@ -377,7 +377,7 @@ public static class CrashReporter
 
             // ── Header ──────────────────────────────────────────────────────────
             sb.AppendLine("═══════════════════════════════════════════════════════════════");
-            sb.AppendLine("  RenoDX Mod Manager — Error / Crash Report");
+            sb.AppendLine("  RenoDX Mod 管理器 — 错误 / 崩溃报告");
             sb.AppendLine("═══════════════════════════════════════════════════════════════");
             sb.AppendLine();
 
@@ -400,12 +400,12 @@ public static class CrashReporter
             // ── Exception chain ──────────────────────────────────────────────────
             sb.AppendLine();
             sb.AppendLine("───────────────────────────────────────────────────────────────");
-            sb.AppendLine("  Exception Details");
+            sb.AppendLine("  异常详情");
             sb.AppendLine("───────────────────────────────────────────────────────────────");
 
             if (ex == null)
             {
-                sb.AppendLine("(No exception object available)");
+                sb.AppendLine("（没有可用的异常对象）");
             }
             else
             {
@@ -415,13 +415,13 @@ public static class CrashReporter
             // ── Breadcrumb trail ─────────────────────────────────────────────────
             sb.AppendLine();
             sb.AppendLine("───────────────────────────────────────────────────────────────");
-            sb.AppendLine("  Recent Activity Log (newest last)");
+            sb.AppendLine("  最近活动日志（最新在最后）");
             sb.AppendLine("───────────────────────────────────────────────────────────────");
 
             var crumbs = _breadcrumbs.ToArray();
             if (crumbs.Length == 0)
             {
-                sb.AppendLine("(no breadcrumbs recorded)");
+                sb.AppendLine("（未记录面包屑）");
             }
             else
             {
@@ -432,7 +432,7 @@ public static class CrashReporter
             // ── Loaded assemblies (helps detect version conflicts) ───────────────
             sb.AppendLine();
             sb.AppendLine("───────────────────────────────────────────────────────────────");
-            sb.AppendLine("  Loaded Assemblies");
+            sb.AppendLine("  已加载的程序集");
             sb.AppendLine("───────────────────────────────────────────────────────────────");
             try
             {
@@ -443,17 +443,17 @@ public static class CrashReporter
                     sb.AppendLine($"  {name.Name,-50} {name.Version}");
                 }
             }
-            catch { sb.AppendLine("(could not enumerate assemblies)"); }
+            catch { sb.AppendLine("（无法枚举程序集）"); }
 
             sb.AppendLine();
             sb.AppendLine("═══════════════════════════════════════════════════════════════");
-            sb.AppendLine($"  End of report — {fileName}");
+            sb.AppendLine($"  报告结束 — {fileName}");
             sb.AppendLine("═══════════════════════════════════════════════════════════════");
 
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
 
             // Also log that we wrote the report so the next crash knows about this one
-            Log($"Crash report written: {fileName}");
+            Log($"崩溃报告已写入：{fileName}");
         }
         catch
         {
@@ -466,7 +466,7 @@ public static class CrashReporter
     private static void AppendException(StringBuilder sb, Exception ex, int depth)
     {
         var indent = new string(' ', depth * 4);
-        var label  = depth == 0 ? "Exception" : "Inner Exception";
+        var label  = depth == 0 ? "Exception" : "内部异常";
 
         sb.AppendLine($"{indent}{label}  : {ex.GetType().FullName}");
         sb.AppendLine($"{indent}Message   : {ex.Message}");
@@ -476,14 +476,14 @@ public static class CrashReporter
 
         if (ex.StackTrace != null)
         {
-            sb.AppendLine($"{indent}Stack trace:");
+            sb.AppendLine($"{indent}堆栈跟踪：");
             foreach (var line in ex.StackTrace.Split('\n'))
                 sb.AppendLine($"{indent}  {line.TrimEnd()}");
         }
 
         if (ex is AggregateException agg)
         {
-            sb.AppendLine($"{indent}Aggregate inner exceptions ({agg.InnerExceptions.Count}):");
+            sb.AppendLine($"{indent}聚合内部异常（{agg.InnerExceptions.Count}）：");
             for (int i = 0; i < agg.InnerExceptions.Count; i++)
             {
                 sb.AppendLine($"{indent}  [{i}]");

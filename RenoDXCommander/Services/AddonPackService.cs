@@ -31,7 +31,7 @@ public class AddonPackService : IAddonPackService
 
     private static readonly string CustomAddonsDir =
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "RHI", "Custom", "Addons");
+            "RHI", "自定义", "插件");
 
     private readonly HttpClient _http;
     private List<AddonEntry> _packs = new();
@@ -41,7 +41,7 @@ public class AddonPackService : IAddonPackService
     private static readonly AddonEntry RenoDxDevKitEntry = new(
         SectionId: "renodx-devkit",
         PackageName: "RenoDX DevKit",
-        PackageDescription: "RenoDX development tools addon for ReShade",
+        PackageDescription: "用于 ReShade 的 RenoDX 开发工具插件",
         DownloadUrl: null,
         DownloadUrl32: "https://github.com/clshortfuse/renodx/releases/download/snapshot/renodx-devkit.addon32",
         DownloadUrl64: "https://github.com/clshortfuse/renodx/releases/download/snapshot/renodx-devkit.addon64",
@@ -52,7 +52,7 @@ public class AddonPackService : IAddonPackService
     private static readonly AddonEntry Renodx5Entry = new(
         SectionId: "renodx-dlss5",
         PackageName: "DLSS5 Tool",
-        PackageDescription: "Enables DLSS Neural Rendering in any DLSS-compatible game. Supports RTX 20, 30, 40 and 50 Series GPUs. RHI automatically deploys nvngx_dlssnr.dll to the game folder alongside this addon.",
+        PackageDescription: "在任何兼容 DLSS 的游戏中启用 DLSS 神经网络渲染。支持 RTX 20、30、40 和 50 系列显卡。RHI 会随此插件自动将 nvngx_dlssnr.dll 部署到游戏文件夹。",
         DownloadUrl: null,
         DownloadUrl32: null,
         DownloadUrl64: null,
@@ -65,7 +65,7 @@ public class AddonPackService : IAddonPackService
     private static readonly AddonEntry Renodx5SfEntry = new(
         SectionId: "renodx-dlss-sf",
         PackageName: "DLSS Tool (ShortFuse)",
-        PackageDescription: "ShortFuse's DLSS5 addon. Supports DX12, DX11 and DX9. For non-DLSS games enable Load DLSS Libraries and set Hook Method to On Present. Supports RTX 20-50 Series. Still WIP — fall back to DLSS5 Tool if you have issues.",
+        PackageDescription: "ShortFuse 的 DLSS5 插件。支持 DX12、DX11 和 DX9。对于没有 DLSS 的游戏，请启用「加载 DLSS 库」并将挂钩方式设为「On Present」。支持 RTX 20-50 系列。仍在开发中 — 如遇到问题请退回使用 DLSS5 Tool。",
         DownloadUrl: null,
         DownloadUrl32: null,
         DownloadUrl64: null,
@@ -77,8 +77,8 @@ public class AddonPackService : IAddonPackService
     // DLSS Fix addon — fixes DLSS frame generation locking to 2× in Unreal Engine games
     private static readonly AddonEntry DlssFixEntry = new(
         SectionId: "renodx-dlssfix",
-        PackageName: "DLSS Fix",
-        PackageDescription: "Makes ReShade draw on native game frames instead of frame gen frames. Also hides DLSS upscaling from ReShade.",
+        PackageName: "DLSS 修复",
+        PackageDescription: "让 ReShade 绘制在游戏原生帧上，而非帧生成帧上。同时向 ReShade 隐藏 DLSS 超分。",
         DownloadUrl: "https://github.com/clshortfuse/renodx/releases/download/snapshot/renodx-dlssfix.addon64",
         DownloadUrl32: null,
         DownloadUrl64: "https://github.com/clshortfuse/renodx/releases/download/snapshot/renodx-dlssfix.addon64",
@@ -486,13 +486,13 @@ public class AddonPackService : IAddonPackService
             if (entry.SectionId.Equals("renodx-dlss5", StringComparison.OrdinalIgnoreCase)
                 || entry.PackageName.Equals("DLSS5 Tool", StringComparison.OrdinalIgnoreCase))
             {
-                progress?.Report(("Downloading RenoDX DLSS5 addon...", 10));
+                progress?.Report(("正在下载 RenoDX DLSS5 插件...", 10));
                 var rdx5Service = App.Services.GetRequiredService<Renodx5AddonService>();
                 await rdx5Service.EnsureStagingAsync(progress).ConfigureAwait(false);
                 if (!rdx5Service.IsStagingReady)
                 {
                     CrashReporter.Log("[AddonPackService.DownloadAddonAsync] RenoDX DLSS5 staging not ready after EnsureStaging");
-                    progress?.Report(("RenoDX DLSS5 download failed", 0));
+                    progress?.Report(("RenoDX DLSS5 下载失败", 0));
                 }
                 return;
             }
@@ -500,13 +500,13 @@ public class AddonPackService : IAddonPackService
             // SF variant — route to Renodx5AddonService.EnsureSfStagingAsync
             if (entry.SectionId.Equals("renodx-dlss-sf", StringComparison.OrdinalIgnoreCase))
             {
-                progress?.Report(("Downloading DLSS Tool (ShortFuse)...", 10));
+                progress?.Report(("正在下载 DLSS Tool (ShortFuse)...", 10));
                 var rdx5Service = App.Services.GetRequiredService<Renodx5AddonService>();
                 await rdx5Service.EnsureSfStagingAsync(progress).ConfigureAwait(false);
                 if (!rdx5Service.IsSfStagingReady)
                 {
                     CrashReporter.Log("[AddonPackService.DownloadAddonAsync] SF staging not ready after EnsureStaging");
-                    progress?.Report(("DLSS Tool (ShortFuse) download failed", 0));
+                    progress?.Report(("DLSS Tool (ShortFuse) 下载失败", 0));
                 }
                 return;
             }
@@ -521,7 +521,7 @@ public class AddonPackService : IAddonPackService
                 if (resolvedUrl64 == null && resolvedUrl32 == null)
                 {
                     CrashReporter.Log($"[AddonPackService.DownloadAddonAsync] Could not resolve asset URL from API for '{entry.PackageName}'");
-                    progress?.Report(($"❌ Failed to resolve download URL for {entry.PackageName}", 0));
+                    progress?.Report(($"❌ 无法解析 {entry.PackageName} 的下载 URL", 0));
                     return;
                 }
                 versionOverride ??= resolvedTag;
@@ -565,7 +565,7 @@ public class AddonPackService : IAddonPackService
                 var pctBase = (double)i / downloads.Count * 100;
                 var pctRange = 100.0 / downloads.Count;
 
-                progress?.Report(($"Downloading {entry.PackageName}...", pctBase));
+                progress?.Report(($"正在下载 {entry.PackageName}...", pctBase));
                 CrashReporter.Log($"[AddonPackService.DownloadAddonAsync] Downloading '{entry.PackageName}' from {url}");
 
                 try
@@ -609,7 +609,7 @@ public class AddonPackService : IAddonPackService
 
             if (!anySucceeded)
             {
-                progress?.Report(($"❌ Download failed for {entry.PackageName}", 0));
+                progress?.Report(($"❌ {entry.PackageName} 下载失败", 0));
                 return;
             }
 
@@ -617,13 +617,13 @@ public class AddonPackService : IAddonPackService
             versionToken ??= "unknown";
             SaveAddonVersion(entry.PackageName, versionToken, safeName);
 
-            progress?.Report(($"{entry.PackageName} downloaded.", 100));
+            progress?.Report(($"{entry.PackageName} 已下载。", 100));
             CrashReporter.Log($"[AddonPackService.DownloadAddonAsync] '{entry.PackageName}' download complete. Version = {versionToken}");
         }
         catch (Exception ex)
         {
             CrashReporter.Log($"[AddonPackService.DownloadAddonAsync] Failed for '{entry.PackageName}' — {ex.Message}");
-            progress?.Report(($"❌ Download failed: {ex.Message}", 0));
+            progress?.Report(($"❌ 下载失败：{ex.Message}", 0));
         }
     }
 
@@ -1085,7 +1085,7 @@ public class AddonPackService : IAddonPackService
             results.Add(new AddonEntry(
                 SectionId: $"custom-{baseName}",
                 PackageName: baseName,
-                PackageDescription: "Custom addon (local file)",
+                PackageDescription: "自定义插件（本地文件）",
                 DownloadUrl: null,
                 DownloadUrl32: null,
                 DownloadUrl64: null,
@@ -1149,7 +1149,7 @@ public class AddonPackService : IAddonPackService
                     if (total > 0)
                     {
                         var filePct = pctBase + (double)received / total * pctRange;
-                        progress?.Report(($"Downloading {displayName}... {received / 1024} KB / {total / 1024} KB", filePct));
+                        progress?.Report(($"正在下载 {displayName}... {received / 1024} KB / {total / 1024} KB", filePct));
                     }
                 }
             }
@@ -1176,7 +1176,7 @@ public class AddonPackService : IAddonPackService
         {
             await DownloadFileAsync(url, tempZip, safeName, progress, pctBase, pctRange * 0.8);
 
-            progress?.Report(($"Extracting {safeName}...", pctBase + pctRange * 0.8));
+            progress?.Report(($"正在解压 {safeName}...", pctBase + pctRange * 0.8));
 
             using var archive = ArchiveFactory.Open(tempZip);
             foreach (var archiveEntry in archive.Entries)
@@ -1238,7 +1238,7 @@ public class AddonPackService : IAddonPackService
                 CrashReporter.Log($"[AddonPackService.DownloadAndExtractZipAsync] Extracted '{fileName}' → '{destPath}' (originalName={originalName})");
             }
 
-            progress?.Report(($"Extracted {safeName}.", pctBase + pctRange));
+            progress?.Report(($"已解压 {safeName}。", pctBase + pctRange));
         }
         finally
         {

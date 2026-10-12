@@ -1,0 +1,16 @@
+{
+  "{_allCards.Count} games": "{_allCards.Count} 个游戏",
+  "Only proceed if you are comfortable managing ReShade addons.": "仅在您能熟练管理 ReShade 插件时才继续。",
+  "Unreal Engine games but may cause crashes or visual issues with others. ": "虚幻引擎游戏，但在其他游戏中可能导致崩溃或画面问题。 ",
+  "{detectedGames.Count} games detected · {InstalledCount} ReShade installs": "检测到 {detectedGames.Count} 个游戏 · {InstalledCount} 个 ReShade 安装",
+  "dxgi.dll may conflict with ReShade or OptiScaler if they also use this name.": "如果 ReShade 或 OptiScaler 也使用此名称，dxgi.dll 可能会产生冲突。",
+  "Installing the Vulkan ReShade layer requires writing to C:\\ProgramData\\ReShade\\ ": "安装 Vulkan ReShade 层需要写入 C:\\ProgramData\\ReShade\\ ",
+  "Highest available forces your max refresh rate. App Setting lets games choose their own refresh rate.": "最高可用会强制使用您的最大刷新率。应用设置则让游戏自行选择刷新率。",
+  "or a version you prefer - choose \"I'll manage it myself\" and RHI will leave ReShade completely alone.": "或您偏好的版本 — 选择「我自己管理」，RHI 将完全不干预 ReShade。",
+  "These are the people who make the mods RHI manages. If you enjoy their work, consider supporting them.": "这些人制作了 RHI 所管理的 mod。如果您喜欢他们的作品，请考虑支持他们。",
+  "For DX12 games with native DLSS. This game has no detected DLSS — consider ShortFuse DLSS Tool instead.": "适用于具有原生 DLSS 的 DX12 游戏。此游戏未检测到 DLSS — 建议改用 ShortFuse DLSS Tool。",
+  "Shader cache folders cleared. {filesDeleted} files deleted. Shaders will recompile on next game launch.": "着色器缓存文件夹已清除。已删除 {filesDeleted} 个文件。着色器将在下次启动游戏时重新编译。",
+  "Global FPS cap via NVIDIA driver. VRR-optimal presets cap just below refresh rate to stay in VRR range.": "通过 NVIDIA 驱动设置的全局帧率上限。VRR 最优预设会将上限设在刷新率略低处，以保持在 VRR 范围内。",
+  "All session logs have been archived and copied to your clipboard. Paste directly into Discord to share.": "所有会话日志已归档并复制到剪贴板。直接粘贴到 Discord 即可分享。",
+  "The existing '{chosen}' was renamed to '{hookedOriginal}' so ASI Loader can chain-load it automatically.": "现有的 '{chosen}' 已重命名为 '{hookedOriginal}'，以便 ASI Loader 自动链式加载。"
+}

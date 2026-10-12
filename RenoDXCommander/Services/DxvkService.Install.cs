@@ -38,7 +38,7 @@ public partial class DxvkService
     {
         try
         {
-            progress?.Report(("Preparing DXVK install...", 5));
+            progress?.Report(("正在准备 DXVK 安装...", 5));
 
             // ── 1. Ensure staging is ready ───────────────────────────────
             if (!IsStagingReady)
@@ -48,7 +48,7 @@ public partial class DxvkService
                 if (!IsStagingReady)
                 {
                     CrashReporter.Log("[DxvkService.InstallAsync] Staging still not ready — aborting");
-                    progress?.Report(("DXVK staging not available", 0));
+                    progress?.Report(("DXVK 暂存不可用", 0));
                     return;
                 }
             }
@@ -60,7 +60,7 @@ public partial class DxvkService
             // ── 3. Validate deployment path ──────────────────────────────
             if (!IsValidDeploymentPath(card.InstallPath))
             {
-                var msg = $"Cannot deploy DXVK to '{card.InstallPath}' — path is under a protected system directory.";
+                var msg = $"无法将 DXVK 部署到 '{card.InstallPath}' — 路径位于受保护的系统目录下。";
                 CrashReporter.Log($"[DxvkService.InstallAsync] {msg}");
                 progress?.Report((msg, 0));
                 return;
@@ -84,7 +84,7 @@ public partial class DxvkService
                 return;
             }
 
-            progress?.Report(("Resolving deployment paths...", 15));
+            progress?.Report(("正在解析部署路径...", 15));
 
             // ── DX8/DX9 Direct Mode ─────────────────────────────────────
             // All variants deploy DXVK as d3d9.dll directly for DX8/DX9 games.
@@ -156,7 +156,7 @@ public partial class DxvkService
                 // Step 5b: Lilium HDR only — set NVIDIA profile settings for HDR present mode
                 if (_selectedVariant == DxvkVariant.LiliumHdr)
                 {
-                    progress?.Report(("Setting NVIDIA profile...", 78));
+                    progress?.Report(("正在设置 NVIDIA 配置文件...", 78));
                     try
                     {
                         var presetSvc = App.Services.GetRequiredService<DlssPresetService>();
@@ -170,7 +170,7 @@ public partial class DxvkService
                 }
 
                 // Step 6: Save tracking record
-                progress?.Report(("Saving install record...", 85));
+                progress?.Report(("正在保存安装记录...", 85));
                 var dx9Record = new DxvkInstalledRecord
                 {
                     GameName = card.GameName,
@@ -210,7 +210,7 @@ public partial class DxvkService
                 card.RefreshBackupState(); // populate VulkanRsIniExists so panel shows correctly
                 card.NotifyAll();
 
-                progress?.Report(("DXVK installed!", 100));
+                progress?.Report(("DXVK 已安装！", 100));
                 CrashReporter.Log($"[DxvkService.InstallAsync] Direct DX9 install complete for {card.GameName} (variant={_selectedVariant})");
                 return;
             }
@@ -227,10 +227,10 @@ public partial class DxvkService
             // - DXVK also needs to deploy dxgi.dll for DX10/DX11 games
             // - If we deploy DXVK's dxgi.dll first, then the ReShade uninstall
             //   deletes it thinking it's removing the old ReShade DLL
-            progress?.Report(("Switching ReShade mode...", 25));
+            progress?.Report(("正在切换 ReShade 模式...", 25));
             await SwitchReShadeForDxvkAsync(card, dxvkEnabled: true, screenshotSavePath, overlayHotkey, screenshotHotkey);
 
-            progress?.Report(("Deploying DXVK DLLs...", 35));
+            progress?.Report(("正在部署 DXVK DLL...", 35));
 
             var backedUpFiles = new List<string>();
 
@@ -298,7 +298,7 @@ public partial class DxvkService
                 CrashReporter.Log($"[DxvkService.InstallAsync] Failed to deploy dxvk.conf — {ex.Message}");
             }
 
-            progress?.Report(("Saving install record...", 80));
+            progress?.Report(("正在保存安装记录...", 80));
 
             // ── 10. Create and persist DxvkInstalledRecord ───────────────
             var record = new DxvkInstalledRecord
@@ -353,12 +353,12 @@ public partial class DxvkService
             }
             card.NotifyAll();
 
-            progress?.Report(("DXVK installed!", 100));
+            progress?.Report(("DXVK 已安装！", 100));
             CrashReporter.Log($"[DxvkService.InstallAsync] Install complete for {card.GameName}");
         }
         catch (IOException ioEx) when (IsFileLockedException(ioEx))
         {
-            var msg = $"File is in use — close {card.GameName} and retry.";
+            var msg = $"文件正在使用中 — 请关闭 {card.GameName} 后重试。";
             CrashReporter.Log($"[DxvkService.InstallAsync] {msg} — {ioEx.Message}");
             progress?.Report(($"❌ {msg}", 0));
         }
@@ -366,8 +366,8 @@ public partial class DxvkService
         {
             CrashReporter.Log($"[DxvkService.InstallAsync] {card.GameName} — {ex.Message}");
             CrashReporter.WriteCrashReport("DxvkService.InstallAsync", ex,
-                note: $"Game: {card.GameName}, Path: {card.InstallPath}");
-            progress?.Report(($"❌ Install failed: {ex.Message}", 0));
+                note: $"游戏：{card.GameName}，路径：{card.InstallPath}");
+            progress?.Report(($"❌ 安装失败：{ex.Message}", 0));
         }
     }
 
@@ -593,7 +593,7 @@ public partial class DxvkService
         {
             CrashReporter.Log($"[DxvkService.Uninstall] {card.GameName} — {ex.Message}");
             CrashReporter.WriteCrashReport("DxvkService.Uninstall", ex,
-                note: $"Game: {card.GameName}, Path: {card.InstallPath}");
+                note: $"游戏：{card.GameName}，路径：{card.InstallPath}");
         }
     }
 
@@ -606,7 +606,7 @@ public partial class DxvkService
     {
         try
         {
-            progress?.Report(("Preparing DXVK update...", 5));
+            progress?.Report(("正在准备 DXVK 更新...", 5));
 
             // ── 1. Re-stage latest DXVK if needed ────────────────────────
             if (HasUpdate)
@@ -621,7 +621,7 @@ public partial class DxvkService
                 if (!IsStagingReady)
                 {
                     CrashReporter.Log("[DxvkService.UpdateAsync] Staging not ready after download — aborting");
-                    progress?.Report(("DXVK staging not available", 0));
+                    progress?.Report(("DXVK 暂存不可用", 0));
                     return;
                 }
             }
@@ -634,7 +634,7 @@ public partial class DxvkService
                 return;
             }
 
-            progress?.Report(("Updating DXVK DLLs...", 30));
+            progress?.Report(("正在更新 DXVK DLL...", 30));
 
             // ── 2. Determine arch folder for staging ─────────────────────
             // For direct DX9 mode (any variant), card.GraphicsApi is Vulkan (runtime override) — use the
@@ -673,7 +673,7 @@ public partial class DxvkService
                 }
             }
 
-            progress?.Report(("Saving updated record...", 80));
+            progress?.Report(("正在保存更新后的记录...", 80));
 
             // ── 5. Rewrite dxvk.conf for direct DX9 installs ────────────
             if (isDx9DirectInstall)
@@ -708,12 +708,12 @@ public partial class DxvkService
             card.DxvkRecord = existingRecord;
             HasUpdate = false;
 
-            progress?.Report(("DXVK updated!", 100));
+            progress?.Report(("DXVK 已更新！", 100));
             CrashReporter.Log($"[DxvkService.UpdateAsync] Update complete for {card.GameName}");
         }
         catch (IOException ioEx) when (IsFileLockedException(ioEx))
         {
-            var msg = $"File is in use — close {card.GameName} and retry.";
+            var msg = $"文件正在使用中 — 请关闭 {card.GameName} 后重试。";
             CrashReporter.Log($"[DxvkService.UpdateAsync] {msg} — {ioEx.Message}");
             progress?.Report(($"❌ {msg}", 0));
         }
@@ -721,8 +721,8 @@ public partial class DxvkService
         {
             CrashReporter.Log($"[DxvkService.UpdateAsync] {card.GameName} — {ex.Message}");
             CrashReporter.WriteCrashReport("DxvkService.UpdateAsync", ex,
-                note: $"Game: {card.GameName}, Path: {card.InstallPath}");
-            progress?.Report(($"❌ Update failed: {ex.Message}", 0));
+                note: $"游戏：{card.GameName}，路径：{card.InstallPath}");
+            progress?.Report(($"❌ 更新失败：{ex.Message}", 0));
         }
     }
 
@@ -907,7 +907,7 @@ public partial class DxvkService
         catch (IOException ioEx) when (IsFileLockedException(ioEx))
         {
             throw new IOException(
-                $"Cannot copy '{dllName}' — the file is in use. Close {gameName} and retry.", ioEx);
+                $"无法复制 '{dllName}' — 文件正在使用中。请关闭 {gameName} 后重试。", ioEx);
         }
     }
 
@@ -979,8 +979,8 @@ public partial class DxvkService
                 {
                     CrashReporter.Log(
                         $"[DxvkService.SwitchReShadeForDxvk] WARNING: {card.GameName}: " +
-                        "Global Vulkan ReShade layer is not installed. DXVK games present as Vulkan " +
-                        "and require the layer. Install ReShade on a Vulkan game via the UI to set up the layer.");
+                        "未安装全局 Vulkan ReShade 层。使用 DXVK 的游戏会以 Vulkan 呈现 " +
+                        "并需要该层。请通过界面在某个 Vulkan 游戏上安装 ReShade 以设置该层。");
                 }
 
                 CrashReporter.Log($"[DxvkService.SwitchReShadeForDxvk] {card.GameName}: switched ReShade to Vulkan layer mode");

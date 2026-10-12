@@ -12,11 +12,11 @@ public partial class GameCardViewModel
     public string UlStatusDot => UlStatus == GameStatus.UpdateAvailable ? "🟢"
         : UlStatus == GameStatus.Installed ? "🟢" : "⚪";
 
-    public string UlActionLabel => UlIsInstalling ? "Installing..."
-        : (!IsRsInstalled && !ExcludeFromUpdateAllReShade) ? "⚠  ReShade required"
-        : UlStatus == GameStatus.UpdateAvailable ? "⬆  Update ReLimiter"
-        : UlStatus == GameStatus.Installed ? "↺  Reinstall ReLimiter"
-        : "⬇  Install ReLimiter";
+    public string UlActionLabel => UlIsInstalling ? "正在安装..."
+        : (!IsRsInstalled && !ExcludeFromUpdateAllReShade) ? "⚠  ReShade 必需"
+        : UlStatus == GameStatus.UpdateAvailable ? "⬆  更新 ReLimiter"
+        : UlStatus == GameStatus.Installed ? "↺  重新安装 ReLimiter"
+        : "⬇  安装 ReLimiter";
 
     public string UlBtnBackground  => UlStatus == GameStatus.UpdateAvailable ? "#201838" : "#182840";
     public string UlBtnForeground  => UlStatus == GameStatus.UpdateAvailable ? "#B898E8" : "#7AACDD";
@@ -26,18 +26,18 @@ public partial class GameCardViewModel
     public Visibility UlMessageVisibility  => string.IsNullOrEmpty(UlActionMessage) ? Visibility.Collapsed : Visibility.Visible;
     public Visibility UlDeleteVisibility   => UlStatus == GameStatus.Installed || UlStatus == GameStatus.UpdateAvailable ? Visibility.Visible : Visibility.Collapsed;
 
-    public string UlStatusText => UlIsInstalling ? "Installing…"
-        : UlStatus == GameStatus.UpdateAvailable ? "Update"
-        : UlStatus == GameStatus.Installed ? (UlInstalledVersion ?? "Installed")
-        : "Ready";
+    public string UlStatusText => UlIsInstalling ? "正在安装…"
+        : UlStatus == GameStatus.UpdateAvailable ? "更新"
+        : UlStatus == GameStatus.Installed ? (UlInstalledVersion ?? "已安装")
+        : "就绪";
     public string UlStatusColor => UlIsInstalling ? "#D4A856"
         : UlStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : UlStatus == GameStatus.Installed ? "#5ECB7D"
         : "#A0AABB";
     public string UlShortAction => UlIsInstalling ? "…"
-        : UlStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-        : UlStatus == GameStatus.Installed ? "↺ Reinstall"
-        : "⬇ Install";
+        : UlStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+        : UlStatus == GameStatus.Installed ? "↺ 重新安装"
+        : "⬇ 安装";
 
     public bool IsUlNotInstalling => !UlIsInstalling;
     public bool IsUlInstalled => UlStatus == GameStatus.Installed || UlStatus == GameStatus.UpdateAvailable;

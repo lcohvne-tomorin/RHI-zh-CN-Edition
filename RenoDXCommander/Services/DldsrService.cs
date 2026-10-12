@@ -256,14 +256,14 @@ public class DldsrService : IDldsrService
             CrashReporter.Log($"[DldsrService.CaptureCurrentState] Access denied: {ex.Message}");
             throw new UnauthorizedAccessException(
                 "Cannot read DLDSR registry keys. Admin privileges are required.\n\n" +
-                "Please enable Admin Mode in RHI Settings or run RHI as Administrator.");
+                "请在 RHI 设置中启用管理员模式，或以管理员身份运行 RHI。");
         }
         catch (System.Security.SecurityException ex)
         {
             CrashReporter.Log($"[DldsrService.CaptureCurrentState] Security exception: {ex.Message}");
             throw new UnauthorizedAccessException(
                 "Cannot read DLDSR registry keys. Admin privileges are required.\n\n" +
-                "Please enable Admin Mode in RHI Settings or run RHI as Administrator.");
+                "请在 RHI 设置中启用管理员模式，或以管理员身份运行 RHI。");
         }
 
         if (monitors.Count == 0)
@@ -271,7 +271,7 @@ public class DldsrService : IDldsrService
             CrashReporter.Log("[DldsrService.CaptureCurrentState] No monitor keys with values found");
             throw new InvalidOperationException(
                 "No DLDSR/DSR data found in registry.\n\n" +
-                "Please enable at least one DSR or DLDSR factor in NVIDIA Control Panel first, then capture.");
+                "请先在 NVIDIA 控制面板中启用至少一个 DSR 或 DLDSR 倍率，然后捕获。");
         }
 
         var capture = new DldsrCapture(label, DateTime.Now, GetCurrentDriverVersion(), monitors);
@@ -315,7 +315,7 @@ public class DldsrService : IDldsrService
     public async Task<bool> ApplyStateAsync(string label, IProgress<string>? progress = null, int? smoothnessOverride = null)
     {
         CrashReporter.Log($"[DldsrService.ApplyStateAsync] Applying state '{label}'" + (smoothnessOverride.HasValue ? $" with smoothness override {smoothnessOverride}%" : ""));
-        progress?.Report("Loading capture...");
+        progress?.Report("正在加载捕获...");
         var captures = LoadCaptures();
         var capture = captures.FirstOrDefault(c => c.Label.Equals(label, StringComparison.OrdinalIgnoreCase));
         if (capture == null)
@@ -334,7 +334,7 @@ public class DldsrService : IDldsrService
         }
 
         // Write capture to ProgramData for SYSTEM-accessible path (user temp is inaccessible to SYSTEM)
-        progress?.Report("Preparing DLDSR configuration...");
+        progress?.Report("正在准备 DLDSR 配置...");
         Directory.CreateDirectory(ProgramDataDir);
         var stateFile = Path.Combine(ProgramDataDir, "dldsr-state.json");
         try
@@ -382,7 +382,7 @@ public class DldsrService : IDldsrService
         }
 
         // Execute registry writes via scheduled task (SYSTEM privilege)
-        progress?.Report("Writing DLDSR configuration...");
+        progress?.Report("正在写入 DLDSR 配置...");
         if (!await ExecuteAsSystemAsync(stateFile))
         {
             CrashReporter.Log("[DldsrService.ApplyStateAsync] Failed to execute registry writes");
@@ -390,7 +390,7 @@ public class DldsrService : IDldsrService
         }
 
         // Restart GPU adapter
-        progress?.Report("Restarting GPU adapter...");
+        progress?.Report("正在重启 GPU 适配器...");
         if (!await RestartGpuAdapterAsync())
         {
             CrashReporter.Log("[DldsrService.ApplyStateAsync] Failed to restart GPU adapter");
@@ -398,7 +398,7 @@ public class DldsrService : IDldsrService
         }
 
         // Wait for displays to come back
-        progress?.Report("Waiting for displays...");
+        progress?.Report("正在等待显示器...");
         await Task.Delay(12000);
 
         CrashReporter.Log($"[DldsrService.ApplyStateAsync] Successfully applied '{label}'");
@@ -449,7 +449,7 @@ public class DldsrService : IDldsrService
             for (int i = 0; i < 10; i++)
             {
                 var (queryExitCode, queryOutput) = await RunProcessAsync("schtasks", $"/Query /TN \"{taskName}\" /V /FO LIST");
-                if (queryOutput.Contains("Last Result:") && 
+                if (queryOutput.Contains("上次结果：") && 
                     (queryOutput.Contains("Last Result:                   0") || queryOutput.Contains("Last Result:                   The operation completed successfully")))
                 {
                     CrashReporter.Log("[DldsrService.ExecuteAsSystemAsync] Task completed successfully");
@@ -767,7 +767,7 @@ try {
         }
 
         CrashReporter.Log($"[DldsrService.SetSmoothnessAsync] Setting smoothness to {smoothness}%");
-        progress?.Report("Reading current DLDSR state...");
+        progress?.Report("正在读取当前 DLDSR 状态...");
 
         try
         {
@@ -841,7 +841,7 @@ try {
                 return false;
             }
 
-            progress?.Report("Preparing smoothness configuration...");
+            progress?.Report("正在准备平滑度配置...");
 
             // Build a capture with modified smoothness
             var monitors = new List<DldsrMonitorCapture>();
@@ -878,7 +878,7 @@ try {
             CrashReporter.Log($"[DldsrService.SetSmoothnessAsync] Wrote state file to {stateFile}");
 
             // Execute registry writes via scheduled task (SYSTEM privilege)
-            progress?.Report("Writing smoothness configuration...");
+            progress?.Report("正在写入平滑度配置...");
             if (!await ExecuteAsSystemAsync(stateFile))
             {
                 CrashReporter.Log("[DldsrService.SetSmoothnessAsync] Failed to execute registry writes");
@@ -888,14 +888,14 @@ try {
             // GPU restart required — the driver reads DisplayDatabase at adapter startup only,
             // not live. nvcontainer.exe updates smoothness live via a privileged IPC channel
             // that is not available to third-party apps.
-            progress?.Report("Restarting GPU adapter...");
+            progress?.Report("正在重启 GPU 适配器...");
             if (!await RestartGpuAdapterAsync())
             {
                 CrashReporter.Log("[DldsrService.SetSmoothnessAsync] Failed to restart GPU adapter");
                 return false;
             }
 
-            progress?.Report("Waiting for displays...");
+            progress?.Report("正在等待显示器...");
             await Task.Delay(12000);
 
             CrashReporter.Log($"[DldsrService.SetSmoothnessAsync] Successfully set smoothness to {smoothness}%");

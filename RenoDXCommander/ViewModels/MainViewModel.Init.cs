@@ -145,7 +145,7 @@ public partial class MainViewModel
     private async Task FullRefreshCoreAsync(IProgress<string>? progress)
     {
         // Clear all caches so every game is re-scanned from disk.
-        progress?.Report("Clearing caches...");
+        progress?.Report("正在清理缓存...");
         _engineTypeCache.Clear();
         _resolvedPathCache.Clear();
         _addonFileCache.Clear();
@@ -227,7 +227,7 @@ public partial class MainViewModel
             try { dumpInfo = System.IO.File.ReadAllText(pendingDumpMarker).Trim(); } catch { }
             // dumpInfo is either "path" (write started but log line may be lost) or "path|SizeMB" (write confirmed)
             var dumpPath = dumpInfo.Contains('|') ? dumpInfo.Split('|')[0] : dumpInfo;
-            var dumpSize = dumpInfo.Contains('|') ? dumpInfo.Split('|')[1] : "size unknown";
+            var dumpSize = dumpInfo.Contains('|') ? dumpInfo.Split('|')[1] : "大小未知";
             bool dumpExists = !string.IsNullOrEmpty(dumpPath) && System.IO.File.Exists(dumpPath);
             _crashReporter.Log($"[MainViewModel.InitializeAsync] Previous session freeze dump: '{System.IO.Path.GetFileName(dumpPath)}' ({dumpSize}) — {(dumpExists ? "EXISTS on disk" : "NOT FOUND on disk")}");
             try { System.IO.File.Delete(pendingDumpMarker); } catch { }
@@ -317,14 +317,14 @@ public partial class MainViewModel
             bool hasCachedLibrary = savedLib != null && !forceRescan;
             if (hasCachedLibrary)
             {
-                StatusText    = $"Library loaded ({savedLib!.Games.Count} games, scanned {FormatAge(savedLib.LastScanned)})";
-                SubStatusText = "Checking for new games and fetching latest mod info...";
+                StatusText    = $"资料库已加载（{savedLib!.Games.Count} 个游戏，扫描于 {FormatAge(savedLib.LastScanned)}）";
+                SubStatusText = "正在检查新游戏并获取最新 Mod 信息...";
                 addonCache    = savedLib.AddonScanCache;
             }
             else
             {
-                StatusText    = "Scanning game library...";
-                SubStatusText = "Running store scans + wiki fetch simultaneously...";
+                StatusText    = "正在扫描游戏库...";
+                SubStatusText = "正在同时执行商店扫描和 wiki 获取...";
                 addonCache    = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
             }
 
@@ -499,7 +499,7 @@ public partial class MainViewModel
             });
 
             // 3. Await detection first — this never needs network
-            progress?.Report("Detecting games...");
+            progress?.Report("正在检测游戏...");
             var freshGames = await detectTask;
 
             // 4. Await network tasks individually so failures don't block game display
@@ -699,7 +699,7 @@ public partial class MainViewModel
             // a visual gap where the update badge disappears until the network check completes.
             // (prevUpdateStatus was captured at the top of InitializeAsync before _allCards.Clear())
 
-            SubStatusText = "Matching mods and checking install status...";
+            SubStatusText = "正在匹配 Mod 并检查安装状态...";
 
             // Ensure Nexus Mods dictionary and PCGW AppID cache are ready before building cards
             await nexusInitTask;
@@ -709,7 +709,7 @@ public partial class MainViewModel
             await ultraPlusInitTask;
 
             _crashReporter.Log($"[MainViewModel.InitializeAsync] Building cards for {allGames.Count} games...");
-            progress?.Report($"Building cards for {allGames.Count} games...");
+            progress?.Report($"正在为 {allGames.Count} 个游戏构建卡片...");
             _allCards = await Task.Run(() => BuildCards(allGames, records, auxRecords, addonCache, _genericNotes));
             PropagateDispatcherToCards();
             _crashReporter.Log($"[MainViewModel.InitializeAsync] BuildCards complete: {_allCards.Count} cards");
@@ -918,12 +918,12 @@ public partial class MainViewModel
             var offlineMode = wikiFetchFailed;
             StatusText    = offlineMode
                 ? $"{detectedGames.Count} games detected · offline mode (mod info unavailable)"
-                : $"{detectedGames.Count} games detected · {InstalledCount} ReShade installs";
+                : $"检测到 {detectedGames.Count} 个游戏 · {InstalledCount} 个 ReShade 安装";
             SubStatusText = "";
         }
         catch (Exception ex)
         {
-            StatusText = "Error loading";
+            StatusText = "加载出错";
             SubStatusText = ex.Message;
             _crashReporter.WriteCrashReport("InitializeAsync", ex);
         }
@@ -976,12 +976,12 @@ public partial class MainViewModel
 
     private GameMod MakeGenericUnreal() => new()
     {
-        Name = "Generic Unreal Engine", Maintainer = "ShortFuse",
+        Name = "通用虚幻引擎", Maintainer = "ShortFuse",
         SnapshotUrl = WikiService.GenericUnrealUrl, Status = "✅", IsGenericUnreal = true
     };
     private GameMod MakeGenericUnity() => new()
     {
-        Name = "Generic Unity Engine", Maintainer = "Voosh",
+        Name = "通用 Unity 引擎", Maintainer = "Voosh",
         SnapshotUrl = WikiService.GenericUnityUrl64, SnapshotUrl32 = WikiService.GenericUnityUrl32,
         Status = "✅", IsGenericUnity = true
     };

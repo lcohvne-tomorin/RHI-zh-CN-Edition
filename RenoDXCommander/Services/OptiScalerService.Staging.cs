@@ -17,11 +17,11 @@ public partial class OptiScalerService
             if (IsStagingReady && !HasUpdate)
             {
                 CrashReporter.Log("[OptiScalerService.EnsureStagingAsync] Staging already valid — skipping download");
-                progress?.Report(("OptiScaler staging ready", 100));
+                progress?.Report(("OptiScaler 暂存就绪", 100));
                 return;
             }
 
-            progress?.Report(("Checking OptiScaler release...", 5));
+            progress?.Report(("正在检查 OptiScaler 发行版...", 5));
 
             // ── 2. Fetch latest release metadata from GitHub API ─────────────────
             string? json;
@@ -84,11 +84,11 @@ public partial class OptiScalerService
                 && IsStagingReady)
             {
                 CrashReporter.Log($"[OptiScalerService.EnsureStagingAsync] Already up to date ({tagName})");
-                progress?.Report(("OptiScaler up to date", 100));
+                progress?.Report(("OptiScaler 已是最新", 100));
                 return;
             }
 
-            progress?.Report(($"Downloading OptiScaler ({assetName})...", 10));
+            progress?.Report(($"正在下载 OptiScaler（{assetName}）...", 10));
             CrashReporter.Log($"[OptiScalerService.EnsureStagingAsync] Downloading {assetName} from {downloadUrl}");
 
             // ── 5. Download the .7z archive to a temp file ──────────────────────
@@ -119,7 +119,7 @@ public partial class OptiScalerService
                         if (total > 0)
                         {
                             var pct = 10 + (double)downloaded / total * 60; // 10–70%
-                            progress?.Report(($"Downloading OptiScaler... {downloaded / 1024} KB / {total / 1024} KB", pct));
+                            progress?.Report(($"正在下载 OptiScaler... {downloaded / 1024} KB / {total / 1024} KB", pct));
                         }
                     }
                 }
@@ -250,7 +250,7 @@ public partial class OptiScalerService
                 CrashReporter.Log($"[OptiScalerService.EnsureStagingAsync] Failed to write version file — {ex.Message}");
             }
 
-            progress?.Report(("OptiScaler staging ready", 100));
+            progress?.Report(("OptiScaler 暂存就绪", 100));
             CrashReporter.Log("[OptiScalerService.EnsureStagingAsync] Staging complete");
         }
         catch (Exception ex)
@@ -408,7 +408,7 @@ public partial class OptiScalerService
     {
         try
         {
-            progress?.Report(("Checking OptiPatcher release...", 0));
+            progress?.Report(("正在检查 OptiPatcher 发行版...", 0));
 
             // ── 1. Fetch rolling release metadata from GitHub API ────────────
             string? json;
@@ -481,11 +481,11 @@ public partial class OptiScalerService
                 && File.Exists(stagedAsiPath))
             {
                 CrashReporter.Log($"[OptiScalerService.EnsureOptiPatcherStagingAsync] Already up to date ({version})");
-                progress?.Report(("OptiPatcher up to date", 100));
+                progress?.Report(("OptiPatcher 已是最新", 100));
                 return;
             }
 
-            progress?.Report(($"Downloading OptiPatcher ({version})...", 30));
+            progress?.Report(($"正在下载 OptiPatcher（{version}）...", 30));
             CrashReporter.Log($"[OptiScalerService.EnsureOptiPatcherStagingAsync] Downloading {OptiPatcherFileName} from {downloadUrl}");
 
             // ── 4. Download the .asi file directly ──────────────────────────
@@ -553,7 +553,7 @@ public partial class OptiScalerService
                 CrashReporter.Log($"[OptiScalerService.EnsureOptiPatcherStagingAsync] Auto-deploy pass failed — {ex.Message}");
             }
 
-            progress?.Report(("OptiPatcher staging ready", 100));
+            progress?.Report(("OptiPatcher 暂存就绪", 100));
             CrashReporter.Log("[OptiScalerService.EnsureOptiPatcherStagingAsync] Staging complete");
             App.Services.GetRequiredService<IUpdateLogService>().Record(new Models.UpdateLogEntry
             {
@@ -643,7 +643,7 @@ public partial class OptiScalerService
     {
         try
         {
-            progress?.Report(("Checking DLSS cache...", 0));
+            progress?.Report(("正在检查 DLSS 缓存...", 0));
 
             var dlssSvc = _dlssStreamlineServiceLazy.Value;
 
@@ -651,16 +651,16 @@ public partial class OptiScalerService
             if (dlssSvc.DlssVersions.Count == 0)
                 await dlssSvc.FetchManifestAsync().ConfigureAwait(false);
 
-            progress?.Report(("Caching latest DLSS SR...", 20));
+            progress?.Report(("正在缓存最新 DLSS SR...", 20));
             await dlssSvc.EnsureNewestDlssCachedAsync().ConfigureAwait(false);
 
-            progress?.Report(("Caching latest DLSS RR...", 50));
+            progress?.Report(("正在缓存最新 DLSS RR...", 50));
             await dlssSvc.EnsureNewestDlssdCachedAsync().ConfigureAwait(false);
 
-            progress?.Report(("Caching latest DLSS FG...", 80));
+            progress?.Report(("正在缓存最新 DLSS FG...", 80));
             await dlssSvc.EnsureNewestDlssgCachedAsync().ConfigureAwait(false);
 
-            progress?.Report(("DLSS cache ready", 100));
+            progress?.Report(("DLSS 缓存就绪", 100));
             CrashReporter.Log("[OptiScalerService.EnsureDlssStagingAsync] All DLSS DLLs cached from dlss_manifest.json");
         }
         catch (Exception ex)
@@ -830,11 +830,11 @@ public partial class OptiScalerService
             if (IsStagingReadyNightly && !HasUpdateNightly)
             {
                 CrashReporter.Log("[OptiScalerService.EnsureNightlyStagingAsync] Staging already valid — skipping");
-                progress?.Report(("OptiScaler Nightly staging ready", 100));
+                progress?.Report(("OptiScaler 每夜版暂存就绪", 100));
                 return;
             }
 
-            progress?.Report(("Checking OptiScaler Nightly release...", 5));
+            progress?.Report(("正在检查 OptiScaler 每夜版发行版...", 5));
             // When an update is known, invalidate the ETag so we get a fresh response
             // instead of a 304 that would return the old tagName.
             if (HasUpdateNightly) _etagCache.Invalidate(NightlyReleasesApi);
@@ -848,7 +848,7 @@ public partial class OptiScalerService
             if (json == null)
             {
                 CrashReporter.Log("[OptiScalerService.EnsureNightlyStagingAsync] ETag hit — staging is current");
-                progress?.Report(("OptiScaler Nightly up to date", 100));
+                progress?.Report(("OptiScaler 每夜版已是最新", 100));
                 return;
             }
 
@@ -903,7 +903,7 @@ public partial class OptiScalerService
                 var newestAvailable = _availableNightlyBuilds.FirstOrDefault();
                 if (newestAvailable == null || string.Equals(newestAvailable, tagName, StringComparison.Ordinal))
                     HasUpdateNightly = false;
-                progress?.Report(("OptiScaler Nightly up to date", 100));
+                progress?.Report(("OptiScaler 每夜版已是最新", 100));
                 return;
             }
 
@@ -1203,7 +1203,7 @@ public partial class OptiScalerService
                 return;
             }
 
-            progress?.Report(($"Checking OptiScaler Nightly {buildDate}...", 5));
+            progress?.Report(($"正在检查 OptiScaler 每夜版 {buildDate}...", 5));
 
             // Fetch the releases list to find the download URL for this specific build
             string? json;
@@ -1312,7 +1312,7 @@ public partial class OptiScalerService
                     await file.WriteAsync(buf.AsMemory(0, read));
                     downloaded += read;
                     if (total > 0)
-                        progress?.Report(($"Downloading {buildDate}... {downloaded / 1024} KB / {total / 1024} KB", 10 + (double)downloaded / total * 60));
+                        progress?.Report(($"正在下载 {buildDate}... {downloaded / 1024} KB / {total / 1024} KB", 10 + (double)downloaded / total * 60));
                 }
             }
         }
@@ -1323,7 +1323,7 @@ public partial class OptiScalerService
             return;
         }
 
-        progress?.Report(($"Extracting OptiScaler Nightly {buildDate}...", 75));
+        progress?.Report(($"正在解压 OptiScaler 每夜版 {buildDate}...", 75));
         try
         {
             var sevenZipExe = Find7ZipExe();
@@ -1410,11 +1410,11 @@ public partial class OptiScalerService
             if (IsStagingReadyDlssNr && !HasUpdateDlssNr)
             {
                 CrashReporter.Log("[OptiScalerService.EnsureDlssNrStagingAsync] Staging already valid — skipping");
-                progress?.Report(("OptiScaler DLSS NR staging ready", 100));
+                progress?.Report(("OptiScaler DLSS NR 暂存就绪", 100));
                 return;
             }
 
-            progress?.Report(("Checking OptiScaler DLSS NR release...", 5));
+            progress?.Report(("正在检查 OptiScaler DLSS NR 发行版...", 5));
             string? json;
             try { json = await _etagCache.GetWithETagAsync(_http, DlssNrReleasesApi).ConfigureAwait(false); }
             catch (Exception ex)
@@ -1481,11 +1481,11 @@ public partial class OptiScalerService
             if (cachedVersion != null && string.Equals(cachedVersion, tagName, StringComparison.Ordinal) && IsStagingReadyDlssNr)
             {
                 CrashReporter.Log($"[OptiScalerService.EnsureDlssNrStagingAsync] Already up to date ({tagName})");
-                progress?.Report(("OptiScaler DLSS NR up to date", 100));
+                progress?.Report(("OptiScaler DLSS NR 已是最新", 100));
                 return;
             }
 
-            progress?.Report(($"Downloading OptiScaler DLSS NR ({assetName})...", 10));
+            progress?.Report(($"正在下载 OptiScaler DLSS NR（{assetName}）...", 10));
             CrashReporter.Log($"[OptiScalerService.EnsureDlssNrStagingAsync] Downloading {assetName} from {downloadUrl}");
 
             Directory.CreateDirectory(DlssNrStagingDir);
@@ -1515,7 +1515,7 @@ public partial class OptiScalerService
                         if (total > 0)
                         {
                             var pct = 10 + (double)downloaded / total * 60;
-                            progress?.Report(($"Downloading OptiScaler DLSS NR... {downloaded / 1024} KB / {total / 1024} KB", pct));
+                            progress?.Report(($"正在下载 OptiScaler DLSS NR... {downloaded / 1024} KB / {total / 1024} KB", pct));
                         }
                     }
                 }
@@ -1529,7 +1529,7 @@ public partial class OptiScalerService
                 return;
             }
 
-            progress?.Report(("Extracting OptiScaler DLSS NR...", 75));
+            progress?.Report(("正在解压 OptiScaler DLSS NR...", 75));
             try
             {
                 var tempExtractDir = Path.Combine(Path.GetTempPath(), $"RHI_optiscaler_dlssnr_{Guid.NewGuid():N}");
@@ -1596,7 +1596,7 @@ public partial class OptiScalerService
             }
 
             HasUpdateDlssNr = false;
-            progress?.Report(("OptiScaler DLSS NR staging ready", 100));
+            progress?.Report(("OptiScaler DLSS NR 暂存就绪", 100));
             CrashReporter.Log("[OptiScalerService.EnsureDlssNrStagingAsync] Staging complete");
         }
         catch (Exception ex)
@@ -1658,11 +1658,11 @@ public partial class OptiScalerService
             if (IsStagingReadyF5 && !HasUpdateF5)
             {
                 CrashReporter.Log("[OptiScalerService.EnsureF5StagingAsync] Staging already valid — skipping");
-                progress?.Report(("OptiScaler F5 DLSSNR staging ready", 100));
+                progress?.Report(("OptiScaler F5 DLSSNR 暂存就绪", 100));
                 return;
             }
 
-            progress?.Report(("Checking OptiScaler F5 DLSSNR release...", 5));
+            progress?.Report(("正在检查 OptiScaler F5 DLSSNR 发行版...", 5));
             string? json;
             try { json = await _etagCache.GetWithETagAsync(_http, F5ReleasesApi).ConfigureAwait(false); }
             catch (Exception ex)
@@ -1716,11 +1716,11 @@ public partial class OptiScalerService
             if (cachedVersion != null && string.Equals(cachedVersion, tagName, StringComparison.Ordinal) && IsStagingReadyF5)
             {
                 CrashReporter.Log($"[OptiScalerService.EnsureF5StagingAsync] Already up to date ({tagName})");
-                progress?.Report(("OptiScaler F5 DLSSNR up to date", 100));
+                progress?.Report(("OptiScaler F5 DLSSNR 已是最新", 100));
                 return;
             }
 
-            progress?.Report(($"Downloading OptiScaler F5 DLSSNR ({assetName})...", 10));
+            progress?.Report(($"正在下载 OptiScaler F5 DLSSNR（{assetName}）...", 10));
             CrashReporter.Log($"[OptiScalerService.EnsureF5StagingAsync] Downloading {assetName} from {downloadUrl}");
 
             Directory.CreateDirectory(F5StagingDir);
@@ -1744,7 +1744,7 @@ public partial class OptiScalerService
                 {
                     await file.WriteAsync(buf.AsMemory(0, read)).ConfigureAwait(false);
                     downloaded += read;
-                    if (total > 0) progress?.Report(($"Downloading F5 DLSSNR... {downloaded / 1024 / 1024} MB / {total / 1024 / 1024} MB", 10 + (double)downloaded / total * 80));
+                    if (total > 0) progress?.Report(($"正在下载 F5 DLSSNR... {downloaded / 1024 / 1024} MB / {total / 1024 / 1024} MB", 10 + (double)downloaded / total * 80));
                 }
                 CrashReporter.Log($"[OptiScalerService.EnsureF5StagingAsync] Downloaded {downloaded} bytes");
             }
@@ -1809,7 +1809,7 @@ public partial class OptiScalerService
             }
 
             HasUpdateF5 = false;
-            progress?.Report(("OptiScaler F5 DLSSNR staging ready", 100));
+            progress?.Report(("OptiScaler F5 DLSSNR 暂存就绪", 100));
             CrashReporter.Log("[OptiScalerService.EnsureF5StagingAsync] Staging complete");
         }
         catch (Exception ex)

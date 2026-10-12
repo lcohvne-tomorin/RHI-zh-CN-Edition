@@ -104,7 +104,7 @@ public class ReShadeUpdateService : IReShadeUpdateService
             && new FileInfo(AuxInstallService.RsStagedPath32).Length > 1_000_000)
         {
             CrashReporter.Log($"[ReShadeUpdateService.EnsureLatestAsync] Already have v{version}");
-            progress?.Report(($"ReShade {version} is current", 100));
+            progress?.Report(($"ReShade {version} 已是最新", 100));
             return false;
         }
 
@@ -145,7 +145,7 @@ public class ReShadeUpdateService : IReShadeUpdateService
                         if (totalBytes > 0)
                         {
                             var pct = 15.0 + (downloaded / (double)totalBytes * 60.0);
-                            progress?.Report(($"Downloading ReShade {version}... {downloaded / 1024}KB", pct));
+                            progress?.Report(($"正在下载 ReShade {version}... {downloaded / 1024}KB", pct));
                         }
                     }
                 }
@@ -207,7 +207,7 @@ public class ReShadeUpdateService : IReShadeUpdateService
         }
 
         // Extract DLLs from the exe (it has an appended ZIP archive)
-        progress?.Report(("Extracting ReShade DLLs...", 80));
+        progress?.Report(("正在解压 ReShade DLL...", 80));
         try
         {
             await _extractor.ExtractFileAsync(exePath, "ReShade64.dll", AuxInstallService.RsStagedPath64);
@@ -241,13 +241,13 @@ public class ReShadeUpdateService : IReShadeUpdateService
         }
         catch (Exception ex) { CrashReporter.Log($"[ReShadeUpdateService.EnsureLatestAsync] Failed to clean up old installers — {ex.Message}"); }
 
-        progress?.Report(($"ReShade {version} ready!", 100));
+        progress?.Report(($"ReShade {version} 就绪！", 100));
         CrashReporter.Log($"[ReShadeUpdateService.EnsureLatestAsync] Staged v{version} successfully");
         App.Services.GetRequiredService<IUpdateLogService>().Record(new Models.UpdateLogEntry
         {
             Timestamp     = DateTime.UtcNow,
             Category      = "ReShade",
-            ComponentName = "ReShade (Addon)",
+            ComponentName = "ReShade（插件）",
             NewVersion    = version,
         });
         return true;

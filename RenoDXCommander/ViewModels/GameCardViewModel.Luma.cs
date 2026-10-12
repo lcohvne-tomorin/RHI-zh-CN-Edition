@@ -40,27 +40,27 @@ public partial class GameCardViewModel
     public bool IsLumaNotInstalling => !IsLumaInstalling;
     public Visibility LumaProgressVisibility => IsLumaInstalling ? Visibility.Visible : Visibility.Collapsed;
     public Visibility LumaMessageVisibility => string.IsNullOrEmpty(LumaActionMessage) ? Visibility.Collapsed : Visibility.Visible;
-    public string LumaActionLabel => IsLumaInstalling ? "Installing..."
-        : (!IsRsInstalled && !ExcludeFromUpdateAllReShade && LumaStatus == GameStatus.NotInstalled) ? "⚠  ReShade required"
-        : LumaStatus == GameStatus.UpdateAvailable ? "⬆  Update Luma"
-        : LumaStatus == GameStatus.Installed ? "↺  Reinstall Luma"
-        : LumaIsExternalOnly ? "Get on Nexus Mods"
-        : "⬇  Install Luma";
+    public string LumaActionLabel => IsLumaInstalling ? "正在安装..."
+        : (!IsRsInstalled && !ExcludeFromUpdateAllReShade && LumaStatus == GameStatus.NotInstalled) ? "⚠  ReShade 必需"
+        : LumaStatus == GameStatus.UpdateAvailable ? "⬆  更新 Luma"
+        : LumaStatus == GameStatus.Installed ? "↺  重新安装 Luma"
+        : LumaIsExternalOnly ? "在 Nexus Mods 获取"
+        : "⬇  安装 Luma";
 
     // Component table: Luma short status/action (consistent with RS/DC/RDX)
-    public string LumaStatusText => IsLumaInstalling ? "Installing…"
-        : LumaStatus == GameStatus.UpdateAvailable ? "Update"
+    public string LumaStatusText => IsLumaInstalling ? "正在安装…"
+        : LumaStatus == GameStatus.UpdateAvailable ? "更新"
         : LumaStatus == GameStatus.Installed
-            ? (LumaRecord?.InstalledBuildNumber > 0 ? $"Build {LumaRecord.InstalledBuildNumber}" : "Installed")
-        : "Ready";
+            ? (LumaRecord?.InstalledBuildNumber > 0 ? $"构建 {LumaRecord.InstalledBuildNumber}" : "已安装")
+        : "就绪";
     public string LumaStatusColor => IsLumaInstalling ? "#D4A856"
         : LumaStatus == GameStatus.UpdateAvailable ? "#B898E8"
         : LumaStatus == GameStatus.Installed       ? "#5ECB7D"
         : "#A0AABB";
     public string LumaShortAction => IsLumaInstalling ? "…"
-        : LumaStatus == GameStatus.UpdateAvailable ? "⬆ Update"
-        : LumaStatus == GameStatus.Installed       ? "↺ Reinstall"
-        : "⬇ Install";
+        : LumaStatus == GameStatus.UpdateAvailable ? "⬆ 更新"
+        : LumaStatus == GameStatus.Installed       ? "↺ 重新安装"
+        : "⬇ 安装";
 
     public string LumaBtnBackground  => LumaStatus == GameStatus.UpdateAvailable ? "#201838" : "#182840";
     public string LumaBtnForeground  => LumaStatus == GameStatus.UpdateAvailable ? "#B898E8" : "#7AACDD";
