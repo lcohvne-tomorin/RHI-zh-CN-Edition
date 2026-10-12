@@ -45,15 +45,18 @@ def main():
     maxchars = int(sys.argv[3]) if len(sys.argv) > 3 else 10 ** 9
 
     include_maybe = '--maybe' in sys.argv
+    multiline_only = '--multiline' in sys.argv
     todo = json.load(open(os.path.join(OUT_DIR, 'todo.json'), encoding='utf-8'))
     done = load_done()
     skips = load_skips()
 
     # maybe = 技术上下文里的字符串，多为 JSON 键名/目录名/正则，默认不翻（风险高于收益）
+    # 注意：不能过滤含换行的字符串 —— 多行说明文案同样是用户可见文本
     pending = [(k, v) for k, v in todo.items()
                if k not in done and k not in skips
                and (include_maybe or v['cls'] != 'maybe')
-               and len(k) <= maxchars and '\n' not in k]
+               and len(k) <= maxchars
+               and (not multiline_only or '\n' in k)]
     batch = pending[skip:skip + limit]
 
     for k, v in batch:

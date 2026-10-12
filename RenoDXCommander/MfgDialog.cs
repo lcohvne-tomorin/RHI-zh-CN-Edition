@@ -38,10 +38,10 @@ public static class MfgDialog
             var warningPanel = new StackPanel { Spacing = 12 };
             warningPanel.Children.Add(new TextBlock
             {
-                Text = "Multi Frame Generation (MFG) and Dynamic MFG are only supported on NVIDIA 50 Series GPUs (Blackwell architecture).\n\n" +
-                       "Minimum driver requirements:\n" +
-                       "• MFG (Fixed): Driver 572.16+\n" +
-                       "• DMFG (Dynamic): Driver 595.97+\n\n" +
+                Text = "多帧生成（MFG）和动态 MFG 仅在 NVIDIA 50 系列显卡（Blackwell 架构）上受支持。\n\n" +
+                       "最低驱动要求：\n" +
+                       "• MFG（固定）：驱动 572.16+\n" +
+                       "• DMFG（动态）：驱动 595.97+\n\n" +
                        "这些设置对 40 系列或更旧的硬件无效。",
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 13,

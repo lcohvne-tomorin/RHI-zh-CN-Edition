@@ -633,7 +633,7 @@ public sealed partial class MainWindow
         });
 
         var content = created.Count > 0
-            ? $"Created {created.Count} profile(s):\n\n• " + string.Join("\n• ", created)
+            ? $"已创建 {created.Count} 个配置文件：\n\n• " + string.Join("\n• ", created)
             : "所有游戏都已有 NVIDIA 配置文件。";
 
         var dialog = new ContentDialog
@@ -700,7 +700,7 @@ public sealed partial class MainWindow
             await DialogService.ShowSafeAsync(new ContentDialog
             {
                 Title = "导出失败",
-                Content = $"An error occurred during export:\n{ex.Message}",
+                Content = $"导出时发生错误：\n{ex.Message}",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -719,7 +719,7 @@ public sealed partial class MainWindow
             await DialogService.ShowSafeAsync(new ContentDialog
             {
                 Title = "导入",
-                Content = $"No backup file found at:\n{path}\n\nBackup profiles first.",
+                Content = $"未找到备份文件：\n{path}\n\n请先备份配置文件。",
                 CloseButtonText = "OK",
                 XamlRoot = Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -735,7 +735,7 @@ public sealed partial class MainWindow
         bool isAdmin = VulkanLayerService.IsRunningAsAdmin();
         var warningText = "这将用已保存的备份覆盖您当前的 NVIDIA 驱动配置文件设置。此操作无法撤销。";
         if (!isAdmin)
-            warningText += "\n\nYou are not running as admin. Settings that require elevated privileges (e.g. ReBAR) will not be restored. Run RHI as admin to import all settings.";
+            warningText += "\n\n您当前未以管理员身份运行。需要提升权限的设置（如 ReBAR）将不会被恢复。请以管理员身份运行 RHI 以导入所有设置。";
 
         var confirmResult = await DialogService.ShowSafeAsync(new ContentDialog
         {
@@ -982,7 +982,7 @@ public sealed partial class MainWindow
             Title = "重置所有游戏配置文件？",
             Content = new TextBlock
             {
-                Text = "This will remove ALL per-game NVIDIA driver profile overrides (DLSS/Streamline versions, presets, render scales, ReBAR, VSync, Smooth Motion, Low Latency, Power Mode — everything) AND reset global settings (Shader Cache, G-Sync, Refresh Rate, ReBAR) to defaults.\n\nAll profiles will return to NVIDIA factory defaults. This cannot be undone.",
+                Text = "这将移除所有各游戏的 NVIDIA 驱动配置文件覆盖（DLSS/Streamline 版本、预设、渲染缩放、ReBAR、垂直同步、平滑运动、低延迟、电源模式 — 全部），并将全局设置（着色器缓存、G-Sync、刷新率、ReBAR）重置为默认值。\n\n所有配置文件将恢复为 NVIDIA 出厂默认值。此操作无法撤销。",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 13,
             },
@@ -1089,7 +1089,7 @@ public sealed partial class MainWindow
         var confirmDialog = new ContentDialog
         {
             Title = "清除 NVIDIA 着色器缓存",
-            Content = "This will permanently delete the NVIDIA DXCache and GLCache folders. This cannot be undone.\n\nAll games will need to rebuild their shader caches on next launch, which may cause brief stuttering or longer load times the first time. This can fix shader corruption, persistent stuttering, or graphical issues after driver updates.",
+            Content = "这将永久删除 NVIDIA DXCache 和 GLCache 文件夹。此操作无法撤销。\n\n所有游戏都需要在下次启动时重建着色器缓存，首次可能会出现短暂卡顿或加载时间变长。这可以修复着色器损坏、持续卡顿或驱动更新后的画面问题。",
             PrimaryButtonText = "清除",
             CloseButtonText = "取消",
             DefaultButton = ContentDialogButton.Primary,
@@ -1579,8 +1579,8 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "DLDSR (Deep Learning Dynamic Super Resolution) renders games at higher resolutions and downscales with AI for sharper image quality. This feature lets you switch DLDSR presets without opening NVIDIA Control Panel.\n\n" +
-                   "DLDSR uses a Lanczos algorithm — less jaggies, more stable, but can look slightly painterly. Standard DSR uses a Gaussian filter — more natural but with more aliasing. DLDSR is generally sharper than DSR at equivalent settings.\n\n" +
+            Text = "DLDSR（深度学习动态超分辨率）以更高分辨率渲染游戏，再通过 AI 缩小以获得更锐利的画质。此功能让您无需打开 NVIDIA 控制面板即可切换 DLDSR 预设。\n\n" +
+                   "DLDSR 使用 Lanczos 算法 — 锯齿更少、更稳定，但可能略显油画感。标准 DSR 使用高斯滤镜 — 更自然但锯齿更多。在相同设置下，DLDSR 通常比 DSR 更锐利。\n\n" +
                    "推荐倍率：DLDSR 2.25x 在画质和性能之间平衡最佳。DSR 4.00x 会占用明显更多显存。DLDSR 1.78x 最节省显存。",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
@@ -1598,10 +1598,10 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "1. Open NVIDIA Control Panel → Manage 3D Settings → Global Settings\n" +
-                   "2. Find \"DSR - Factors\" and enable the DLDSR factors you want (e.g. 1.78x DL, 2.25x DL)\n" +
-                   "3. Click Apply and wait for the ~15 second display blackout\n" +
-                   "4. Come back here and click \"Capture Current\" to save this state\n" +
+            Text = "1. 打开 NVIDIA 控制面板 → 管理 3D 设置 → 全局设置\n" +
+                   "2. 找到「DSR - 系数」并启用您想要的 DLDSR 倍率（例如 1.78x DL、2.25x DL）\n" +
+                   "3. 点击应用并等待约 15 秒的显示器黑屏\n" +
+                   "4. 返回此处并点击「捕获当前」以保存此状态\n" +
                    "5. 对每个要保存的 DLDSR 配置重复步骤 2-4（例如 \"关闭\"、\"仅 2.25x\"、\"1.78x + 2.25x\"）",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
@@ -1636,15 +1636,15 @@ public sealed partial class MainWindow
 
         content.Children.Add(new TextBlock
         {
-            Text = "Controls the sharpening/smoothing applied during downscale. 100 = no sharpening (pure Lanczos downscale). Lower values add sharpening — the image gets progressively sharper as you reduce it.\n\n" +
-                   "Recommended DLDSR smoothness values (from r/MotionClarity):\n" +
-                   "  • 100 — No sharpening\n" +
-                   "  • 80 — Sharp without artifacts\n" +
-                   "  • 75 — Clear\n" +
-                   "  • 65 — Clearer\n" +
-                   "  • 55-65 — Similar clarity to DSR 4.00x at 0% (recommended range)\n" +
-                   "  • 45 — As sharp as DSR 4.00x everywhere\n\n" +
-                   "Note: DLDSR uses a Lanczos algorithm — it is naturally much sharper than standard DSR (Gaussian), so it requires higher smoothness values for a comparable look.\n\n" +
+            Text = "控制缩小时应用的锐化/平滑程度。100 = 不锐化（纯 Lanczos 缩放）。数值越低锐化越强 — 降低数值会让画面逐渐变锐利。\n\n" +
+                   "推荐的 DLDSR 平滑度值（来自 r/MotionClarity）：\n" +
+                   "  • 100 — 不锐化\n" +
+                   "  • 80 — 锐利且无瑕疵\n" +
+                   "  • 75 — 清晰\n" +
+                   "  • 65 — 更清晰\n" +
+                   "  • 55-65 — 清晰度接近 0% 的 DSR 4.00x（推荐范围）\n" +
+                   "  • 45 — 全画面达到 DSR 4.00x 的锐度\n\n" +
+                   "注意：DLDSR 使用 Lanczos 算法 — 它天生比标准 DSR（高斯）锐利得多，因此需要更高的平滑度值才能获得相近的观感。\n\n" +
                    "更改平滑度会导致与应用完整状态相同的约 15 秒显示器黑屏。提示：先设置平滑度，再点击应用 — 两者会在一次重启中一并生效。",
             FontSize = 12,
             TextWrapping = TextWrapping.Wrap,
@@ -1752,7 +1752,7 @@ public sealed partial class MainWindow
                 {
                     new TextBlock
                     {
-                        Text = "Enter a label for this DLDSR configuration.\nFirst enable the DLDSR factors you want in NVIDIA Control Panel, then capture here.",
+                        Text = "为此 DLDSR 配置输入一个标签。\n请先在 NVIDIA 控制面板中启用您想要的 DLDSR 倍率，然后在此处捕获。",
                         FontSize = 12,
                         TextWrapping = TextWrapping.Wrap,
                         Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),

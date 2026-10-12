@@ -89,9 +89,9 @@ public partial class DialogService
                         TextWrapping = TextWrapping.Wrap,
                         Foreground   = Brush(ResourceKeys.TextSecondaryBrush),
                         FontSize     = 14,
-                        Text         = $"A new version of RHI is available!\n\n" +
-                                       $"Installed:  v{updateInfo.CurrentVersion}\n" +
-                                       $"Available:  v{updateInfo.DisplayVersion ?? updateInfo.RemoteVersion.ToString()}\n\n" +
+                        Text         = $"RHI 有新版本可用！\n\n" +
+                                       $"已安装：  v{updateInfo.CurrentVersion}\n" +
+                                       $"可用：  v{updateInfo.DisplayVersion ?? updateInfo.RemoteVersion.ToString()}\n\n" +
                                        "是否立即更新？",
                     },
                 },

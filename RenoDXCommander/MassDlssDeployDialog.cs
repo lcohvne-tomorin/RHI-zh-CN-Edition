@@ -44,7 +44,7 @@ public class MassDlssDeployDialog
             var emptyDialog = new ContentDialog
             {
                 Title = "没有 DLSS/Streamline 游戏",
-                Content = "No games with DLSS or Streamline DLLs were detected.\nRun a Full Refresh to scan for them.",
+                Content = "未检测到带有 DLSS 或 Streamline DLL 的游戏。\n请执行完整刷新以扫描它们。",
                 CloseButtonText = "OK",
                 XamlRoot = _xamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -478,7 +478,7 @@ public class MassDlssDeployDialog
         if (fgDriverCount > 0) report.AppendLine($"FG NVIDIA Override set on {fgDriverCount} game(s)");
         if (autoCreateProfiles && presetService.ProfilesCreatedCount > 0)
             report.AppendLine($"NVIDIA profiles created: {presetService.ProfilesCreatedCount}");
-        if (skippedAlreadyAtVersion > 0) report.AppendLine($"\nSkipped: {skippedAlreadyAtVersion} (already at selected version)");
+        if (skippedAlreadyAtVersion > 0) report.AppendLine($"\n已跳过：{skippedAlreadyAtVersion}（已是所选版本）");
         if (skippedNoComponent > 0) report.AppendLine($"已跳过：{skippedNoComponent}（组件不存在）");
         if (presetMissedCount > 0) report.AppendLine($"未应用预设：{presetMissedCount} 个游戏（未找到 NVIDIA 配置文件）");
 

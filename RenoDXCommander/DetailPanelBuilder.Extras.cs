@@ -296,7 +296,7 @@ public partial class DetailPanelBuilder
         };
         if (isInstalled)
         {
-            ToolTipService.SetToolTip(statusBlock, $"Installed as: {installedAs}\nClick to open GitHub releases");
+            ToolTipService.SetToolTip(statusBlock, $"安装为：{installedAs}\n点击打开 GitHub 发行版");
             statusBlock.PointerPressed += (s, e) =>
                 _ = Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases"));
         }
@@ -629,7 +629,7 @@ public partial class DetailPanelBuilder
                 Title = "MFG Ada 解锁",
                 Content = new TextBlock
                 {
-                    Text = "MFG Ada Unlock unlocks DLSS Multi Frame Generation (3x/4x and above) on RTX 40-series GPUs.\n\n" +
+                    Text = "MFG Ada 解锁可在 RTX 40 系列显卡上解锁 DLSS 多帧生成（3x/4x 及以上）。\n\n" +
                            "请在游戏内通过 ReShade 覆盖层配置。",
                     FontSize = 12,
                     TextWrapping = TextWrapping.Wrap,
@@ -1095,7 +1095,7 @@ public partial class DetailPanelBuilder
         };
         if (isInstalled)
         {
-            ToolTipService.SetToolTip(statusBlock, $"Installed as: {currentDllName}\nClick to open GitHub releases");
+            ToolTipService.SetToolTip(statusBlock, $"安装为：{currentDllName}\n点击打开 GitHub 发行版");
             statusBlock.PointerPressed += (s, e) =>
                 _ = Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/sdli1995/dlssg_for_sm86"));
         }
@@ -1227,9 +1227,9 @@ public partial class DetailPanelBuilder
                     {
                         new TextBlock
                         {
-                            Text = "Select your GPU generation. This controls which rendering path is used.\n\n" +
-                                   "RTX 30 Series (SM86) — Ampere\n" +
-                                   "RTX 20 Series (SM75) — Turing\n\n" +
+                            Text = "选择您的显卡代次。这决定了使用哪条渲染路径。\n\n" +
+                                   "RTX 30 系列（SM86）— Ampere\n" +
+                                   "RTX 20 系列（SM75）— Turing\n\n" +
                                    "更改后请重新安装以应用新设置。",
                             FontSize = 12,
                             TextWrapping = TextWrapping.Wrap,
@@ -1434,7 +1434,7 @@ public partial class DetailPanelBuilder
         };
         if (isInstalled)
         {
-            ToolTipService.SetToolTip(statusBlock, $"Installed as: {currentDllName}\nClick to open GitHub releases page");
+            ToolTipService.SetToolTip(statusBlock, $"安装为：{currentDllName}\n点击打开 GitHub 发行版页面");
             statusBlock.PointerPressed += (s, e) =>
                 _ = Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/dashdogy/RTX40MFG-Unlock/releases"));
         }
@@ -1556,16 +1556,16 @@ public partial class DetailPanelBuilder
         ToolTipService.SetToolTip(cogBtn, "RTX 40 MFG 设置 — 配置倍率模式");
         cogBtn.Click += async (s, e) =>
         {
-            var installedNote = isInstalled ? $"\n\nCurrently installed as: {currentDllName}" : "";
+            var installedNote = isInstalled ? $"\n\n当前安装为：{currentDllName}" : "";
             var dlg = new ContentDialog
             {
                 Title = "RTX 40 MFG 设置",
                 Content = new TextBlock
                 {
-                    Text = "Press Backspace in-game to open the RTX 40 MFG menu.\n\n" +
-                           "• Follow game — uses the game's own MFG setting\n" +
-                           "• Fixed 2x–6x — forces a specific multiplier\n" +
-                           "• Dynamic — targets the display refresh rate or a custom FPS value\n\n" +
+                    Text = "在游戏内按退格键打开 RTX 40 MFG 菜单。\n\n" +
+                           "• 跟随游戏 — 使用游戏自身的 MFG 设置\n" +
+                           "• 固定 2x–6x — 强制使用特定倍率\n" +
+                           "• 动态 — 以显示器刷新率或自定义 FPS 值为目标\n\n" +
                            "如果帧生成超过 2x 时卡住，请尝试在 NVIDIA App 中将帧生成设为预设 B。" +
                            installedNote,
                     FontSize = 12,
@@ -1672,7 +1672,7 @@ public partial class DetailPanelBuilder
         };
         if (isInstalled)
         {
-            ToolTipService.SetToolTip(statusBlock, $"Installed as: {currentDllName}\nClick to open GitHub releases");
+            ToolTipService.SetToolTip(statusBlock, $"安装为：{currentDllName}\n点击打开 GitHub 发行版");
             statusBlock.PointerPressed += (s, e) =>
                 _ = Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/RankFTW/rhi-repo/releases"));
         }
@@ -2233,7 +2233,7 @@ public partial class DetailPanelBuilder
             VerticalAlignment = VerticalAlignment.Center,
         };
         ToolTipService.SetToolTip(label,
-            "dgVoodoo2 — translates DX9 calls to DX11, enabling ReShade compute shaders and DLSS5 Feeder on DX9 games.\nDeploys D3D9.dll + dgVoodoo.conf to the game folder.");
+            "dgVoodoo2 — 将 DX9 调用转换为 DX11，从而在 DX9 游戏上启用 ReShade 计算着色器和 DLSS5 Feeder。\n将 D3D9.dll + dgVoodoo.conf 部署到游戏文件夹。");
         Grid.SetColumn(label, 0);
         row.Children.Add(label);
 
@@ -2585,7 +2585,7 @@ public partial class DetailPanelBuilder
         Grid.SetColumn(label, 0); row.Children.Add(label);
 
         var statusBlock = new TextBlock { Text = statusText, FontSize = 12, Foreground = UIFactory.GetBrush(statusColor), VerticalAlignment = VerticalAlignment.Center, HorizontalTextAlignment = Microsoft.UI.Xaml.TextAlignment.Center, TextDecorations = isInstalled ? Windows.UI.Text.TextDecorations.Underline : Windows.UI.Text.TextDecorations.None };
-        if (isInstalled) { ToolTipService.SetToolTip(statusBlock, $"Installed as: {currentDllName}\nClick to open GitHub releases"); statusBlock.PointerPressed += (s, e) => _ = Windows.System.Launcher.LaunchUriAsync(new Uri(RtxEncoreService.RepoUrl + "/releases")); }
+        if (isInstalled) { ToolTipService.SetToolTip(statusBlock, $"安装为：{currentDllName}\n点击打开 GitHub 发行版"); statusBlock.PointerPressed += (s, e) => _ = Windows.System.Launcher.LaunchUriAsync(new Uri(RtxEncoreService.RepoUrl + "/releases")); }
         Grid.SetColumn(statusBlock, 1); row.Children.Add(statusBlock);
 
         var infoBtn = new Button { Content = "信息", FontSize = 11, Padding = new Thickness(6, 2, 6, 2), Width = 36, Height = 32, Background = UIFactory.Brush(ResourceKeys.AccentBlueBgBrush), Foreground = UIFactory.Brush(ResourceKeys.AccentBlueBrush), BorderBrush = UIFactory.Brush(ResourceKeys.AccentBlueBorderBrush), BorderThickness = new Thickness(1), CornerRadius = new CornerRadius(8) };

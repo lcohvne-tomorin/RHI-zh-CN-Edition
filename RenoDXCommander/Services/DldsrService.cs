@@ -255,14 +255,14 @@ public class DldsrService : IDldsrService
         {
             CrashReporter.Log($"[DldsrService.CaptureCurrentState] Access denied: {ex.Message}");
             throw new UnauthorizedAccessException(
-                "Cannot read DLDSR registry keys. Admin privileges are required.\n\n" +
+                "无法读取 DLDSR 注册表项。需要管理员权限。\n\n" +
                 "请在 RHI 设置中启用管理员模式，或以管理员身份运行 RHI。");
         }
         catch (System.Security.SecurityException ex)
         {
             CrashReporter.Log($"[DldsrService.CaptureCurrentState] Security exception: {ex.Message}");
             throw new UnauthorizedAccessException(
-                "Cannot read DLDSR registry keys. Admin privileges are required.\n\n" +
+                "无法读取 DLDSR 注册表项。需要管理员权限。\n\n" +
                 "请在 RHI 设置中启用管理员模式，或以管理员身份运行 RHI。");
         }
 
@@ -270,7 +270,7 @@ public class DldsrService : IDldsrService
         {
             CrashReporter.Log("[DldsrService.CaptureCurrentState] No monitor keys with values found");
             throw new InvalidOperationException(
-                "No DLDSR/DSR data found in registry.\n\n" +
+                "注册表中未找到 DLDSR/DSR 数据。\n\n" +
                 "请先在 NVIDIA 控制面板中启用至少一个 DSR 或 DLDSR 倍率，然后捕获。");
         }
 

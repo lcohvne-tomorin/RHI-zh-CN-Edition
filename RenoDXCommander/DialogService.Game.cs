@@ -26,10 +26,10 @@ public partial class DialogService
                 TextWrapping = TextWrapping.Wrap,
                 Foreground   = Brush(ResourceKeys.AccentAmberBrush),
                 FontSize     = 13,
-                Text         = $"A dxgi.dll file was found in:\n{card.InstallPath}\n\n" +
-                               $"File size: {sizeKB:N0} KB\n\n" +
+                Text         = $"在以下位置发现 dxgi.dll 文件：\n{card.InstallPath}\n\n" +
+                               $"文件大小：{sizeKB:N0} KB\n\n" +
                                "RHI 无法将此文件识别为 ReShade 或 Display Commander。 " +
-                               "It may belong to another mod (e.g. DXVK, Special K, ENB).\n\n" +
+                               "它可能属于其他 mod（例如 DXVK、Special K、ENB）。\n\n" +
                                "覆盖它可能会破坏现有 mod。是否继续？",
             },
             PrimaryButtonText   = "覆盖",
@@ -56,10 +56,10 @@ public partial class DialogService
                 TextWrapping = TextWrapping.Wrap,
                 Foreground   = Brush(ResourceKeys.AccentAmberBrush),
                 FontSize     = 13,
-                Text         = $"A winmm.dll file was found in:\n{card.InstallPath}\n\n" +
-                               $"File size: {sizeKB:N0} KB\n\n" +
+                Text         = $"在以下位置发现 winmm.dll 文件：\n{card.InstallPath}\n\n" +
+                               $"文件大小：{sizeKB:N0} KB\n\n" +
                                "RHI 无法将此文件识别为 Display Commander。 " +
-                               "It may belong to another mod or DLL injector.\n\n" +
+                               "它可能属于其他 mod 或 DLL 注入器。\n\n" +
                                "覆盖它可能会破坏现有 mod。是否继续？",
             },
             PrimaryButtonText   = "覆盖",
@@ -258,7 +258,7 @@ public partial class DialogService
             panel.Children.Add(new TextBlock
             {
                 Text = "RTX HDR 使用 NVIDIA 驱动级 HDR 注入，将 SDR 游戏升级为 HDR。 " +
-                       "It works at the GPU level without injecting DLLs into the game, making it compatible with anti-cheat systems.\n\n" +
+                       "它在 GPU 层面工作，不向游戏注入 DLL，因此可与反作弊系统兼容。\n\n" +
                        "要求：已安装 NVIDIA App、启用游戏滤镜/Freestyle、RTX 显卡、驱动 550 及以上。",
                 TextWrapping = TextWrapping.Wrap,
                 Foreground   = textColour,
@@ -850,8 +850,8 @@ public partial class DialogService
 
             var hasNotes = !string.IsNullOrWhiteSpace(card.Notes);
             var notesHint = hasNotes
-                ? "\n\nCheck the Info button for any additional compatibility information for this game."
-                : "\n\nNo specific notes are available for this game — check the RenoDX Discord for community reports.";
+                ? "\n\n点击「信息」按钮可查看此游戏的额外兼容性信息。"
+                : "\n\n此游戏没有专门的说明 — 请到 RenoDX Discord 查看社区反馈。";
 
             var dlg = new ContentDialog
             {
@@ -860,7 +860,7 @@ public partial class DialogService
                 {
                     TextWrapping = TextWrapping.Wrap,
                     FontSize     = 13,
-                    Text         = "Not all Unreal Engine games are compatible with UE-Extended.\n\n" +
+                    Text         = "并非所有虚幻引擎游戏都兼容 UE-Extended。\n\n" +
                                    "UE-Extended 使用通用注入方法，适用于大多数 " +
                                    "虚幻引擎游戏，但在其他游戏中可能导致崩溃或画面问题。 " +
                                    "如果游戏有专属的 RenoDX mod，该 mod 是专门为此定制的 " +
@@ -905,8 +905,8 @@ public partial class DialogService
                     TextWrapping = TextWrapping.Wrap,
                     FontSize = 13,
                     Text = "安装 Vulkan ReShade 层需要写入 C:\\ProgramData\\ReShade\\ " +
-                           "and modifying system registry keys, which needs administrator privileges.\n\n" +
-                           "Enable Admin Mode — RHI will always launch elevated (no UAC prompt after setup).\n\n" +
+                           "并修改系统注册表项，需要管理员权限。\n\n" +
+                           "启用管理员模式 — RHI 将始终以提升权限启动（设置后不再弹出 UAC 提示）。\n\n" +
                            "以管理员身份重启 — 一次性提权重启以完成此安装。",
                 },
                 PrimaryButtonText = "启用管理员模式",

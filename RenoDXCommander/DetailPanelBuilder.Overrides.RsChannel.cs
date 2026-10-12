@@ -30,7 +30,7 @@ public partial class DetailPanelBuilder
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
         };
         ToolTipService.SetToolTip(channelLabel,
-            "Override the global ReShade build channel for this game.\nVulkan games: changing this affects ALL Vulkan games.");
+            "覆盖此游戏的全局 ReShade 构建渠道。\nVulkan 游戏：更改此项会影响所有 Vulkan 游戏。");
 
         var channelItems = new[] { "Stable", "Nightly", "自定义", "无插件", "Legacy..." };
         // For Vulkan games, show the effective Vulkan-wide override (any Vulkan game's override applies to all)
@@ -76,7 +76,7 @@ public partial class DetailPanelBuilder
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         ToolTipService.SetToolTip(channelCombo,
-            "Override the ReShade build channel for this game.\nVulkan games: changing this affects ALL Vulkan games.");
+            "覆盖此游戏的 ReShade 构建渠道。\nVulkan 游戏：更改此项会影响所有 Vulkan 游戏。");
 
         bool channelComboInitializing = true;
         ctx.ChannelComboInitializing = true;
@@ -119,7 +119,7 @@ public partial class DetailPanelBuilder
                 var pickerContent = new StackPanel { Spacing = 12 };
                 pickerContent.Children.Add(new TextBlock
                 {
-                    Text = "⚠ Older ReShade versions may not support newer addons.\nThe game will be excluded from automatic ReShade updates.",
+                    Text = "⚠ 较旧的 ReShade 版本可能不支持较新的插件。\n此游戏将被排除在自动 ReShade 更新之外。",
                     TextWrapping = TextWrapping.Wrap,
                     Foreground = UIFactory.Brush(ResourceKeys.TextSecondaryBrush),
                     FontSize = 12,
@@ -230,7 +230,7 @@ public partial class DetailPanelBuilder
                     var warnContent = new StackPanel { Spacing = 8 };
                     warnContent.Children.Add(new TextBlock
                     {
-                        Text = "No custom ReShade DLLs found.\n\nPlace your .dll files in:",
+                        Text = "未找到自定义 ReShade DLL。\n\n请将您的 .dll 文件放入：",
                         TextWrapping = TextWrapping.Wrap,
                     });
                     warnContent.Children.Add(linkBtn);
@@ -328,7 +328,7 @@ public partial class DetailPanelBuilder
                     var vDialog = new ContentDialog
                     {
                         Title = "Vulkan ReShade 渠道覆盖",
-                        Content = "Vulkan games share a global ReShade layer.\n\n" +
+                        Content = "Vulkan 游戏共用同一个全局 ReShade 层。\n\n" +
                             "更改此游戏的渠道将同时更改所有 Vulkan 游戏的渠道。",
                         PrimaryButtonText = "应用到所有 Vulkan 游戏",
                         CloseButtonText = "取消",
@@ -451,7 +451,7 @@ public partial class DetailPanelBuilder
                     var dialog = new ContentDialog
                     {
                         Title = "Vulkan ReShade 渠道覆盖",
-                        Content = "Vulkan games share a global ReShade layer.\n\n" +
+                        Content = "Vulkan 游戏共用同一个全局 ReShade 层。\n\n" +
                             "更改此游戏的渠道将同时更改所有 Vulkan 游戏的渠道。",
                         PrimaryButtonText = "应用到所有 Vulkan 游戏",
                         CloseButtonText = "取消",

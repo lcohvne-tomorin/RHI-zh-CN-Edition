@@ -195,13 +195,13 @@ public sealed partial class MainWindow
         if (sender is not FrameworkElement { Tag: GameCardViewModel card }) return;
 
         // Build DXVK info content with game-specific notes from manifest
-        var content = "DXVK translates DirectX 8/9/10/11 API calls into Vulkan.\n\n"
+        var content = "DXVK 将 DirectX 8/9/10/11 的 API 调用转换为 Vulkan。\n\n"
             + "Benefits:\n"
-            + "• Enables ReShade compute shaders on older DX games\n"
-            + "• May improve performance and reduce shader stutter\n"
-            + "• Enables HDR output via dxvk.conf\n"
-            + "• Borderless fullscreen recommended over exclusive fullscreen\n\n"
-            + "⚠ Anti-cheat games may ban players using DXVK.\n"
+            + "• 在较旧的 DX 游戏中启用 ReShade 计算着色器\n"
+            + "• 可能提升性能并减少着色器卡顿\n"
+            + "• 通过 dxvk.conf 启用 HDR 输出\n"
+            + "• 推荐无边框全屏而非独占全屏\n\n"
+            + "⚠ 使用 DXVK 可能导致反作弊游戏封号。\n"
             + "⚠ 游戏覆盖层（Steam、NVIDIA、RTSS）可能会冲突。";
 
         // Append game-specific notes from manifest
@@ -210,7 +210,7 @@ public sealed partial class MainWindow
             && manifest.DxvkGameNotes.TryGetValue(card.GameName, out var noteEntry)
             && !string.IsNullOrWhiteSpace(noteEntry.Notes))
         {
-            content += $"\n\n── Game Notes ──\n{noteEntry.Notes}";
+            content += $"\n\n── 游戏说明 ──\n{noteEntry.Notes}";
         }
 
         var dialog = new ContentDialog
@@ -506,7 +506,7 @@ public sealed partial class MainWindow
             var panel = new StackPanel { Spacing = 8 };
             panel.Children.Add(new TextBlock
             {
-                Text = "This toggles the engine version to Unreal Engine 5.0–5.6, making this game eligible for the DOF Fix addon.\n\nUse this when RHI cannot detect the UE version automatically (e.g. Game Pass games).",
+                Text = "这会将引擎版本切换为虚幻引擎 5.0–5.6，使此游戏符合景深修复插件的使用条件。\n\n当 RHI 无法自动检测 UE 版本时（例如 Game Pass 游戏）请使用此项。",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 12,
             });

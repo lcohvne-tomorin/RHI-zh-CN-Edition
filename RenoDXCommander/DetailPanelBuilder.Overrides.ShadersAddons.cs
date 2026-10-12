@@ -350,7 +350,7 @@ public partial class DetailPanelBuilder
         };
         var argsTooltip = "启动游戏时传递给游戏的命令行参数。失去焦点时自动保存。";
         if (card.Source.Equals("Epic", StringComparison.OrdinalIgnoreCase))
-            argsTooltip += "\n\nNote: Setting arguments disables Epic protocol launch. EOS-protected games may fail to launch with arguments.";
+            argsTooltip += "\n\n注意：设置启动参数会禁用 Epic 协议启动。受 EOS 保护的游戏可能无法带参数启动。";
         ToolTipService.SetToolTip(launchArgsBox, argsTooltip);
         launchArgsBox.LostFocus += (s, ev) =>
         {

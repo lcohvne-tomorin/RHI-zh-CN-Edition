@@ -2281,8 +2281,8 @@ public class SettingsHandler
             Title = "DXVK 变体已更改",
             Content = $"DXVK 变体已更改为 {variantLabel}。"
                 + (gamesWithDxvk.Count > 0
-                    ? $"\n\nSwitching {gamesWithDxvk.Count} game(s) to the {variantLabel} build."
-                    : "\n\nNo games currently have DXVK installed."),
+                    ? $"\n\n正在将 {gamesWithDxvk.Count} 个游戏切换到 {variantLabel} 构建。"
+                    : "\n\n当前没有游戏安装了 DXVK。"),
             CloseButtonText = "OK",
             XamlRoot = _window.Content.XamlRoot,
             RequestedTheme = ElementTheme.Dark,
@@ -2433,10 +2433,10 @@ public class SettingsHandler
         var dialog = new ContentDialog
         {
             Title = "ReShade 构建渠道已更改",
-            Content = $"ReShade build channel changed to {channelLabel}.\n\n"
+            Content = $"ReShade 构建渠道已更改为 {channelLabel}。\n\n"
                 + (totalCount > 0
                     ? $"正在将 {totalCount} 个游戏切换到 {channelLabel} 构建。"
-                      + (vulkanCount > 0 ? $"\n{vulkanCount} Vulkan game(s) updated via global layer." : "")
+                      + (vulkanCount > 0 ? $"\n已通过全局层更新 {vulkanCount} 个 Vulkan 游戏。" : "")
                     : "当前没有游戏安装了 ReShade。"),
             CloseButtonText = "OK",
             XamlRoot = _window.Content.XamlRoot,

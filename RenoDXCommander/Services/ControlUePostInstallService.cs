@@ -71,10 +71,10 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "It fixes RT noise using Ray Reconstruction. Two strategies (pick one, they are mutually exclusive):\n"
-                     + "  •  Turn off the in-game RT denoiser and use DLSS Super Resolution preset M or L\n"
+                Text = "它使用光线重建修复 RT 噪点。两种策略（二选一，互斥）：\n"
+                     + "  •  关闭游戏内的 RT 降噪器，并使用 DLSS 超分辨率预设 M 或 L\n"
                      + "  •  使用带有从游戏着色器派生的额外输入的光线重建 "
-                     + "(game denoiser is turned off here too — RR needs that)\n\n"
+                     + "（此处也会关闭游戏降噪器 — RR 需要如此）\n\n"
                      + "⚠ 游戏内必须同时启用 DLSS、光线追踪和 SSAO，光线重建才能正常工作。",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 13,
@@ -92,9 +92,9 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "  •  DLSS ON  •  SSAO ON  •  Post-processing HIGH\n"
-                     + "  •  Screen-space reflections HIGH (temporarily turn off RT to change, or set render preset to High/Ultra)\n"
-                     + "  •  RT Reflections ON  •  RT Indirect Diffuse ON\n"
+                Text = "  •  DLSS 开  •  SSAO 开  •  后处理 高\n"
+                     + "  •  屏幕空间反射 高（需临时关闭 RT 才能修改，或将渲染预设设为 高/极高）\n"
+                     + "  •  RT 反射 开  •  RT 间接漫射 开\n"
                      + "  •  渲染分辨率必须使用偶数（可在 renderer.ini 中设置）",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 FontSize = 12,
@@ -112,9 +112,9 @@ public static class ControlUePostInstallService
 
             content.Children.Add(new Microsoft.UI.Xaml.Controls.TextBlock
             {
-                Text = "  •  Upgrade nvngx_dlss.dll to the newest available version\n"
-                     + "  •  Deploy nvngx_dlssd.dll (DLSS Ray Reconstruction runtime)\n"
-                     + "  •  Set renderer.ini HDR preset to the correct value\n"
+                Text = "  •  将 nvngx_dlss.dll 升级到最新的可用版本\n"
+                     + "  •  部署 nvngx_dlssd.dll（DLSS 光线重建运行时）\n"
+                     + "  •  将 renderer.ini 的 HDR 预设设为正确的值\n"
                      + "  •  Clear the DLSS SR preset set in the NVIDIA driver profile for this game\n"
                      + "  •  如果 OptiScaler FG = 是：安装已预配置帧生成的 OptiScaler Nightly 构建 2026-10-04，部署 Streamline 和 nvngx_dlssg.dll，将 OptiScaler 重命名为 winmm.dll、ReShade 重命名为 dxgi.dll，并应用所有必需的帧生成 INI 设置",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
@@ -160,7 +160,7 @@ public static class ControlUePostInstallService
                 MaxDropDownHeight = 300,
             };
             Microsoft.UI.Xaml.Controls.ToolTipService.SetToolTip(optiCombo,
-                "Installs OptiScaler Nightly with Frame Generation configured for Control UE.\nRenames OptiScaler to winmm.dll and ReShade to dxgi.dll.");
+                "安装已为 Control UE 配置帧生成的 OptiScaler Nightly。\n将 OptiScaler 重命名为 winmm.dll、ReShade 重命名为 dxgi.dll。");
             optiStack.Children.Add(optiCombo);
             Microsoft.UI.Xaml.Controls.Grid.SetColumn(optiStack, 0);
             comboRow.Children.Add(optiStack);

@@ -10,7 +10,7 @@ public static class VulkanFootprintService
 {
     public const string FootprintFileName = "RDXC_VULKAN_FOOTPRINT";
     public const string FootprintContent =
-        "Managed by RHI — Vulkan ReShade footprint.\n"
+        "由 RHI 管理 — Vulkan ReShade 残留文件。\n"
       + "Vulkan ReShade 使用期间请勿删除此文件。";
 
     /// <summary>

@@ -2896,7 +2896,7 @@ public sealed partial class MainWindow
                 SelectedItem = currentForceReflex switch { "1" => "强制禁用 (1)", "2" => "强制启用 (2)", _ => "自动 (0)" },
             };
             ToolTipService.SetToolTip(forceReflexCombo,
-                "ForceReflex: controls Reflex state when using DLSS FG.\n0 = follow in-game setting (default), 1 = force disable, 2 = force enable.");
+                "ForceReflex：控制使用 DLSS 帧生成时的 Reflex 状态。\n0 = 跟随游戏内设置（默认），1 = 强制禁用，2 = 强制启用。");
 
             var currentReflexMarkers = ReadOsIniValue("DLSSG", "UseGamesReflexMarkers");
             reflexMarkersCombo = new ComboBox
@@ -3798,7 +3798,7 @@ public sealed partial class MainWindow
             Visibility = isLiliumSelected ? Visibility.Visible : Visibility.Collapsed,
         };
         ToolTipService.SetToolTip(liliumPresetLabel,
-            "Safest = swap chain only (near 100% compatible).\nHigher tiers upgrade back buffers and render targets — better HDR but may cause visual issues.");
+            "最安全 = 仅交换链（接近 100% 兼容）。\n更高层级会升级后台缓冲区和渲染目标 — HDR 更好，但可能导致画面问题。");
         Grid.SetRow(liliumPresetLabel, 1); Grid.SetColumn(liliumPresetLabel, 0);
         variantGrid.Children.Add(liliumPresetLabel);
 
@@ -3948,7 +3948,7 @@ public sealed partial class MainWindow
         };
         var flagsCombo = new ComboBox { FontSize = 11, HorizontalAlignment = HorizontalAlignment.Stretch };
         foreach (var (lbl, _) in flagOptions) flagsCombo.Items.Add(lbl);
-        ToolTipService.SetToolTip(flagsCombo, "Standard (0x000802A5): Treat DXVK as Native\nAlternative (0x00080004): Allow DXVK Promotion + DirectFlip");
+        ToolTipService.SetToolTip(flagsCombo, "标准 (0x000802A5)：将 DXVK 视为原生\n替代 (0x00080004)：允许 DXVK 提升 + DirectFlip");
 
         var currentFlags = currentPresentFlags; // already fetched above
         bool presentIsYes = currentPresentMethod2 == 0x00000001;

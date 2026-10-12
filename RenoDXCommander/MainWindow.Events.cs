@@ -29,14 +29,14 @@ public sealed partial class MainWindow
         var dialog = new ContentDialog
         {
             Title = "完整刷新",
-            Content = "This will clear all caches and re-scan everything from scratch:\n\n" +
-                      "• Re-detects all games from every storefront\n" +
-                      "• Re-scans DLSS/Streamline DLL paths\n" +
-                      "• Re-detects graphics APIs and engine types\n" +
-                      "• Rebuilds shader and addon deployment state\n\n" +
+            Content = "这将清除所有缓存并从头重新扫描所有内容：\n\n" +
+                      "• 重新检测所有商店平台的游戏\n" +
+                      "• 重新扫描 DLSS/Streamline DLL 路径\n" +
+                      "• 重新检测图形 API 和引擎类型\n" +
+                      "• 重建着色器和插件的部署状态\n\n" +
                       "请先尝试普通「刷新」— 它无需完整重扫即可解决大多数问题。 " +
-                      "Use Full Refresh as a last resort if games are missing, paths have changed, DLSS has been added to a game, or the DLSS section is missing from a game card.\n\n" +
-                      "The next couple of restarts may take a few seconds longer while caches are rebuilt.\n\n" +
+                      "当游戏缺失、路径已更改、某个游戏新增了 DLSS，或游戏卡片上缺少 DLSS 区块时，可将「完整刷新」作为最后手段。\n\n" +
+                      "接下来几次重启可能会多花几秒钟，因为要重建缓存。\n\n" +
                       "刷新过程中请勿关闭 RHI — 提前关闭会导致库缺失，需要重新扫描。",
             PrimaryButtonText = "继续",
             CloseButtonText = "取消",
@@ -217,7 +217,7 @@ public sealed partial class MainWindow
             hdrCombo.Items.Add("关");
             hdrCombo.Items.Add("开");
             ToolTipService.SetToolTip(hdrCombo,
-                "Controls EnableHDR and DisplayMode in the [Luma] section of reshade.ini.\n" +
+                "控制 reshade.ini 中 [Luma] 区块的 EnableHDR 和 DisplayMode。\n" +
                 "Default: leaves both keys as-is (Luma controls them).\n" +
                 "Off: sets EnableHDR=0 and DisplayMode=0.\n" +
                 "开启：设置 EnableHDR=1 和 DisplayMode=1。");
@@ -263,7 +263,7 @@ public sealed partial class MainWindow
             taaCombo.Items.Add("关");
             taaCombo.Items.Add("开");
             ToolTipService.SetToolTip(taaCombo,
-                "Writes r.DefaultFeature.AntiAliasing=2 and r.PostProcessAAQuality=4 to Engine.ini.\n" +
+                "将 r.DefaultFeature.AntiAliasing=2 和 r.PostProcessAAQuality=4 写入 Engine.ini。\n" +
                 "Forces TAA with high quality for Luma HDR compatibility.");
 
             bool taaActive = ViewModel.IsLumaTaaEnabled(card.GameName);
@@ -1284,7 +1284,7 @@ public sealed partial class MainWindow
                     Title = "⚠ ReShade 插件",
                     Content = new TextBlock
                     {
-                        Text = "ReShade addons are advanced features intended for experienced users who understand what they are.\n\n" +
+                        Text = "ReShade 插件是面向了解其用途的进阶用户的高级功能。\n\n" +
                                "插件可能修改游戏渲染行为并可能导致不稳定。 " +
                                "仅在您能熟练管理 ReShade 插件时才继续。",
                         TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,

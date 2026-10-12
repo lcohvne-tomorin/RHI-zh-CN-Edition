@@ -206,7 +206,7 @@ public class InstallEventHandler
                 var warningDialog = new ContentDialog
                 {
                     Title = "⚠ OptiScaler 设置",
-                    Content = "Before installing OptiScaler, please configure your GPU type and DLSS input (AMD/Intel only) settings in the OptiScaler Settings section on the Settings page.\n\nThis ensures OptiScaler is configured correctly for your hardware.",
+                    Content = "在安装 OptiScaler 之前，请在「设置」页面的「OptiScaler 设置」区块中配置您的显卡类型和 DLSS 输入（仅 AMD/Intel）设置。\n\n这可确保 OptiScaler 针对您的硬件正确配置。",
                     PrimaryButtonText = "继续",
                     CloseButtonText = "取消",
                     XamlRoot = xamlRoot,
@@ -605,8 +605,8 @@ public class InstallEventHandler
 
         var messageText = new TextBlock
         {
-            Text = "Heads up — you're installing both RenoDX and Luma on this game.\n\n" +
-                   "There's no guarantee they'll work well together. If you're using RenoDX for HDR and just want Luma for DLAA, make sure to disable HDR in the Luma mod settings to avoid conflicts.\n\n" +
+            Text = "请注意 — 您正在为此游戏同时安装 RenoDX 和 Luma。\n\n" +
+                   "无法保证它们能良好共存。如果您用 RenoDX 提供 HDR、只想用 Luma 提供 DLAA，请务必在 Luma 插件设置中关闭 HDR 以避免冲突。\n\n" +
                    "如果出现问题，首先尝试卸载其中一个。我们无法为同时运行两者所导致的问题提供支持。",
             TextWrapping = TextWrapping.Wrap,
             FontSize = 13,

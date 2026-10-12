@@ -99,14 +99,14 @@ public partial class AuxInstallService
         {
             if (string.Equals(effectiveChannel, ChannelCustom, StringComparison.OrdinalIgnoreCase))
                 throw new FileNotFoundException(
-                    $"Custom ReShade DLL not found.\n" +
-                    $"Expected: {rsStagedPath}\n" +
+                    $"未找到自定义 ReShade DLL。\n" +
+                    $"预期路径：{rsStagedPath}\n" +
                     $"Place your {(use32Bit ? "ReShade32.dll" : "ReShade64.dll")} in:\n" +
                     $"{DlssStreamlineService.RsCustomDir}");
 
             throw new FileNotFoundException(
-                $"ReShade DLLs not found in staging directory.\n" +
-                $"Expected: {rsStagedPath}\n" +
+                $"暂存目录中未找到 ReShade DLL。\n" +
+                $"预期路径：{rsStagedPath}\n" +
                 $"请重启 RHI 以从 reshade.me 下载 ReShade。");
         }
 

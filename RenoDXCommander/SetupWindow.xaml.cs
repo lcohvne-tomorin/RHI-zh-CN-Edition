@@ -118,12 +118,12 @@ public sealed partial class SetupWindow : Window
 
         // ── Description ──
         const string description =
-            "RHI can manage ReShade across all your games automatically. Here's what that includes:\n\n" +
-            "  - Installs and updates ReShade for each game with one click\n" +
-            "  - Keeps the correct DLL name per game based on what the game needs\n" +
-            "  - Manages shader packs globally - install once, deployed to every game automatically\n" +
-            "  - Backs up any shaders already in your game folders before taking over\n" +
-            "  - Keeps ReShade in sync when you install RenoDX, OptiScaler, or other components\n\n" +
+            "RHI 可以自动管理您所有游戏中的 ReShade。这包括：\n\n" +
+            "  - 一键为每个游戏安装和更新 ReShade\n" +
+            "  - 根据游戏的需要为每个游戏保持正确的 DLL 名称\n" +
+            "  - 全局管理着色器包 — 安装一次，自动部署到每个游戏\n" +
+            "  - 接管前会备份您游戏文件夹中已有的着色器\n" +
+            "  - 在您安装 RenoDX、OptiScaler 或其他组件时保持 ReShade 同步\n\n" +
             "如果您已有自定义的 ReShade 配置 — 特定着色器合集、手工调校的配置， " +
             "或您偏好的版本 — 选择「我自己管理」，RHI 将完全不干预 ReShade。";
 

@@ -377,8 +377,8 @@ public class GameInitializationService : IGameInitializationService
         var overrides = new Dictionary<string, CardOverride>(StringComparer.OrdinalIgnoreCase)
         {
             ["Dishonored"] = new CardOverride(
-                Notes: "ℹ️ This game has both 32-bit and 64-bit RenoDX builds.\n\n" +
-                       "• 64-bit (default) — for the Microsoft Store and Epic Games Store versions.\n" +
+                Notes: "ℹ️ 此游戏同时有 32 位和 64 位 RenoDX 构建。\n\n" +
+                       "• 64 位（默认）— 适用于 Microsoft Store 和 Epic Games Store 版本。\n" +
                        "• 32 位 — 适用于 Steam 版本。请在 🎯 覆盖项中启用 32 位模式以使用。",
                 DiscordUrl: null, ForceDiscord: false),
         };

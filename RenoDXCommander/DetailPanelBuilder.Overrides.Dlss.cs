@@ -242,7 +242,7 @@ public partial class DetailPanelBuilder
                 MaxDropDownHeight = 300,
             };
             ToolTipService.SetToolTip(rsCombo,
-                "Override the DLSS render resolution scale. Off = game controls the scale.\nNamed presets set a fixed percentage. Custom lets you enter any value from 33-100%.");
+                "覆盖 DLSS 渲染分辨率缩放。关闭 = 由游戏控制缩放。\n命名预设设定固定百分比。「自定义」允许您输入 33-100% 之间的任意值。");
 
             bool rsInit = true;
             rsCombo.SelectionChanged += (s, ev) =>

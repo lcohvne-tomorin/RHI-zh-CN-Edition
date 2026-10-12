@@ -39,18 +39,18 @@ public partial class MainViewModel
             contentPanel.Children.Add(new TextBlock
             {
                 Text = "⚠ ADVANCED FEATURE — USE AT YOUR OWN RISK\n\n"
-                    + "DXVK is an unofficial DirectX-to-Vulkan translation layer.\n"
-                    + "No support will be provided if a game is not compatible.\n\n"
+                    + "DXVK 是非官方的 DirectX 到 Vulkan 转换层。\n"
+                    + "如果游戏不兼容，我们将不提供支持。\n\n"
                     + "WHO SHOULD USE THIS:\n"
-                    + "• Primarily benefits older DX8/DX9 games (e.g. FFXIV, Morrowind)\n"
-                    + "• Enables ReShade compute shaders on games that don't support them natively\n"
-                    + "• Can reduce CPU-bound stuttering in older titles\n\n"
+                    + "• 主要受益于较旧的 DX8/DX9 游戏（例如 FFXIV、晨风）\n"
+                    + "• 在原生不支持的游戏上启用 ReShade 计算着色器\n"
+                    + "• 可减少较旧游戏中的 CPU 瓶颈卡顿\n\n"
                     + "IMPORTANT WARNINGS:\n"
-                    + "• Anti-cheat games may ban players using DXVK\n"
-                    + "• Game overlays (Steam, NVIDIA, RTSS) may conflict or stop working\n"
-                    + "• Exclusive fullscreen is blocked — use borderless windowed\n"
-                    + "• First launch will be slow due to shader compilation (improves on subsequent runs)\n"
-                    + "• Some games may crash or have graphical glitches with DXVK\n\n"
+                    + "• 使用 DXVK 可能导致反作弊游戏封号\n"
+                    + "• 游戏覆盖层（Steam、NVIDIA、RTSS）可能冲突或失效\n"
+                    + "• 独占全屏被阻止 — 请使用无边框窗口模式\n"
+                    + "• 首次启动会因着色器编译而较慢（后续运行会改善）\n"
+                    + "• 部分游戏使用 DXVK 后可能崩溃或出现画面异常\n\n"
                     + "是否继续？",
                 TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                 Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),

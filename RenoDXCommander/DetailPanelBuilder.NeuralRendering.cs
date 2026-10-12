@@ -332,9 +332,9 @@ public partial class DetailPanelBuilder
         }
         if (methodCombo.SelectedIndex < 0) methodCombo.SelectedIndex = 0;
         ToolTipService.SetToolTip(methodCombo,
-            "DLSS5 Tool: for DX12 native-DLSS games.\n" +
-            "DLSS5 Tool + DX11 Bridge: for DX11/Vulkan native-DLSS games.\n" +
-            "ShortFuse DLSS Tool: alternative full-stack install for native-DLSS games.\n" +
+            "DLSS5 Tool：适用于 DX12 原生 DLSS 游戏。\n" +
+            "DLSS5 Tool + DX11 Bridge：适用于 DX11/Vulkan 原生 DLSS 游戏。\n" +
+            "ShortFuse DLSS Tool：面向原生 DLSS 游戏的另一种全栈安装方案。\n" +
             "DLSS5 Feeder：适用于没有原生 DLSS 的游戏（DX11、DX12、Vulkan、32 位）。");
         methodStack.Children.Add(methodCombo);
         Grid.SetColumn(methodStack, 0);
@@ -1130,10 +1130,10 @@ public partial class DetailPanelBuilder
 
             var desc = new TextBlock
             {
-                Text = "When On, RHI will automatically configure ReShade when installing ShortFuse DLSS Tool:\n" +
-                       "• Rename ReShade to Reshade64.asi\n" +
-                       "• Install ASI Loader (winmm → version → dinput8)\n" +
-                       "• Write HookStreamline=1 and HookDirectX=1 to reshade.ini\n\n" +
+                Text = "开启后，RHI 会在安装 ShortFuse DLSS Tool 时自动配置 ReShade：\n" +
+                       "• 将 ReShade 重命名为 Reshade64.asi\n" +
+                       "• 安装 ASI Loader（winmm → version → dinput8）\n" +
+                       "• 将 HookStreamline=1 和 HookDirectX=1 写入 reshade.ini\n\n" +
                        "These steps are needed for FrameGen to work correctly after ReShade.\n\n" +
                        "注意：ShortFuse DLSS Tool v0.54 及以上版本已不再需要。",
                 FontSize = 11,

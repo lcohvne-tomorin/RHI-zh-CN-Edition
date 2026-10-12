@@ -563,7 +563,9 @@
     "{_manifest?.Dlssg?.Count ?? 0} FG, {_manifest?.Dlssnr?.Count ?? 0} NR, {_manifest?.Streamline?.Count ?? 0} SL versions",
     "^#\\s+(.+?)(?:\\s+(?:ultrawide|widescreen|super ultrawide|multi-monitor|improvements|FOV|black bars|resolutions|better ultrawide|cutscenes|field of view))",
     "  ·  BSD 3-Clause Licence",
-    "———  HDR Mod  ———"
+    "———  HDR Mod  ———",
+    "FSR2: r.FidelityFX.FSR2.UseNativeDX12=1\nFSR3: r.FidelityFX.FSR3.UseNativeDX12=1\nFSR3.1: above + r.FidelityFX.FSR3.UseRHI=0",
+    "TechniqueSorting=DLSS5_Feed_Debug@DLSS5_Feed.fx,lilium__rcas_hdr@lilium__rcas_hdr.fx,lilium__make_overlay_bg_redraw@lilium__hdr_and_sdr_analysis.fx,lilium__hdr_and_sdr_analysis@lilium__hdr_and_sdr_analysis.fx,Lumenite_Kernel@lumenite_Kernel.fx,DLSS5_Feed@DLSS5_Feed.fx\r\n"
   ],
   "needs_review": [
     "Full",

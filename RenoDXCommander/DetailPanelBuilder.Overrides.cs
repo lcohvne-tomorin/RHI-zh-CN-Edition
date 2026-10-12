@@ -1068,9 +1068,9 @@ public partial class DetailPanelBuilder
             Foreground = UIFactory.Brush(ResourceKeys.TextPrimaryBrush),
         };
         ToolTipService.SetToolTip(apiLabel,
-            "Override the detected graphics API for this game.\n\n" +
-            "Auto uses the auto-detected value from PE header scanning.\n" +
-            "User overrides set here take precedence over manifest and auto-detected values.\n" +
+            "覆盖此游戏检测到的图形 API。\n\n" +
+            "「自动」使用 PE 头扫描得到的自动检测值。\n" +
+            "在此设置的用户覆盖项优先于 manifest 和自动检测的值。\n" +
             "「重置覆盖项」将恢复为自动检测。");
 
         var apiDropdownItems = new[] { "自动", "DirectX8", "DirectX9", "DirectX10", "DirectX11", "DirectX12", "Vulkan", "OpenGL" };
@@ -1105,7 +1105,7 @@ public partial class DetailPanelBuilder
             HorizontalAlignment = HorizontalAlignment.Stretch,
         };
         ToolTipService.SetToolTip(apiCombo,
-            "Override the detected graphics API for this game.\nAuto uses PE header scanning. Reset Overrides reverts to auto-detection.");
+            "覆盖此游戏检测到的图形 API。\n「自动」使用 PE 头扫描。「重置覆盖项」会恢复为自动检测。");
 
         apiCombo.SelectionChanged += (s, ev) =>
         {

@@ -378,23 +378,23 @@ public partial class DragDropHandler
         // Confirmation dialog
         var warningText = $"Are you sure you want to install {addonFileName} for {gameName}?";
         if (!string.IsNullOrEmpty(existingAddon))
-            warningText += $"\n\nThis will replace the existing addon: {existingAddon}";
-        warningText += $"\n\nInstall path: {installPath}";
+            warningText += $"\n\n这将替换现有插件：{existingAddon}";
+        warningText += $"\n\n安装路径：{installPath}";
 
         // Control Ultimate Edition — inject mod-specific warning into the confirm dialog
         string confirmTitle = "⚠ 确认插件安装";
         if (ControlUePostInstallService.IsControlAddon(addonFileName))
         {
             confirmTitle = "⚠ 控制 UE — 不是 HDR Mod";
-            warningText = "This is NOT an HDR mod.\n\n"
-                + "It fixes RT noise using Ray Reconstruction. Two strategies (pick one):\n"
-                + "• Turn off the in-game RT denoiser — use DLSS SR preset M or L\n"
-                + "• Use Ray Reconstruction with extra inputs from the game's shaders\n\n"
-                + "Installing will also:\n"
-                + "• Upgrade DLSS and deploy nvngx_dlssd.dll\n"
+            warningText = "这不是 HDR mod。\n\n"
+                + "它使用光线重建修复 RT 噪点。两种策略（二选一）：\n"
+                + "• 关闭游戏内的 RT 降噪器 — 使用 DLSS SR 预设 M 或 L\n"
+                + "• 使用光线重建，并从游戏着色器获取额外输入\n\n"
+                + "安装还会：\n"
+                + "• 升级 DLSS 并部署 nvngx_dlssd.dll\n"
                 + "• Set renderer.ini HDR preset to the correct value\n"
                 + "• Clear the DLSS SR preset in the NVIDIA driver profile\n\n"
-                + "These changes are not reverted on uninstall.\n\n"
+                + "卸载时这些更改不会被还原。\n\n"
                 + $"安装路径：{installPath}";
         }
 
@@ -728,7 +728,7 @@ public partial class DragDropHandler
                                 Spacing = 8,
                                 Children =
                                 {
-                                    new TextBlock { Text = $"Luma mod detected: {filename}\n\nSelect game to install to:", TextWrapping = TextWrapping.Wrap, FontSize = 12 },
+                                    new TextBlock { Text = $"检测到 Luma mod：{filename}\n\n选择要安装到的游戏：", TextWrapping = TextWrapping.Wrap, FontSize = 12 },
                                     combo,
                                 }
                             },
@@ -771,7 +771,7 @@ public partial class DragDropHandler
             var errDialog = new ContentDialog
             {
                 Title = "❌ 不支持的文件类型",
-                Content = $"Only .addon64 and .addon32 files are supported.\n\nThe URL points to: {filename}",
+                Content = $"仅支持 .addon64 和 .addon32 文件。\n\n该 URL 指向：{filename}",
                 CloseButtonText = "OK",
                 XamlRoot = _window.Content.XamlRoot,
                 RequestedTheme = ElementTheme.Dark,
@@ -890,7 +890,7 @@ public partial class DragDropHandler
                 var errDialog = new ContentDialog
                 {
                     Title = "❌ 下载失败",
-                    Content = $"A network error occurred while downloading the addon.\n\n{ex.Message}",
+                    Content = $"下载插件时发生网络错误。\n\n{ex.Message}",
                     CloseButtonText = "OK",
                     XamlRoot = _window.Content.XamlRoot,
                     RequestedTheme = ElementTheme.Dark,

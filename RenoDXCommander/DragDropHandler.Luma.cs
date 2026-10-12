@@ -163,7 +163,7 @@ public partial class DragDropHandler
                                 {
                                     new Microsoft.UI.Xaml.Controls.TextBlock
                                     {
-                                        Text = "This archive contains multiple game folders.\nSelect the folder to install:",
+                                        Text = "此压缩包包含多个游戏文件夹。\n选择要安装的文件夹：",
                                         TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
                                         FontSize = 12,
                                     },

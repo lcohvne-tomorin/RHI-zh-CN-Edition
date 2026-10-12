@@ -704,10 +704,10 @@ public partial class MainViewModel : ObservableObject
     // UE common warnings shown at bottom of every generic UE info dialog
     private const string UnrealWarnings =
         "\n\n⚠ COMMON UNREAL ENGINE MOD WARNINGS\n\n" +
-        "🖥 Black Screen on Launch\n" +
-        "Upgrade `R10G10B10A2_UNORM` → `output size`\n" +
-        "Unlock upgrade sliders: Settings Mode → Advanced, then restart game.\n\n" +
-        "🖥 DLSS FG Flickering\n" +
+        "🖥 启动时黑屏\n" +
+        "将 `R10G10B10A2_UNORM` 升级为 `output size`\n" +
+        "解锁升级滑块：设置模式 → 高级，然后重启游戏。\n\n" +
+        "🖥 DLSS 帧生成闪烁\n" +
         "将 DLSSG DLL 替换为较旧的 3.8.x（锁定帧生成 x2），或使用 Discord 上的 DLSS FIX（测试版）。";
 
     public MainViewModel(

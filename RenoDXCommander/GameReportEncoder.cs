@@ -31,7 +31,7 @@ public static class GameReportEncoder
             {
                 Text = "请使用此面板上的覆盖项修正任何错误的值 " +
                        "（位数、图形 API、游戏名称等）后再生成报告。 " +
-                       "This helps us update the manifest faster.\n\n" +
+                       "这有助于我们更快地更新 manifest。\n\n" +
                        "Have you corrected everything you can?",
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 12,

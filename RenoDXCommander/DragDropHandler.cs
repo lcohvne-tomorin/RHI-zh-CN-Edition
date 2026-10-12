@@ -289,7 +289,7 @@ public partial class DragDropHandler
                                         Spacing = 8,
                                         Children =
                                         {
-                                            new Microsoft.UI.Xaml.Controls.TextBlock { Text = $"Luma mod detected: {Path.GetFileName(file.Path)}\n\nSelect game to install to:", TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap, FontSize = 12 },
+                                            new Microsoft.UI.Xaml.Controls.TextBlock { Text = $"检测到 Luma mod：{Path.GetFileName(file.Path)}\n\n选择要安装到的游戏：", TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap, FontSize = 12 },
                                             combo,
                                         }
                                     },
