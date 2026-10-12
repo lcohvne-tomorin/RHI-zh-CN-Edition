@@ -194,3 +194,11 @@ powershell -File localization\pack_zh.ps1   # 重新打包中文版
 ```
 
 依赖：.NET SDK 8 与 .NET 8 桌面运行时（Windows 10/11）。
+
+---
+
+## 赞赏
+
+如果这个汉化对你有帮助，欢迎请我喝杯咖啡 ☕
+
+<p align="center"><img src="docs/donation-qr.png" alt="赞赏码" width="260"></p>
